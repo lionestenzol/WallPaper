@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>focus-black Wallpaper Gallery</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #1a1a1a;
+            color: #fff;
+            padding: 40px 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 36px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #888;
+            font-size: 16px;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .wallpaper-card {
+            background: #000;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .wallpaper-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 48px rgba(255,255,255,0.1);
+        }
+
+        .wallpaper-preview {
+            width: 100%;
+            aspect-ratio: 9/19.5;
+            background: #000;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .wallpaper-preview svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .wallpaper-info {
+            padding: 20px;
+            border-top: 1px solid #222;
+        }
+
+        .wallpaper-info h3 {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 6px;
+        }
+
+        .wallpaper-info p {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            max-width: 400px;
+            max-height: 90vh;
+            background: #000;
+            border: 2px solid #333;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 20px 80px rgba(0,0,0,0.8);
+        }
+
+        .modal-preview {
+            width: 100%;
+            aspect-ratio: 9/19.5;
+        }
+
+        .modal-preview svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .modal-info {
+            padding: 24px;
+            text-align: center;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: #fff;
+            font-size: 32px;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .close-btn:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.1);
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>FOCUS-BLACK</h1>
+        <p>Genesis Pack · 7 AMOLED Wallpapers</p>
+    </div>
+
+    <div class="gallery">
+        <!-- Genesis Prime -->
+        <div class="wallpaper-card" onclick="openModal('genesis_prime')">
+            <div class="wallpaper-preview">
+                <svg viewBox="0 0 1080 2340" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="1080" height="2340" fill="#000000"/>
+                    <circle cx="540" cy="1170" r="30" fill="#FFFFFF"/>
+                </svg>
+            </div>
+            <div class="wallpaper-info">
+                <h3>Genesis Prime</h3>
+                <p>Minimal white dot on pure black</p>
+                <span class="badge">AMOLED</span>
+            </div>
+        </div>
+
+        <!-- Genesis Seal -->
+        <div class="wallpaper-card" onclick="openModal('genesis_seal')">
+            <div class="wallpaper-preview">
+                <svg viewBox="0 0 1080 2340" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="1080" height="2340" fill="#000000"/>
+                    <polygon points="540,920 740,1420 340,1420" fill="#FFFFFF"/>
+                </svg>
+            </div>
+            <div class="wallpaper-info">
+                <h3>Genesis Seal</h3>
+                <p>White triangle seal symbol</p>
+                <span class="badge">AMOLED</span>
+            </div>
+        </div>
+
+        <!-- Horizon -->
+        <div class="wallpaper-card" onclick="openModal('horizon')">
+            <div class="wallpaper-preview">
+                <svg viewBox="0 0 1080 2340" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="1080" height="2340" fill="#000000"/>
+                    <rect x="0" y="1170" width="1080" height="2" fill="#FFFFFF"/>
+                </svg>
+            </div>
+            <div class="wallpaper-info">
+                <h3>Horizon</h3>
+                <p>Thin white horizontal line</p>
+                <span class="badge">AMOLED</span>
+            </div>
+        </div>
+
+        <!-- Circle -->
+        <div class="wallpaper-card" onclick="openModal('circle')">
+            <div class="wallpaper-preview">
+                <svg viewBox="0 0 1080 2340" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="1080" height="2340" fill="#000000"/>
+                    <circle cx="540" cy="1170" r="200" fill="#FFFFFF"/>
+                </svg>
+            </div>
+            <div class="wallpaper-info">
+                <h3>Circle</h3>
+                <p>Large centered white circle</p>
+                <span class="badge">AMOLED</span>
+            </div>
+        </div>
+
+        <!-- Crescent -->
+        <div class="wallpaper-card" onclick="openModal('crescent')">
+            <div class="wallpaper-preview">
+                <svg viewBox="0 0 1080 2340" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="1080" height="2340" fill="#000000"/>
+                    <circle cx="640" cy="1170" r="180" fill="#FFFFFF"/>
+                    <circle cx="680" cy="1170" r="160" fill="#000000"/>
+                </svg>
+            </div>
+            <div class="wallpaper-info">
+                <h3>Crescent</h3>
+                <p>Moon-like crescent shape</p>
+                <span class="badge">AMOLED</span>
+            </div>
+        </div>
+
+        <!-- Grid -->
+        <div class="wallpaper-card" onclick="openModal('grid')">
+            <div class="wallpaper-preview">
+                <svg viewBox="0 0 1080 2340" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="1080" height="2340" fill="#000000"/>
+                    <!-- Vertical lines -->
+                    <rect x="270" y="0" width="2" height="2340" fill="#1A1A1A"/>
+                    <rect x="540" y="0" width="2" height="2340" fill="#1A1A1A"/>
+                    <rect x="810" y="0" width="2" height="2340" fill="#1A1A1A"/>
+                    <!-- Horizontal lines -->
+                    <rect x="0" y="585" width="1080" height="2" fill="#1A1A1A"/>
+                    <rect x="0" y="1170" width="1080" height="2" fill="#1A1A1A"/>
+                    <rect x="0" y="1755" width="1080" height="2" fill="#1A1A1A"/>
+                </svg>
+            </div>
+            <div class="wallpaper-info">
+                <h3>Grid</h3>
+                <p>Subtle gray grid pattern</p>
+                <span class="badge">AMOLED</span>
+            </div>
+        </div>
+
+        <!-- Accent Line -->
+        <div class="wallpaper-card" onclick="openModal('accent_line')">
+            <div class="wallpaper-preview">
+                <svg viewBox="0 0 1080 2340" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="1080" height="2340" fill="#000000"/>
+                    <rect x="539" y="0" width="2" height="2340" fill="#8B0000"/>
+                </svg>
+            </div>
+            <div class="wallpaper-info">
+                <h3>Accent Line</h3>
+                <p>Deep red vertical accent</p>
+                <span class="badge">AMOLED</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="modal" class="modal" onclick="closeModal(event)">
+        <button class="close-btn" onclick="closeModal(event)">×</button>
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div id="modal-preview" class="modal-preview"></div>
+            <div class="modal-info">
+                <h3 id="modal-title"></h3>
+                <p id="modal-desc"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const wallpapers = {
+            genesis_prime: {
+                title: "Genesis Prime",
+                desc: "Minimal white dot on pure black · Perfect for AMOLED displays",
+                svg: `<svg viewBox="0 0 1080 2340" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="1080" height="2340" fill="#000000"/>
+                    <circle cx="540" cy="1170" r="30" fill="#FFFFFF"/>
+                </svg>`
+            },
+            genesis_seal: {
+                title: "Genesis Seal",
+                desc: "White triangle seal symbol · Represents stability and focus",
+                svg: `<svg viewBox="0 0 1080 2340" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="1080" height="2340" fill="#000000"/>
+                    <polygon points="540,920 740,1420 340,1420" fill="#FFFFFF"/>
+                </svg>`
+            },
+            horizon: {
+                title: "Horizon",
+                desc: "Thin white horizontal line · Minimalist and serene",
+                svg: `<svg viewBox="0 0 1080 2340" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="1080" height="2340" fill="#000000"/>
+                    <rect x="0" y="1170" width="1080" height="2" fill="#FFFFFF"/>
+                </svg>`
+            },
+            circle: {
+                title: "Circle",
+                desc: "Large centered white circle · Bold and simple",
+                svg: `<svg viewBox="0 0 1080 2340" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="1080" height="2340" fill="#000000"/>
+                    <circle cx="540" cy="1170" r="200" fill="#FFFFFF"/>
+                </svg>`
+            },
+            crescent: {
+                title: "Crescent",
+                desc: "Moon-like crescent shape · Night mode companion",
+                svg: `<svg viewBox="0 0 1080 2340" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="1080" height="2340" fill="#000000"/>
+                    <circle cx="640" cy="1170" r="180" fill="#FFFFFF"/>
+                    <circle cx="680" cy="1170" r="160" fill="#000000"/>
+                </svg>`
+            },
+            grid: {
+                title: "Grid",
+                desc: "Subtle gray grid pattern · Structured simplicity",
+                svg: `<svg viewBox="0 0 1080 2340" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="1080" height="2340" fill="#000000"/>
+                    <rect x="270" y="0" width="2" height="2340" fill="#1A1A1A"/>
+                    <rect x="540" y="0" width="2" height="2340" fill="#1A1A1A"/>
+                    <rect x="810" y="0" width="2" height="2340" fill="#1A1A1A"/>
+                    <rect x="0" y="585" width="1080" height="2" fill="#1A1A1A"/>
+                    <rect x="0" y="1170" width="1080" height="2" fill="#1A1A1A"/>
+                    <rect x="0" y="1755" width="1080" height="2" fill="#1A1A1A"/>
+                </svg>`
+            },
+            accent_line: {
+                title: "Accent Line",
+                desc: "Deep red vertical accent · Minimal color splash",
+                svg: `<svg viewBox="0 0 1080 2340" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="1080" height="2340" fill="#000000"/>
+                    <rect x="539" y="0" width="2" height="2340" fill="#8B0000"/>
+                </svg>`
+            }
+        };
+
+        function openModal(id) {
+            const wallpaper = wallpapers[id];
+            document.getElementById('modal-preview').innerHTML = wallpaper.svg;
+            document.getElementById('modal-title').textContent = wallpaper.title;
+            document.getElementById('modal-desc').textContent = wallpaper.desc;
+            document.getElementById('modal').classList.add('active');
+        }
+
+        function closeModal(event) {
+            event.stopPropagation();
+            document.getElementById('modal').classList.remove('active');
+        }
+    </script>
+</body>
+</html>
