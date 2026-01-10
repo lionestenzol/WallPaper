@@ -1,0 +1,2 @@
+rootProject.name = "focus-black"
+include(":app")

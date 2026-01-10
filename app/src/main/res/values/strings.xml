@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">focus-black</string>
+    <string name="streak_fmt">Streak: %1$d</string>
+</resources>

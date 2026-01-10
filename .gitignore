@@ -1,0 +1,9 @@
+# Android gitignore (simplified)
+.gradle
+/local.properties
+/.idea
+/build
+/captures
+.externalNativeBuild
+/*.iml
+/.cxx
