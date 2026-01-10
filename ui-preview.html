@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>focus-black UI Preview</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .phone-frame {
+            width: 380px;
+            height: 760px;
+            background: #000;
+            border-radius: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.8), 0 0 0 12px #1a1a1a, 0 0 0 14px #333;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .status-bar {
+            height: 32px;
+            background: #000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            font-size: 12px;
+            color: #fff;
+        }
+
+        .status-bar-left, .status-bar-right {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+
+        .app-container {
+            height: calc(760px - 32px - 72px);
+            background: #000;
+            overflow-y: auto;
+        }
+
+        .fragment {
+            display: none;
+            padding: 24px;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        .fragment.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fragment h1 {
+            font-size: 28px;
+            color: #fff;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .streak-display {
+            color: #aaa;
+            font-size: 16px;
+            margin-bottom: 24px;
+            padding: 12px 0;
+        }
+
+        .btn-primary {
+            background: #fff;
+            color: #000;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.2s;
+            box-shadow: 0 2px 8px rgba(255,255,255,0.2);
+        }
+
+        .btn-primary:active {
+            transform: scale(0.97);
+            box-shadow: 0 1px 4px rgba(255,255,255,0.1);
+        }
+
+        .pack-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .pack-item {
+            background: #111;
+            padding: 20px;
+            border-radius: 12px;
+            color: #fff;
+            border: 1px solid #222;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .pack-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #333, #111);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .pack-info h3 {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .pack-info p {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .widget-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .widget-card {
+            background: #111;
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid #222;
+            aspect-ratio: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .widget-card-icon {
+            font-size: 36px;
+            margin-bottom: 12px;
+        }
+
+        .widget-card h3 {
+            font-size: 13px;
+            color: #fff;
+            font-weight: 500;
+        }
+
+        .widget-card p {
+            font-size: 11px;
+            color: #666;
+            margin-top: 6px;
+        }
+
+        .bottom-nav {
+            height: 72px;
+            background: #111;
+            border-top: 1px solid #222;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            padding: 8px 20px;
+            transition: all 0.2s;
+            color: #666;
+            font-size: 12px;
+            border: none;
+            background: none;
+            font-family: inherit;
+        }
+
+        .nav-item.active {
+            color: #fff;
+        }
+
+        .nav-item-icon {
+            font-size: 24px;
+        }
+
+        .info-banner {
+            background: #1a1a1a;
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 3px solid #fff;
+        }
+
+        .info-banner p {
+            color: #aaa;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .app-title {
+            text-align: center;
+            padding: 16px;
+            background: #000;
+            border-bottom: 1px solid #222;
+        }
+
+        .app-title h2 {
+            color: #fff;
+            font-size: 16px;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+    <div class="phone-frame">
+        <!-- Status Bar -->
+        <div class="status-bar">
+            <div class="status-bar-left">
+                <span>12:00</span>
+            </div>
+            <div class="status-bar-right">
+                <span>📶</span>
+                <span>📡</span>
+                <span>🔋</span>
+            </div>
+        </div>
+
+        <!-- App Title -->
+        <div class="app-title">
+            <h2>FOCUS-BLACK</h2>
+        </div>
+
+        <!-- App Container -->
+        <div class="app-container">
+            <!-- Today Fragment -->
+            <div id="today" class="fragment active">
+                <h1>Today</h1>
+
+                <div class="info-banner">
+                    <p>Your daily AMOLED ritual wallpaper</p>
+                </div>
+
+                <div class="streak-display">
+                    <strong style="color: #fff; font-size: 20px;">Streak: <span id="streak-count">0</span></strong>
+                </div>
+
+                <button class="btn-primary" onclick="applyWallpaper()">
+                    Apply Today's Wallpaper
+                </button>
+            </div>
+
+            <!-- Packs Fragment -->
+            <div id="packs" class="fragment">
+                <h1>Packs</h1>
+
+                <div class="pack-list">
+                    <div class="pack-item">
+                        <div class="pack-icon">⬤</div>
+                        <div class="pack-info">
+                            <h3>Genesis Pack</h3>
+                            <p>GENESIS_001 • 1 wallpaper</p>
+                        </div>
+                    </div>
+
+                    <div class="pack-item" style="opacity: 0.5;">
+                        <div class="pack-icon">🔒</div>
+                        <div class="pack-info">
+                            <h3>More packs coming soon</h3>
+                            <p>Premium serialized collections</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Widgets Fragment -->
+            <div id="widgets" class="fragment">
+                <h1>Widgets</h1>
+
+                <div class="widget-grid">
+                    <div class="widget-card">
+                        <div class="widget-card-icon">◯</div>
+                        <h3>Focus Ring</h3>
+                        <p>Progress halo</p>
+                    </div>
+
+                    <div class="widget-card">
+                        <div class="widget-card-icon">⚡</div>
+                        <h3>Mode Sigil</h3>
+                        <p>Status glyph</p>
+                    </div>
+
+                    <div class="widget-card">
+                        <div class="widget-card-icon">📅</div>
+                        <h3>Date Glyph</h3>
+                        <p>Minimal date</p>
+                    </div>
+
+                    <div class="widget-card">
+                        <div class="widget-card-icon">🔋</div>
+                        <h3>Battery Halo</h3>
+                        <p>Power ring</p>
+                    </div>
+                </div>
+
+                <div class="info-banner" style="margin-top: 20px;">
+                    <p>Long-press on your home screen to add widgets</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <div class="bottom-nav">
+            <button class="nav-item active" onclick="switchTab('today', 0)">
+                <div class="nav-item-icon">📅</div>
+                <div>Today</div>
+            </button>
+            <button class="nav-item" onclick="switchTab('packs', 1)">
+                <div class="nav-item-icon">📦</div>
+                <div>Packs</div>
+            </button>
+            <button class="nav-item" onclick="switchTab('widgets', 2)">
+                <div class="nav-item-icon">🧩</div>
+                <div>Widgets</div>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let streakCount = 0;
+
+        function switchTab(tabName, index) {
+            // Hide all fragments
+            document.querySelectorAll('.fragment').forEach(f => {
+                f.classList.remove('active');
+            });
+
+            // Show selected fragment
+            document.getElementById(tabName).classList.add('active');
+
+            // Update nav items
+            document.querySelectorAll('.nav-item').forEach((item, i) => {
+                if (i === index) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+        }
+
+        function applyWallpaper() {
+            streakCount++;
+            document.getElementById('streak-count').textContent = streakCount;
+
+            // Show feedback
+            const btn = event.target;
+            const originalText = btn.textContent;
+            btn.textContent = '✓ Applied!';
+            btn.style.background = '#4CAF50';
+            btn.style.color = '#fff';
+
+            setTimeout(() => {
+                btn.textContent = originalText;
+                btn.style.background = '#fff';
+                btn.style.color = '#000';
+            }, 1500);
+        }
+    </script>
+</body>
+</html>
