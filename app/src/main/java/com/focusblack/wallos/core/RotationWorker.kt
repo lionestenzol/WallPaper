@@ -1,23 +1,37 @@
 package com.focusblack.wallos.core
 
 import android.content.Context
+import androidx.preference.PreferenceManager
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import com.focusblack.wallos.model.Pack
 
 class RotationWorker(
     context: Context,
     params: WorkerParameters
 ) : CoroutineWorker(context, params) {
 
+    private val KEY_CURRENT_WALL_INDEX = "rotation_current_index"
+
     override suspend fun doWork(): Result {
-        // Minimal rotation: apply the first wall from GENESIS pack if present
+        val prefs = PreferenceManager.getDefaultSharedPreferences(applicationContext)
         val pack = PackRegistry.getPack("GENESIS_001")
-        val wall = pack?.walls?.firstOrNull()
-        if (wall != null) {
-            WallpaperEngine.applyWall(applicationContext, wall)
-            StreakEngine.onDailyApplied(applicationContext)
+
+        if (pack == null || pack.walls.isEmpty()) {
+            return Result.failure()
         }
+
+        // Get current index and cycle to next wallpaper
+        val currentIndex = prefs.getInt(KEY_CURRENT_WALL_INDEX, 0)
+        val nextIndex = (currentIndex + 1) % pack.walls.size
+        val wall = pack.walls[currentIndex]
+
+        // Apply wallpaper
+        WallpaperEngine.applyWall(applicationContext, wall)
+        StreakEngine.onDailyApplied(applicationContext)
+
+        // Save next index for next rotation
+        prefs.edit().putInt(KEY_CURRENT_WALL_INDEX, nextIndex).apply()
+
         return Result.success()
     }
 }

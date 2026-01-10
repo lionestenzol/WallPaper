@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.preference.PreferenceManager
 import com.focusblack.wallos.R
 import com.focusblack.wallos.core.PackRegistry
 import com.focusblack.wallos.core.StreakEngine
@@ -28,17 +29,29 @@ class TodayFragment : Fragment() {
         }
 
         applyBtn.setOnClickListener {
-            // apply the first genesis wall
+            val prefs = PreferenceManager.getDefaultSharedPreferences(requireContext())
             val pack = PackRegistry.getPack("GENESIS_001")
-            val wall = pack?.walls?.firstOrNull()
-            if (wall != null) {
+
+            if (pack != null && pack.walls.isNotEmpty()) {
+                // Get current wallpaper index and cycle to next
+                val currentIndex = prefs.getInt("rotation_current_index", 0)
+                val nextIndex = (currentIndex + 1) % pack.walls.size
+                val wall = pack.walls[currentIndex]
+
+                // Apply wallpaper
                 com.focusblack.wallos.core.WallpaperEngine.applyWall(requireContext(), wall)
                 StreakEngine.onDailyApplied(requireContext())
+
+                // Save next index
+                prefs.edit().putInt("rotation_current_index", nextIndex).apply()
+
+                // Review gate
                 reviewGate.recordApply()
                 if (reviewGate.shouldShowReview()) {
                     ReviewHelper.showReviewIfAppropriate(requireActivity())
                     reviewGate.setShown()
                 }
+
                 refreshStreak()
             }
         }

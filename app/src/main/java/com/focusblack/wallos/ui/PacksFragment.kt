@@ -18,8 +18,9 @@ class PacksFragment : Fragment() {
         containerLl.removeAllViews()
         for (pack in PackRegistry.listPacks()) {
             val tv = TextView(requireContext())
-            tv.text = "${pack.title} (${pack.id})"
+            tv.text = "${pack.title} - ${pack.walls.size} wallpapers"
             tv.setPadding(16, 16, 16, 16)
+            tv.textSize = 16f
             containerLl.addView(tv)
         }
         return view

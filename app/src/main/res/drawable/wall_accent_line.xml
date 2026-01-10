@@ -9,8 +9,8 @@
         android:fillColor="#000000"
         android:pathData="M0,0 L1080,0 L1080,2340 L0,2340 Z"/>
 
-    <!-- White triangle (seal) -->
+    <!-- Deep red accent line (vertical) -->
     <path
-        android:fillColor="#FFFFFF"
-        android:pathData="M540,920 L740,1420 L340,1420 Z"/>
+        android:fillColor="#8B0000"
+        android:pathData="M539,0 L541,0 L541,2340 L539,2340 Z"/>
 </vector>
