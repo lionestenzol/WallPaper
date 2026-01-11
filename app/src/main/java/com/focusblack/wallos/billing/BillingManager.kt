@@ -5,7 +5,11 @@ import android.content.Context
 import android.util.Log
 import com.android.billingclient.api.*
 import com.focusblack.wallos.data.OwnershipStore
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class BillingManager(
@@ -23,6 +27,8 @@ class BillingManager(
 
     private var productDetails: ProductDetails? = null
     private val ownershipStore = OwnershipStore(context)
+    private val purchaseVerifier = PurchaseVerifier(context)
+    private val ioScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
     var onPurchaseComplete: ((success: Boolean) -> Unit)? = null
 
@@ -130,18 +136,34 @@ class BillingManager(
     // Process a purchase
     private fun handlePurchase(purchase: Purchase) {
         if (purchase.purchaseState == Purchase.PurchaseState.PURCHASED) {
-            // Grant entitlement
-            if (purchase.products.contains(SkuCatalog.SKU_PRO)) {
-                ownershipStore.setPro(true)
-                Log.i(TAG, "Pro unlocked!")
+            if (!purchase.products.contains(SkuCatalog.SKU_PRO)) {
+                return
             }
-
-            // Acknowledge the purchase
-            if (!purchase.isAcknowledged) {
-                acknowledgePurchase(purchase)
+            ioScope.launch {
+                when (val result = purchaseVerifier.verifyPurchase(purchase)) {
+                    is PurchaseVerifier.VerificationResult.Verified -> {
+                        ownershipStore.setProVerified(
+                            owned = true,
+                            verifiedAtMillis = result.verifiedAtMillis ?: System.currentTimeMillis()
+                        )
+                        Log.i(TAG, "Pro verified by backend")
+                        if (!purchase.isAcknowledged) {
+                            acknowledgePurchase(purchase)
+                        }
+                        onPurchaseComplete?.invoke(true)
+                    }
+                    is PurchaseVerifier.VerificationResult.Unverified -> {
+                        ownershipStore.setProVerified(false)
+                        Log.w(TAG, "Pro verification declined: ${result.reason}")
+                        onPurchaseComplete?.invoke(false)
+                    }
+                    is PurchaseVerifier.VerificationResult.Error -> {
+                        val cacheValid = ownershipStore.isProCacheValid()
+                        Log.w(TAG, "Pro verification failed: ${result.reason}")
+                        onPurchaseComplete?.invoke(cacheValid)
+                    }
+                }
             }
-
-            onPurchaseComplete?.invoke(true)
         } else if (purchase.purchaseState == Purchase.PurchaseState.PENDING) {
             Log.i(TAG, "Purchase pending...")
         }
@@ -177,13 +199,39 @@ class BillingManager(
 
         if (result.billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
             var foundPro = false
+            var declinedPro = false
             result.purchasesList.forEach { purchase ->
                 if (purchase.products.contains(SkuCatalog.SKU_PRO) &&
                     purchase.purchaseState == Purchase.PurchaseState.PURCHASED) {
-                    ownershipStore.setPro(true)
-                    foundPro = true
-                    Log.i(TAG, "Restored Pro purchase")
+                    when (val verification = purchaseVerifier.verifyPurchase(purchase)) {
+                        is PurchaseVerifier.VerificationResult.Verified -> {
+                            ownershipStore.setProVerified(
+                                owned = true,
+                                verifiedAtMillis = verification.verifiedAtMillis
+                                    ?: System.currentTimeMillis()
+                            )
+                            foundPro = true
+                            Log.i(TAG, "Restored Pro purchase (verified)")
+                            if (!purchase.isAcknowledged) {
+                                acknowledgePurchase(purchase)
+                            }
+                        }
+                        is PurchaseVerifier.VerificationResult.Unverified -> {
+                            declinedPro = true
+                            Log.w(TAG, "Restore verification declined: ${verification.reason}")
+                        }
+                        is PurchaseVerifier.VerificationResult.Error -> {
+                            val cacheValid = ownershipStore.isProCacheValid()
+                            if (cacheValid) {
+                                foundPro = true
+                            }
+                            Log.w(TAG, "Restore verification failed: ${verification.reason}")
+                        }
+                    }
                 }
+            }
+            if (!foundPro && declinedPro) {
+                ownershipStore.setProVerified(false)
             }
             return@withContext foundPro
         } else {
@@ -198,6 +246,7 @@ class BillingManager(
     // Disconnect
     fun endConnection() {
         billingClient.endConnection()
+        ioScope.coroutineContext.cancel()
     }
 
     companion object {
