@@ -1,7 +1,6 @@
 package com.focusblack.wallos.widget
 
 import android.app.PendingIntent
-import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
 import android.widget.RemoteViews
@@ -11,8 +10,7 @@ import com.focusblack.wallos.R
 object WidgetViews {
     fun build(
         context: Context,
-        @LayoutRes layoutId: Int,
-        providerClass: Class<out AppWidgetProvider>
+        @LayoutRes layoutId: Int
     ): RemoteViews {
         val state = WidgetDataSource.getState(context)
         val views = RemoteViews(context.packageName, layoutId)
@@ -24,7 +22,7 @@ object WidgetViews {
             R.id.widget_streak,
             context.getString(R.string.streak_fmt, state.streak)
         )
-        val intent = Intent(context, providerClass).apply {
+        val intent = Intent(context, WidgetApplyNowReceiver::class.java).apply {
             action = BaseWallpaperWidget.ACTION_APPLY_NOW
         }
         val pendingIntent = PendingIntent.getBroadcast(

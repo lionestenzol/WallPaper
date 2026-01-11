@@ -20,7 +20,7 @@ open class BaseWallpaperWidget(
         appWidgetManager ?: return
         appWidgetIds ?: return
         for (id in appWidgetIds) {
-            val rv = WidgetViews.build(context, layoutId, javaClass)
+            val rv = WidgetViews.build(context, layoutId)
             appWidgetManager.updateAppWidget(id, rv)
         }
     }
@@ -29,6 +29,9 @@ open class BaseWallpaperWidget(
         super.onReceive(context, intent)
         context ?: return
         if (intent?.action == ACTION_APPLY_NOW) {
+            if (!isTrustedCaller(context)) {
+                return
+            }
             val pendingResult = goAsync()
             CoroutineScope(Dispatchers.Default).launch {
                 WidgetDataSource.applyNow(context)
@@ -40,5 +43,15 @@ open class BaseWallpaperWidget(
 
     companion object {
         const val ACTION_APPLY_NOW = "com.focusblack.wallos.widget.ACTION_APPLY_NOW"
+    }
+
+    private fun isTrustedCaller(context: Context): Boolean {
+        val callingUid = android.os.Binder.getCallingUid()
+        val myUid = android.os.Process.myUid()
+        if (callingUid == myUid) {
+            return true
+        }
+        return context.packageManager.checkSignatures(callingUid, myUid) ==
+            android.content.pm.PackageManager.SIGNATURE_MATCH
     }
 }

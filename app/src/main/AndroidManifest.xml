@@ -33,7 +33,6 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-                <action android:name="com.focusblack.wallos.widget.ACTION_APPLY_NOW" />
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
@@ -45,7 +44,6 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-                <action android:name="com.focusblack.wallos.widget.ACTION_APPLY_NOW" />
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
@@ -57,7 +55,6 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-                <action android:name="com.focusblack.wallos.widget.ACTION_APPLY_NOW" />
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
@@ -69,11 +66,18 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-                <action android:name="com.focusblack.wallos.widget.ACTION_APPLY_NOW" />
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_battery_halo_info" />
+        </receiver>
+
+        <receiver
+            android:name=".widget.WidgetApplyNowReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.focusblack.wallos.widget.ACTION_APPLY_NOW" />
+            </intent-filter>
         </receiver>
 
     </application>
