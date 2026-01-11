@@ -64,6 +64,8 @@
     <string name="apply_target_system">Home screen</string>
     <string name="apply_target_lock">Lock screen</string>
     <string name="apply_target_both">Home &amp; lock screens</string>
+    <string name="pref_rotation_constraints">Save battery during rotation</string>
+    <string name="pref_rotation_constraints_summary">Delay rotation when battery is low</string>
     <string name="pref_account_category">Account</string>
     <string name="pref_restore_purchases">Restore Purchases</string>
     <string name="pref_restore_purchases_summary">Restore previous Pro purchase</string>

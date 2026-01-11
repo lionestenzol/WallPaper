@@ -28,6 +28,13 @@
             app:useSimpleSummaryProvider="true"
             app:iconSpaceReserved="false"/>
 
+        <SwitchPreferenceCompat
+            android:key="rotation_constraints"
+            android:title="@string/pref_rotation_constraints"
+            android:summary="@string/pref_rotation_constraints_summary"
+            android:defaultValue="true"
+            app:iconSpaceReserved="false"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory

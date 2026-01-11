@@ -32,6 +32,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         setupAutoRotate()
         setupRotateNow()
         setupApplyTarget()
+        setupRotationConstraints()
         setupProStatus()
         setupRestorePurchases()
         setupUnlockPro()
@@ -76,6 +77,19 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val applyTargetPref = findPreference<ListPreference>(PREF_APPLY_TARGET)
         applyTargetPref?.summaryProvider = ListPreference.SimpleSummaryProvider.getInstance()
     }
+
+    private fun setupRotationConstraints() {
+        val constraintsPref = findPreference<SwitchPreferenceCompat>("rotation_constraints")
+        constraintsPref?.setOnPreferenceChangeListener { _, _ ->
+            val prefs = PreferenceManager.getDefaultSharedPreferences(requireContext())
+            val autoRotateEnabled = prefs.getBoolean("auto_rotate", true)
+            if (autoRotateEnabled) {
+                RotationScheduler.scheduleDailyRotation(requireContext())
+            }
+            true
+        }
+    }
+
 
     private fun setupProStatus() {
         updateProUI()
