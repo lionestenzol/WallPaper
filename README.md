@@ -15,8 +15,12 @@ Daily AMOLED ritual wallpaper app with automatic rotation, streak tracking, and 
 ### Implemented
 - **Automatic Daily Rotation** - WorkManager cycles through wallpapers every 24 hours
 - **Manual Apply** - Tap to instantly apply the current wallpaper
+- **Manual Rotation Trigger** - Settings button to trigger immediate rotation
 - **Streak Tracking** - Tracks consecutive days of wallpaper application
 - **7 AMOLED Wallpapers** - Pure black backgrounds for power savings
+- **Functional Home Widgets** - 4 working widgets (FocusRing, ModeSigil, DateGlyph, BatteryHalo)
+- **Remote Pack Loading** - Download wallpaper packs from server
+- **Device-Adaptive Scaling** - Smart center-crop for any screen size
 - **Review Gate** - In-app review prompt after 3 applies
 - **Bottom Navigation** - Today / Packs / Widgets tabs
 - **Material 3 Dark UI** - Modern design with pure black theme
@@ -24,7 +28,6 @@ Daily AMOLED ritual wallpaper app with automatic rotation, streak tracking, and 
 - **Settings Screen** - Auto-rotate toggle, restore purchases, pro status
 
 ### Planned
-- Functional home screen widgets
 - Additional wallpaper packs
 - Full-screen wallpaper preview
 
@@ -88,8 +91,12 @@ app/src/main/
 │   │   ├── RotationWorker.kt
 │   │   ├── StreakEngine.kt
 │   │   └── WallpaperEngine.kt
-│   ├── data/              # Local persistence
+│   ├── data/              # Data layer
+│   │   ├── cache/
+│   │   │   ├── WallpaperAssetCache.kt
+│   │   │   └── DiskLruCache.kt
 │   │   ├── OwnershipStore.kt
+│   │   ├── PackRepository.kt
 │   │   └── ReviewGate.kt
 │   ├── model/             # Data classes
 │   │   ├── Pack.kt
@@ -106,11 +113,16 @@ app/src/main/
 │   │   └── SettingsFragment.kt
 │   ├── util/
 │   │   └── ReviewHelper.kt
-│   └── widget/            # Widget stubs
+│   └── widget/            # Home screen widgets
+│       ├── BaseWallpaperWidget.kt
 │       ├── BatteryHaloWidget.kt
 │       ├── DateGlyphWidget.kt
 │       ├── FocusRingWidget.kt
-│       └── ModeSigilWidget.kt
+│       ├── ModeSigilWidget.kt
+│       ├── WidgetUpdater.kt
+│       ├── WidgetDataSource.kt
+│       ├── WidgetState.kt
+│       └── WidgetViews.kt
 └── res/
     ├── drawable/          # Wallpapers and icons
     ├── layout/            # UI layouts
@@ -133,7 +145,7 @@ app/src/main/
 ### Key Components
 
 #### WallpaperEngine
-Applies wallpapers to the device by converting vector drawables to bitmaps via Canvas and setting them through WallpaperManager.
+Applies wallpapers to the device. Supports both local drawables and remote URLs. Uses device-adaptive scaling with center-crop strategy to fit any screen size. Converts vector drawables to bitmaps via Canvas and sets them through WallpaperManager.
 
 #### RotationScheduler / RotationWorker
 Uses WorkManager to schedule daily wallpaper rotation. RotationWorker executes in the background to cycle through wallpapers.
@@ -149,7 +161,16 @@ Handles Google Play Billing Library integration:
 - Purchase restoration
 
 #### PackRegistry
-Singleton registry of available wallpaper packs. Currently contains Genesis pack with 7 wallpapers.
+Singleton registry of available wallpaper packs. Currently contains Genesis pack with 7 wallpapers. Supports loading remote packs via `loadRemotePacks()`.
+
+#### WidgetUpdater
+Updates all home screen widgets when wallpaper changes. Ensures widgets always display current wallpaper information.
+
+#### PackRepository
+Fetches remote wallpaper pack metadata from server. Enables dynamic pack loading without app updates.
+
+#### WallpaperAssetCache
+Downloads and caches remote wallpaper images using DiskLruCache. Provides fast access to previously downloaded wallpapers.
 
 ## Configuration
 
@@ -232,10 +253,8 @@ Release builds include:
 
 ## Known Limitations
 
-1. Widgets are stub implementations (not functional)
-2. ReviewHelper is a placeholder (no actual Play review integration)
-3. Wallpaper dimensions are hardcoded (1080x2340)
-4. Single pack only (Genesis)
+1. ReviewHelper is a placeholder (no actual Play review integration)
+2. Single pack included by default (Genesis) - remote packs require server URL
 
 ## Version History
 
