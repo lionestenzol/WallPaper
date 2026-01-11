@@ -1,0 +1,13 @@
+<resources>
+    <string-array name="apply_target_entries">
+        <item>@string/apply_target_system</item>
+        <item>@string/apply_target_lock</item>
+        <item>@string/apply_target_both</item>
+    </string-array>
+
+    <string-array name="apply_target_values">
+        <item>system</item>
+        <item>lock</item>
+        <item>both</item>
+    </string-array>
+</resources>

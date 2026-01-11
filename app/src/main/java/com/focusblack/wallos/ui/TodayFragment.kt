@@ -103,7 +103,8 @@ class TodayFragment : Fragment() {
         progressApply.visibility = View.VISIBLE
 
         viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Default) {
-            val applied = WallpaperEngine.applyWall(requireContext(), wall)
+            val target = SettingsFragment.getApplyTarget(requireContext())
+            val applied = WallpaperEngine.applyWall(requireContext(), wall, target)
             if (applied) {
                 StreakEngine.onDailyApplied(requireContext())
 

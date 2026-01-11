@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.util.Log
 import androidx.core.content.ContextCompat
 import com.focusblack.wallos.model.Wall
@@ -12,7 +13,19 @@ import com.focusblack.wallos.model.Wall
 object WallpaperEngine {
     private const val TAG = "WallpaperEngine"
 
-    fun applyWall(context: Context, wall: Wall): Boolean {
+    enum class ApplyTarget(val prefValue: String) {
+        SYSTEM("system"),
+        LOCK("lock"),
+        BOTH("both");
+
+        companion object {
+            fun fromPreference(value: String?): ApplyTarget {
+                return values().firstOrNull { it.prefValue == value } ?: BOTH
+            }
+        }
+    }
+
+    fun applyWall(context: Context, wall: Wall, target: ApplyTarget): Boolean {
         return try {
             Log.i(TAG, "Applying wall: ${wall.id} title=${wall.title}")
 
@@ -39,7 +52,16 @@ object WallpaperEngine {
 
             // Set as wallpaper
             val wallpaperManager = WallpaperManager.getInstance(context)
-            wallpaperManager.setBitmap(bitmap)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                val which = when (target) {
+                    ApplyTarget.SYSTEM -> WallpaperManager.FLAG_SYSTEM
+                    ApplyTarget.LOCK -> WallpaperManager.FLAG_LOCK
+                    ApplyTarget.BOTH -> WallpaperManager.FLAG_SYSTEM or WallpaperManager.FLAG_LOCK
+                }
+                wallpaperManager.setBitmap(bitmap, null, true, which)
+            } else {
+                wallpaperManager.setBitmap(bitmap)
+            }
 
             Log.i(TAG, "Successfully applied wallpaper: ${wall.title}")
             true

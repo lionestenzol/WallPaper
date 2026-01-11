@@ -5,6 +5,7 @@ import androidx.core.content.edit
 import androidx.preference.PreferenceManager
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import com.focusblack.wallos.ui.SettingsFragment
 
 class RotationWorker(
     context: Context,
@@ -25,7 +26,8 @@ class RotationWorker(
         val wall = pack.walls[currentIndex]
 
         // Apply wallpaper
-        val applied = WallpaperEngine.applyWall(applicationContext, wall)
+        val target = SettingsFragment.getApplyTarget(applicationContext)
+        val applied = WallpaperEngine.applyWall(applicationContext, wall, target)
         if (!applied) {
             return Result.retry()
         }

@@ -73,7 +73,8 @@ class PackDetailActivity : AppCompatActivity() {
     }
 
     private fun applyWallpaper(wall: Wall) {
-        WallpaperEngine.applyWall(this, wall)
+        val target = SettingsFragment.getApplyTarget(this)
+        WallpaperEngine.applyWall(this, wall, target)
         Snackbar.make(rvWallpapers, R.string.wallpaper_applied, Snackbar.LENGTH_SHORT).show()
     }
 }
