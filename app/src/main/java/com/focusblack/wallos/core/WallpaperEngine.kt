@@ -5,7 +5,6 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.drawable.Drawable
-import android.util.Log
 import androidx.core.content.ContextCompat
 import com.focusblack.wallos.model.Wall
 
@@ -14,7 +13,22 @@ object WallpaperEngine {
 
     fun applyWall(context: Context, wall: Wall): Boolean {
         return try {
-            Log.i(TAG, "Applying wall: ${wall.id} title=${wall.title}")
+            WallosLogger.info(
+                TAG,
+                "wallpaper_apply_started",
+                mapOf(
+                    "wall_id" to wall.id,
+                    "title" to wall.title,
+                    "drawable" to wall.drawableName
+                )
+            )
+            WallosAnalytics.track(
+                "wallpaper_apply_started",
+                mapOf(
+                    "wall_id" to wall.id,
+                    "title" to wall.title
+                )
+            )
 
             // Get drawable resource ID from name
             val resourceId = context.resources.getIdentifier(
@@ -24,14 +38,36 @@ object WallpaperEngine {
             )
 
             if (resourceId == 0) {
-                Log.e(TAG, "Drawable not found: ${wall.drawableName}")
+                WallosLogger.warn(
+                    TAG,
+                    "wallpaper_drawable_missing",
+                    mapOf("drawable" to wall.drawableName)
+                )
+                WallosAnalytics.track(
+                    "wallpaper_apply_failed",
+                    mapOf(
+                        "wall_id" to wall.id,
+                        "reason" to "drawable_missing"
+                    )
+                )
                 return false
             }
 
             // Load drawable and convert to bitmap
             val drawable = ContextCompat.getDrawable(context, resourceId)
             if (drawable == null) {
-                Log.e(TAG, "Failed to load drawable: ${wall.drawableName}")
+                WallosLogger.warn(
+                    TAG,
+                    "wallpaper_drawable_load_failed",
+                    mapOf("drawable" to wall.drawableName)
+                )
+                WallosAnalytics.track(
+                    "wallpaper_apply_failed",
+                    mapOf(
+                        "wall_id" to wall.id,
+                        "reason" to "drawable_load_failed"
+                    )
+                )
                 return false
             }
 
@@ -41,10 +77,36 @@ object WallpaperEngine {
             val wallpaperManager = WallpaperManager.getInstance(context)
             wallpaperManager.setBitmap(bitmap)
 
-            Log.i(TAG, "Successfully applied wallpaper: ${wall.title}")
+            WallosLogger.info(
+                TAG,
+                "wallpaper_apply_succeeded",
+                mapOf(
+                    "wall_id" to wall.id,
+                    "title" to wall.title
+                )
+            )
+            WallosAnalytics.track(
+                "wallpaper_apply_succeeded",
+                mapOf("wall_id" to wall.id)
+            )
             true
         } catch (e: Exception) {
-            Log.e(TAG, "Failed to apply wallpaper: ${wall.title}", e)
+            WallosLogger.error(
+                TAG,
+                "wallpaper_apply_failed",
+                mapOf(
+                    "wall_id" to wall.id,
+                    "title" to wall.title
+                ),
+                e
+            )
+            WallosAnalytics.track(
+                "wallpaper_apply_failed",
+                mapOf(
+                    "wall_id" to wall.id,
+                    "reason" to "exception"
+                )
+            )
             false
         }
     }
