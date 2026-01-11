@@ -36,15 +36,21 @@ class RotationWorker(
         val wall = pack.walls[currentIndex]
 
         // Apply wallpaper
-        val applied = WallpaperEngine.applyWall(applicationContext, wall)
-        if (!applied) {
+        val applyResult = WallpaperEngine.applyWall(applicationContext, wall)
+        prefs.edit {
+            putBoolean(WallpaperEngine.KEY_LAST_APPLY_RESULT, applyResult.success)
+            putString(WallpaperEngine.KEY_LAST_APPLY_ERROR, applyResult.error)
+            putLong(WallpaperEngine.KEY_LAST_APPLY_TIME, System.currentTimeMillis())
+        }
+        if (!applyResult.success) {
             WallosLogger.warn(
                 TAG,
                 "rotation_apply_failed",
                 mapOf(
                     "wall_id" to wall.id,
                     "index" to currentIndex,
-                    "pack_id" to pack.id
+                    "pack_id" to pack.id,
+                    "error" to applyResult.error
                 )
             )
             WallosAnalytics.track(
@@ -52,7 +58,8 @@ class RotationWorker(
                 mapOf(
                     "wall_id" to wall.id,
                     "index" to currentIndex,
-                    "pack_id" to pack.id
+                    "pack_id" to pack.id,
+                    "error" to applyResult.error
                 )
             )
             return Result.retry()

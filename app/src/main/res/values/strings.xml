@@ -67,8 +67,15 @@
     <string name="pref_pro_status_free">Free</string>
     <string name="pref_pro_status_pro">Pro</string>
     <string name="pref_about_category">About</string>
+    <string name="pref_debug_category">Debug</string>
     <string name="pref_version">Version</string>
     <string name="pref_privacy">Privacy Policy</string>
+    <string name="pref_last_apply_status">Last apply status</string>
+    <string name="pref_last_apply_status_none">No apply recorded yet</string>
+    <string name="pref_last_apply_status_success">Success</string>
+    <string name="pref_last_apply_status_failure">Failed</string>
+    <string name="pref_last_apply_status_failure_with_reason">Failed (%1$s)</string>
+    <string name="pref_last_apply_status_summary_fmt">%1$s \u2022 %2$s</string>
 
     <!-- Errors -->
     <string name="error_wallpaper_not_found">Wallpaper not found</string>

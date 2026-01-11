@@ -124,11 +124,16 @@ class TodayFragment : Fragment() {
         tvApplyStatus.setText(R.string.apply_status_applying)
 
         viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Default) {
-            val applied = withContext(Dispatchers.IO) {
+            val applyResult = withContext(Dispatchers.IO) {
                 WallpaperEngine.applyWall(requireContext(), wall)
             }
+            prefs.edit {
+                putBoolean(WallpaperEngine.KEY_LAST_APPLY_RESULT, applyResult.success)
+                putString(WallpaperEngine.KEY_LAST_APPLY_ERROR, applyResult.error)
+                putLong(WallpaperEngine.KEY_LAST_APPLY_TIME, System.currentTimeMillis())
+            }
             ensureActive()
-            if (applied && isAdded && isActive) {
+            if (applyResult.success && isAdded && isActive) {
                 StreakEngine.onDailyApplied(requireContext())
 
                 // Advance to next wallpaper
@@ -155,17 +160,17 @@ class TodayFragment : Fragment() {
                 progressApply.visibility = View.GONE
                 btnApply.isEnabled = true
                 tvApplyStatus.setText(
-                    if (applied) R.string.apply_status_applied else R.string.apply_status_failed
+                    if (applyResult.success) R.string.apply_status_applied else R.string.apply_status_failed
                 )
 
                 view?.let {
-                    val message = if (applied) {
+                    val message = if (applyResult.success) {
                         R.string.wallpaper_applied
                     } else {
                         R.string.error_apply_failed
                     }
                     val snackbar = Snackbar.make(it, message, Snackbar.LENGTH_SHORT)
-                    if (!applied) {
+                    if (!applyResult.success) {
                         snackbar.setAction(R.string.retry) {
                             applyCurrentWallpaper()
                         }
@@ -173,7 +178,7 @@ class TodayFragment : Fragment() {
                     snackbar.show()
                 }
 
-                if (applied) {
+                if (applyResult.success) {
                     // Update UI to show next wallpaper
                     refreshUI()
                     WidgetUpdater.updateAll(requireContext())

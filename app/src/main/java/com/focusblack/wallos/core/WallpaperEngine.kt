@@ -15,8 +15,16 @@ import kotlinx.coroutines.withContext
 
 object WallpaperEngine {
     private const val TAG = "WallpaperEngine"
+    const val KEY_LAST_APPLY_RESULT = "wallpaper_last_apply_result"
+    const val KEY_LAST_APPLY_ERROR = "wallpaper_last_apply_error"
+    const val KEY_LAST_APPLY_TIME = "wallpaper_last_apply_time"
 
-    suspend fun applyWall(context: Context, wall: Wall): Boolean {
+    data class ApplyResult(
+        val success: Boolean,
+        val error: String? = null
+    )
+
+    suspend fun applyWall(context: Context, wall: Wall): ApplyResult {
         return try {
             WallosLogger.info(
                 TAG,
@@ -37,6 +45,7 @@ object WallpaperEngine {
 
             val bitmap = loadBitmap(context, wall)
             if (bitmap == null) {
+                val errorMsg = "bitmap_load_failed"
                 WallosLogger.warn(
                     TAG,
                     "wallpaper_load_failed",
@@ -46,11 +55,12 @@ object WallpaperEngine {
                     "wallpaper_apply_failed",
                     mapOf(
                         "wall_id" to wall.id,
-                        "reason" to "bitmap_load_failed"
+                        "reason" to errorMsg
                     )
                 )
-                return false
+                return ApplyResult(false, errorMsg)
             }
+
 
             // Set as wallpaper
             val wallpaperManager = WallpaperManager.getInstance(context)
@@ -68,14 +78,16 @@ object WallpaperEngine {
                 "wallpaper_apply_succeeded",
                 mapOf("wall_id" to wall.id)
             )
-            true
+            ApplyResult(true)
         } catch (e: Exception) {
+            val errorMsg = e.message ?: e.javaClass.simpleName
             WallosLogger.error(
                 TAG,
                 "wallpaper_apply_failed",
                 mapOf(
                     "wall_id" to wall.id,
-                    "title" to wall.title
+                    "title" to wall.title,
+                    "error" to errorMsg
                 ),
                 e
             )
@@ -83,10 +95,11 @@ object WallpaperEngine {
                 "wallpaper_apply_failed",
                 mapOf(
                     "wall_id" to wall.id,
-                    "reason" to "exception"
+                    "reason" to "exception",
+                    "error" to errorMsg
                 )
             )
-            false
+            ApplyResult(false, errorMsg)
         }
     }
 

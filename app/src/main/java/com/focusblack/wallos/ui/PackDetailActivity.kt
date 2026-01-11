@@ -3,7 +3,9 @@ package com.focusblack.wallos.ui
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.edit
 import androidx.lifecycle.lifecycleScope
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.focusblack.wallos.R
@@ -77,8 +79,14 @@ class PackDetailActivity : AppCompatActivity() {
 
     private fun applyWallpaper(wall: Wall) {
         lifecycleScope.launch {
-            val applied = WallpaperEngine.applyWall(this@PackDetailActivity, wall)
-            val message = if (applied) {
+            val applyResult = WallpaperEngine.applyWall(this@PackDetailActivity, wall)
+            val prefs = PreferenceManager.getDefaultSharedPreferences(this@PackDetailActivity)
+            prefs.edit {
+                putBoolean(WallpaperEngine.KEY_LAST_APPLY_RESULT, applyResult.success)
+                putString(WallpaperEngine.KEY_LAST_APPLY_ERROR, applyResult.error)
+                putLong(WallpaperEngine.KEY_LAST_APPLY_TIME, System.currentTimeMillis())
+            }
+            val message = if (applyResult.success) {
                 R.string.wallpaper_applied
             } else {
                 R.string.error_apply_failed

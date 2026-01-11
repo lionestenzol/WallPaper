@@ -58,4 +58,17 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory
+        android:title="@string/pref_debug_category"
+        app:iconSpaceReserved="false">
+
+        <Preference
+            android:key="wallpaper_last_apply_status"
+            android:title="@string/pref_last_apply_status"
+            android:summary="@string/pref_last_apply_status_none"
+            android:selectable="false"
+            app:iconSpaceReserved="false"/>
+
+    </PreferenceCategory>
+
 </PreferenceScreen>
