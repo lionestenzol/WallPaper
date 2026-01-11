@@ -8,11 +8,17 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.focusblack.wallos.R
+import com.focusblack.wallos.data.cache.WallpaperAssetCache
 import com.focusblack.wallos.model.Wall
 import com.google.android.material.button.MaterialButton
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class WallpaperAdapter(
     private val walls: List<Wall>,
+    private val scope: CoroutineScope,
     private val onWallpaperClick: (Wall) -> Unit,
     private val onApplyClick: (Wall) -> Unit
 ) : RecyclerView.Adapter<WallpaperAdapter.WallpaperViewHolder>() {
@@ -32,19 +38,36 @@ class WallpaperAdapter(
     override fun onBindViewHolder(holder: WallpaperViewHolder, position: Int) {
         val wall = walls[position]
         val context = holder.itemView.context
+        val cache = WallpaperAssetCache(context.applicationContext)
 
         // Set wall info
         holder.tvTitle.text = wall.title
 
         // Load wallpaper thumbnail
-        val resourceId = context.resources.getIdentifier(
-            wall.drawableName,
-            "drawable",
-            context.packageName
-        )
-        if (resourceId != 0) {
-            val drawable = ContextCompat.getDrawable(context, resourceId)
-            holder.ivThumb.setImageDrawable(drawable)
+        holder.ivThumb.tag = wall.assetUrl ?: wall.drawableName
+        val assetUrl = wall.assetUrl
+        if (!assetUrl.isNullOrBlank()) {
+            holder.ivThumb.setImageDrawable(null)
+            scope.launch {
+                val bitmap = cache.loadBitmap(assetUrl)
+                withContext(Dispatchers.Main) {
+                    if (holder.ivThumb.tag == assetUrl && bitmap != null) {
+                        holder.ivThumb.setImageBitmap(bitmap)
+                    }
+                }
+            }
+        } else {
+            val resourceId = context.resources.getIdentifier(
+                wall.drawableName,
+                "drawable",
+                context.packageName
+            )
+            if (resourceId != 0) {
+                val drawable = ContextCompat.getDrawable(context, resourceId)
+                holder.ivThumb.setImageDrawable(drawable)
+            } else {
+                holder.ivThumb.setImageDrawable(null)
+            }
         }
 
         // Click to preview full-screen

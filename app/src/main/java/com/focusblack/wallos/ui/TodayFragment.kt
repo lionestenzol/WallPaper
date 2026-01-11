@@ -16,6 +16,7 @@ import com.focusblack.wallos.R
 import com.focusblack.wallos.core.PackRegistry
 import com.focusblack.wallos.core.StreakEngine
 import com.focusblack.wallos.core.WallpaperEngine
+import com.focusblack.wallos.data.cache.WallpaperAssetCache
 import com.focusblack.wallos.data.ReviewGate
 import com.focusblack.wallos.model.Wall
 import com.focusblack.wallos.util.ReviewHelper
@@ -80,15 +81,29 @@ class TodayFragment : Fragment() {
     }
 
     private fun loadWallpaperPreview(wall: Wall) {
-        val resourceId = requireContext().resources.getIdentifier(
-            wall.drawableName,
-            "drawable",
-            requireContext().packageName
-        )
+        val assetUrl = wall.assetUrl
+        if (!assetUrl.isNullOrBlank()) {
+            ivPreview.setImageDrawable(null)
+            viewLifecycleOwner.lifecycleScope.launch {
+                val cache = WallpaperAssetCache(requireContext().applicationContext)
+                val bitmap = cache.loadBitmap(assetUrl)
+                if (bitmap != null) {
+                    ivPreview.setImageBitmap(bitmap)
+                }
+            }
+        } else {
+            val resourceId = requireContext().resources.getIdentifier(
+                wall.drawableName,
+                "drawable",
+                requireContext().packageName
+            )
 
-        if (resourceId != 0) {
-            val drawable = ContextCompat.getDrawable(requireContext(), resourceId)
-            ivPreview.setImageDrawable(drawable)
+            if (resourceId != 0) {
+                val drawable = ContextCompat.getDrawable(requireContext(), resourceId)
+                ivPreview.setImageDrawable(drawable)
+            } else {
+                ivPreview.setImageDrawable(null)
+            }
         }
     }
 

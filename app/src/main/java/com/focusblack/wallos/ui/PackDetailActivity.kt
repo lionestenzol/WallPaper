@@ -3,6 +3,7 @@ package com.focusblack.wallos.ui
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.focusblack.wallos.R
@@ -12,6 +13,7 @@ import com.focusblack.wallos.model.Pack
 import com.focusblack.wallos.model.Wall
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.launch
 
 class PackDetailActivity : AppCompatActivity() {
 
@@ -54,6 +56,7 @@ class PackDetailActivity : AppCompatActivity() {
         // Setup wallpapers grid (3 columns)
         val adapter = WallpaperAdapter(
             walls = pack.walls,
+            scope = lifecycleScope,
             onWallpaperClick = { wall ->
                 // Preview full-screen (could open a dialog or new activity)
                 previewWallpaper(wall)
@@ -73,7 +76,14 @@ class PackDetailActivity : AppCompatActivity() {
     }
 
     private fun applyWallpaper(wall: Wall) {
-        WallpaperEngine.applyWall(this, wall)
-        Snackbar.make(rvWallpapers, R.string.wallpaper_applied, Snackbar.LENGTH_SHORT).show()
+        lifecycleScope.launch {
+            val applied = WallpaperEngine.applyWall(this@PackDetailActivity, wall)
+            val message = if (applied) {
+                R.string.wallpaper_applied
+            } else {
+                R.string.error_apply_failed
+            }
+            Snackbar.make(rvWallpapers, message, Snackbar.LENGTH_SHORT).show()
+        }
     }
 }
