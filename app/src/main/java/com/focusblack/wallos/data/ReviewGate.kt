@@ -1,16 +1,20 @@
 package com.focusblack.wallos.data
 
 import android.content.Context
+import androidx.core.content.edit
 import androidx.preference.PreferenceManager
 
-class ReviewGate(private val context: Context) {
+class ReviewGate(context: Context) {
     private val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-    private val KEY_APPLIES = "review_applies_count"
-    private val KEY_REVIEWED = "review_shown"
+
+    companion object {
+        private const val KEY_APPLIES = "review_applies_count"
+        private const val KEY_REVIEWED = "review_shown"
+    }
 
     fun recordApply() {
         val count = prefs.getInt(KEY_APPLIES, 0) + 1
-        prefs.edit().putInt(KEY_APPLIES, count).apply()
+        prefs.edit { putInt(KEY_APPLIES, count) }
     }
 
     fun shouldShowReview(): Boolean {
@@ -20,6 +24,6 @@ class ReviewGate(private val context: Context) {
     }
 
     fun setShown() {
-        prefs.edit().putBoolean(KEY_REVIEWED, true).apply()
+        prefs.edit { putBoolean(KEY_REVIEWED, true) }
     }
 }

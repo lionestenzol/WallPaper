@@ -5,21 +5,30 @@ plugins {
 
 android {
     namespace 'com.focusblack.wallos'
-    compileSdk 34
+    compileSdk 36
 
     defaultConfig {
         applicationId "com.focusblack.wallos"
         minSdk 26
-        targetSdk 34
+        targetSdk 36
         versionCode 1
-        versionName "0.1.0"
+        versionName "1.0.0"
     }
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        debug {
+            minifyEnabled false
+        }
+    }
+
+    sourceSets {
+        main.res.srcDirs = ['src/main/res']
+        main.res.exclude '**/ic_launcher.png'
     }
 
     compileOptions {
@@ -32,14 +41,25 @@ android {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.9.10"
-    implementation 'androidx.core:core-ktx:1.11.0'
-    implementation 'androidx.appcompat:appcompat:1.7.0'
-    implementation 'com.google.android.material:material:1.9.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.2.0'
-    implementation 'androidx.fragment:fragment-ktx:1.6.0'
-    implementation 'androidx.work:work-runtime-ktx:2.8.1'
-    implementation 'com.android.billingclient:billing-ktx:6.0.1'
-    implementation 'androidx.preference:preference-ktx:1.2.0'
-    implementation 'androidx.recyclerview:recyclerview:1.4.1'
+    // Kotlin
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:2.0.21"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1"
+
+    // AndroidX Core
+    implementation 'androidx.core:core-ktx:1.12.0'
+    implementation 'androidx.appcompat:appcompat:1.7.1'
+    implementation 'androidx.fragment:fragment-ktx:1.8.9'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.10.0'
+
+    // UI
+    implementation 'com.google.android.material:material:1.13.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
+    implementation 'androidx.recyclerview:recyclerview:1.4.0'
+    implementation 'androidx.preference:preference-ktx:1.2.1'
+
+    // WorkManager
+    implementation 'androidx.work:work-runtime-ktx:2.9.0'
+
+    // Play Billing
+    implementation 'com.android.billingclient:billing-ktx:7.1.1'
 }

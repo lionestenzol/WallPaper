@@ -2,7 +2,6 @@ package com.focusblack.wallos.util
 
 import android.app.Activity
 import android.util.Log
-import androidx.fragment.app.FragmentActivity
 
 object ReviewHelper {
     private const val TAG = "ReviewHelper"

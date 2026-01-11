@@ -3,20 +3,30 @@
 
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <uses-permission android:name="android.permission.SET_WALLPAPER"/>
+    <uses-permission android:name="com.android.vending.BILLING"/>
+
     <application
         android:allowBackup="true"
-        android:label="focus-black"
+        android:supportsRtl="true"
+        android:label="@string/app_name"
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:theme="@style/Theme.FocusBlack">
-        <activity android:name="com.focusblack.wallos.ui.SettingsActivity" />
-        <activity android:name="com.focusblack.wallos.ui.MainActivity">
+
+        <activity android:name=".ui.MainActivity" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <!-- Widgets would be declared here in a full build -->
+        <activity
+            android:name=".ui.PackDetailActivity"
+            android:parentActivityName=".ui.MainActivity"/>
+
+        <activity
+            android:name=".ui.SettingsActivity"
+            android:parentActivityName=".ui.MainActivity"/>
+
     </application>
 </manifest>

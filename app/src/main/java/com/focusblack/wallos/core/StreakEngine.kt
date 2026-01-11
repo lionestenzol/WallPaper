@@ -1,9 +1,8 @@
 package com.focusblack.wallos.core
 
 import android.content.Context
-import android.content.SharedPreferences
+import androidx.core.content.edit
 import androidx.preference.PreferenceManager
-import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
 
@@ -23,10 +22,10 @@ object StreakEngine {
             lastDate.isEqual(today) -> streak
             else -> 1
         }
-        prefs.edit()
-            .putString(KEY_LAST_APPLY, today.toString())
-            .putInt(KEY_STREAK, newStreak)
-            .apply()
+        prefs.edit {
+            putString(KEY_LAST_APPLY, today.toString())
+            putInt(KEY_STREAK, newStreak)
+        }
     }
 
     fun getStreak(context: Context): Int {

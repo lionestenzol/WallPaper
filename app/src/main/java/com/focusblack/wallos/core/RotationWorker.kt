@@ -1,6 +1,7 @@
 package com.focusblack.wallos.core
 
 import android.content.Context
+import androidx.core.content.edit
 import androidx.preference.PreferenceManager
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
@@ -9,8 +10,6 @@ class RotationWorker(
     context: Context,
     params: WorkerParameters
 ) : CoroutineWorker(context, params) {
-
-    private val KEY_CURRENT_WALL_INDEX = "rotation_current_index"
 
     override suspend fun doWork(): Result {
         val prefs = PreferenceManager.getDefaultSharedPreferences(applicationContext)
@@ -30,8 +29,12 @@ class RotationWorker(
         StreakEngine.onDailyApplied(applicationContext)
 
         // Save next index for next rotation
-        prefs.edit().putInt(KEY_CURRENT_WALL_INDEX, nextIndex).apply()
+        prefs.edit { putInt(KEY_CURRENT_WALL_INDEX, nextIndex) }
 
         return Result.success()
+    }
+
+    companion object {
+        private const val KEY_CURRENT_WALL_INDEX = "rotation_current_index"
     }
 }

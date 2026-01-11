@@ -4,59 +4,128 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
+import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.core.content.ContextCompat
+import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
 import com.focusblack.wallos.R
 import com.focusblack.wallos.core.PackRegistry
 import com.focusblack.wallos.core.StreakEngine
+import com.focusblack.wallos.core.WallpaperEngine
 import com.focusblack.wallos.data.ReviewGate
+import com.focusblack.wallos.model.Wall
 import com.focusblack.wallos.util.ReviewHelper
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.snackbar.Snackbar
 
 class TodayFragment : Fragment() {
 
+    private lateinit var ivPreview: ImageView
+    private lateinit var tvWallTitle: TextView
+    private lateinit var tvPackInfo: TextView
+    private lateinit var tvStreak: TextView
+    private lateinit var btnApply: MaterialButton
+    private lateinit var progressApply: ProgressBar
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val view = inflater.inflate(R.layout.fragment_today, container, false)
-        val applyBtn = view.findViewById<Button>(R.id.btn_apply)
-        val streakTv = view.findViewById<TextView>(R.id.tv_streak)
+
+        ivPreview = view.findViewById(R.id.iv_preview)
+        tvWallTitle = view.findViewById(R.id.tv_wall_title)
+        tvPackInfo = view.findViewById(R.id.tv_pack_info)
+        tvStreak = view.findViewById(R.id.tv_streak)
+        btnApply = view.findViewById(R.id.btn_apply)
+        progressApply = view.findViewById(R.id.progress_apply)
 
         val reviewGate = ReviewGate(requireContext())
 
-        fun refreshStreak() {
-            val s = StreakEngine.getStreak(requireContext())
-            streakTv.text = getString(R.string.streak_fmt, s)
+        btnApply.setOnClickListener {
+            applyCurrentWallpaper(reviewGate)
         }
 
-        applyBtn.setOnClickListener {
-            val prefs = PreferenceManager.getDefaultSharedPreferences(requireContext())
-            val pack = PackRegistry.getPack("GENESIS_001")
-
-            if (pack != null && pack.walls.isNotEmpty()) {
-                // Get current wallpaper index and cycle to next
-                val currentIndex = prefs.getInt("rotation_current_index", 0)
-                val nextIndex = (currentIndex + 1) % pack.walls.size
-                val wall = pack.walls[currentIndex]
-
-                // Apply wallpaper
-                com.focusblack.wallos.core.WallpaperEngine.applyWall(requireContext(), wall)
-                StreakEngine.onDailyApplied(requireContext())
-
-                // Save next index
-                prefs.edit().putInt("rotation_current_index", nextIndex).apply()
-
-                // Review gate
-                reviewGate.recordApply()
-                if (reviewGate.shouldShowReview()) {
-                    ReviewHelper.showReviewIfAppropriate(requireActivity())
-                    reviewGate.setShown()
-                }
-
-                refreshStreak()
-            }
-        }
-
-        refreshStreak()
+        refreshUI()
         return view
+    }
+
+    override fun onResume() {
+        super.onResume()
+        refreshUI()
+    }
+
+    private fun refreshUI() {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(requireContext())
+        val pack = PackRegistry.getPack("GENESIS_001") ?: return
+
+        val currentIndex = prefs.getInt(KEY_CURRENT_INDEX, 0)
+        val wall = pack.walls.getOrNull(currentIndex) ?: pack.walls.first()
+
+        // Update preview
+        loadWallpaperPreview(wall)
+
+        // Update wallpaper info
+        tvWallTitle.text = wall.title
+        tvPackInfo.text = getString(R.string.pack_info_fmt, pack.title, currentIndex + 1, pack.walls.size)
+
+        // Update streak
+        val streak = StreakEngine.getStreak(requireContext())
+        tvStreak.text = streak.toString()
+    }
+
+    private fun loadWallpaperPreview(wall: Wall) {
+        val resourceId = requireContext().resources.getIdentifier(
+            wall.drawableName,
+            "drawable",
+            requireContext().packageName
+        )
+
+        if (resourceId != 0) {
+            val drawable = ContextCompat.getDrawable(requireContext(), resourceId)
+            ivPreview.setImageDrawable(drawable)
+        }
+    }
+
+    private fun applyCurrentWallpaper(reviewGate: ReviewGate) {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(requireContext())
+        val pack = PackRegistry.getPack("GENESIS_001") ?: return
+
+        val currentIndex = prefs.getInt(KEY_CURRENT_INDEX, 0)
+        val wall = pack.walls.getOrNull(currentIndex) ?: return
+
+        // Show loading
+        btnApply.isEnabled = false
+        progressApply.visibility = View.VISIBLE
+
+        // Apply wallpaper
+        WallpaperEngine.applyWall(requireContext(), wall)
+        StreakEngine.onDailyApplied(requireContext())
+
+        // Advance to next wallpaper
+        val nextIndex = (currentIndex + 1) % pack.walls.size
+        prefs.edit { putInt(KEY_CURRENT_INDEX, nextIndex) }
+
+        // Review gate
+        reviewGate.recordApply()
+        if (reviewGate.shouldShowReview()) {
+            ReviewHelper.showReviewIfAppropriate(requireActivity())
+            reviewGate.setShown()
+        }
+
+        // Hide loading and show success
+        progressApply.visibility = View.GONE
+        btnApply.isEnabled = true
+
+        view?.let {
+            Snackbar.make(it, R.string.wallpaper_applied, Snackbar.LENGTH_SHORT).show()
+        }
+
+        // Update UI to show next wallpaper
+        refreshUI()
+    }
+
+    companion object {
+        private const val KEY_CURRENT_INDEX = "rotation_current_index"
     }
 }

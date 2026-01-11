@@ -1,5 +1,35 @@
 <resources>
+    <!-- Base Colors -->
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
-    <color name="primary">#000000</color>
+
+    <!-- Material 3 Dark Theme -->
+    <color name="md_theme_dark_primary">#FFFFFF</color>
+    <color name="md_theme_dark_onPrimary">#000000</color>
+    <color name="md_theme_dark_primaryContainer">#1A1A1A</color>
+    <color name="md_theme_dark_onPrimaryContainer">#FFFFFF</color>
+
+    <color name="md_theme_dark_secondary">#B0B0B0</color>
+    <color name="md_theme_dark_onSecondary">#000000</color>
+
+    <color name="md_theme_dark_background">#000000</color>
+    <color name="md_theme_dark_onBackground">#FFFFFF</color>
+
+    <color name="md_theme_dark_surface">#121212</color>
+    <color name="md_theme_dark_surfaceVariant">#1A1A1A</color>
+    <color name="md_theme_dark_onSurface">#FFFFFF</color>
+    <color name="md_theme_dark_onSurfaceVariant">#B0B0B0</color>
+
+    <color name="md_theme_dark_error">#CF6679</color>
+    <color name="md_theme_dark_onError">#000000</color>
+
+    <!-- Accent (deep red from wallpapers) -->
+    <color name="accent">#8B0000</color>
+
+    <!-- Legacy aliases -->
+    <color name="primary">@color/md_theme_dark_primary</color>
+    <color name="surface">@color/md_theme_dark_surface</color>
+    <color name="surfaceVariant">@color/md_theme_dark_surfaceVariant</color>
+    <color name="textPrimary">@color/md_theme_dark_onBackground</color>
+    <color name="textSecondary">@color/md_theme_dark_onSurfaceVariant</color>
 </resources>

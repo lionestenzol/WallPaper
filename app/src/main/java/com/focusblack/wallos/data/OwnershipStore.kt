@@ -1,14 +1,19 @@
 package com.focusblack.wallos.data
 
 import android.content.Context
+import androidx.core.content.edit
 import androidx.preference.PreferenceManager
 
 class OwnershipStore(private val context: Context) {
     private val prefs = PreferenceManager.getDefaultSharedPreferences(context)
 
-    fun isOwned(sku: String): Boolean = prefs.getBoolean("own_$sku", false)
+    companion object {
+        private const val KEY_PRO = "own_pro_unlock"
+    }
 
-    fun setOwned(sku: String, owned: Boolean) {
-        prefs.edit().putBoolean("own_$sku", owned).apply()
+    fun isPro(): Boolean = prefs.getBoolean(KEY_PRO, false)
+
+    fun setPro(owned: Boolean) {
+        prefs.edit { putBoolean(KEY_PRO, owned) }
     }
 }
