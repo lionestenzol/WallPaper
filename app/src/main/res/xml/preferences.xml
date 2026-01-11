@@ -9,7 +9,8 @@
         <SwitchPreferenceCompat
             android:key="auto_rotate"
             android:title="@string/pref_auto_rotate"
-            android:summary="@string/pref_auto_rotate_summary"
+            android:summaryOn="@string/pref_auto_rotate_summary"
+            android:summaryOff="@string/pref_auto_rotate_summary_off"
             android:defaultValue="true"
             app:iconSpaceReserved="false"/>
 

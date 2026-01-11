@@ -3,6 +3,7 @@ package com.focusblack.wallos.ui
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.preference.PreferenceManager
 import androidx.fragment.app.Fragment
 import com.focusblack.wallos.R
 import com.focusblack.wallos.core.RotationScheduler
@@ -10,6 +11,10 @@ import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
+
+    companion object {
+        private const val PREF_AUTO_ROTATE = "auto_rotate"
+    }
 
     private val todayFragment = TodayFragment()
     private val packsFragment = PacksFragment()
@@ -19,8 +24,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Schedule daily rotation
-        RotationScheduler.scheduleDailyRotation(this)
+        // Schedule daily rotation when enabled
+        val prefs = PreferenceManager.getDefaultSharedPreferences(this)
+        if (prefs.getBoolean(PREF_AUTO_ROTATE, true)) {
+            RotationScheduler.scheduleDailyRotation(this)
+        } else {
+            RotationScheduler.cancel(this)
+        }
 
         // Setup toolbar
         val toolbar = findViewById<MaterialToolbar>(R.id.toolbar)
