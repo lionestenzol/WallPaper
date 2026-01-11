@@ -19,6 +19,7 @@ import com.focusblack.wallos.core.WallpaperEngine
 import com.focusblack.wallos.data.cache.WallpaperAssetCache
 import com.focusblack.wallos.data.ReviewGate
 import com.focusblack.wallos.model.Wall
+import com.focusblack.wallos.util.ErrorNotifier
 import com.focusblack.wallos.util.ReviewHelper
 import com.focusblack.wallos.widget.WidgetUpdater
 import com.google.android.material.button.MaterialButton
@@ -87,9 +88,13 @@ class TodayFragment : Fragment() {
             ivPreview.setImageDrawable(null)
             viewLifecycleOwner.lifecycleScope.launch {
                 val cache = WallpaperAssetCache(requireContext().applicationContext)
-                val bitmap = cache.loadBitmap(assetUrl)
-                if (bitmap != null) {
+                val bitmapResult = cache.loadBitmap(assetUrl)
+                bitmapResult.onSuccess { bitmap ->
                     ivPreview.setImageBitmap(bitmap)
+                }.onFailure {
+                    showRetrySnackbar(getString(R.string.error_wallpaper_download_failed)) {
+                        loadWallpaperPreview(wall)
+                    }
                 }
             }
         } else {
@@ -120,8 +125,11 @@ class TodayFragment : Fragment() {
         progressApply.visibility = View.VISIBLE
 
         viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Default) {
+            var failure: WallpaperEngine.ApplyFailure? = null
             val applied = withContext(Dispatchers.IO) {
-                WallpaperEngine.applyWall(requireContext(), wall)
+                WallpaperEngine.applyWall(requireContext(), wall) { error ->
+                    failure = error
+                }
             }
             ensureActive()
             if (applied && isAdded && isActive) {
@@ -152,12 +160,14 @@ class TodayFragment : Fragment() {
                 btnApply.isEnabled = true
 
                 view?.let {
-                    val message = if (applied) {
-                        R.string.wallpaper_applied
+                    if (applied) {
+                        Snackbar.make(it, R.string.wallpaper_applied, Snackbar.LENGTH_SHORT).show()
                     } else {
-                        R.string.error_apply_failed
+                        val message = failure?.userMessage ?: getString(R.string.error_apply_failed)
+                        ErrorNotifier.showRetrySnackbar(it, message) {
+                            applyCurrentWallpaper(reviewGate)
+                        }
                     }
-                    Snackbar.make(it, message, Snackbar.LENGTH_SHORT).show()
                 }
 
                 if (applied) {
@@ -171,5 +181,9 @@ class TodayFragment : Fragment() {
 
     companion object {
         private const val KEY_CURRENT_INDEX = "rotation_current_index"
+    }
+
+    private fun showRetrySnackbar(message: String, retry: () -> Unit) {
+        view?.let { ErrorNotifier.showRetrySnackbar(it, message, retry) }
     }
 }

@@ -69,5 +69,11 @@
     <!-- Errors -->
     <string name="error_wallpaper_not_found">Wallpaper not found</string>
     <string name="error_apply_failed">Failed to apply wallpaper</string>
+    <string name="error_wallpaper_download_failed">Could not download wallpaper. Check your connection.</string>
+    <string name="error_wallpaper_decode_failed">Could not load wallpaper image.</string>
+    <string name="error_remote_packs_failed">Could not refresh packs. Check your connection.</string>
     <string name="error_billing_unavailable">Billing unavailable</string>
+    <string name="action_retry">Retry</string>
+    <string name="notification_apply_failed_title">Wallpaper apply failed</string>
+    <string name="notification_pack_fetch_failed_title">Pack refresh failed</string>
 </resources>

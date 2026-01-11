@@ -9,6 +9,7 @@ import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.util.Log
 import androidx.core.content.ContextCompat
+import com.focusblack.wallos.R
 import com.focusblack.wallos.data.cache.WallpaperAssetCache
 import com.focusblack.wallos.model.Wall
 import kotlinx.coroutines.Dispatchers
@@ -17,51 +18,112 @@ import kotlinx.coroutines.withContext
 object WallpaperEngine {
     private const val TAG = "WallpaperEngine"
 
-    suspend fun applyWall(context: Context, wall: Wall): Boolean {
+    data class ApplyFailure(
+        val userMessage: String,
+        val logMessage: String,
+        val throwable: Throwable? = null
+    )
+
+    suspend fun applyWall(
+        context: Context,
+        wall: Wall,
+        onFailure: ((ApplyFailure) -> Unit)? = null
+    ): Boolean {
         return try {
             Log.i(TAG, "Applying wall: ${wall.id} title=${wall.title}")
 
-            val bitmap = loadBitmap(context, wall) ?: return false
+            val loadResult = loadBitmap(context, wall)
+            val bitmap = when (loadResult) {
+                is LoadBitmapResult.Success -> loadResult.bitmap
+                is LoadBitmapResult.Failure -> {
+                    val failure = ApplyFailure(
+                        userMessage = loadResult.userMessage,
+                        logMessage = loadResult.logMessage,
+                        throwable = loadResult.throwable
+                    )
+                    Log.e(TAG, failure.logMessage, failure.throwable)
+                    onFailure?.invoke(failure)
+                    return false
+                }
+            }
 
-            // Set as wallpaper
             val wallpaperManager = WallpaperManager.getInstance(context)
             wallpaperManager.setBitmap(bitmap)
 
             Log.i(TAG, "Successfully applied wallpaper: ${wall.title}")
             true
         } catch (e: Exception) {
-            Log.e(TAG, "Failed to apply wallpaper: ${wall.title}", e)
+            val failure = ApplyFailure(
+                userMessage = context.getString(R.string.error_apply_failed),
+                logMessage = "Failed to apply wallpaper id=${wall.id} title=${wall.title}",
+                throwable = e
+            )
+            Log.e(TAG, failure.logMessage, failure.throwable)
+            onFailure?.invoke(failure)
             false
         }
     }
 
-    private suspend fun loadBitmap(context: Context, wall: Wall): Bitmap? {
+    private sealed class LoadBitmapResult {
+        data class Success(val bitmap: Bitmap) : LoadBitmapResult()
+        data class Failure(
+            val userMessage: String,
+            val logMessage: String,
+            val throwable: Throwable? = null
+        ) : LoadBitmapResult()
+    }
+
+    private suspend fun loadBitmap(context: Context, wall: Wall): LoadBitmapResult {
         val assetUrl = wall.assetUrl
         if (!assetUrl.isNullOrBlank()) {
             val cache = WallpaperAssetCache(context.applicationContext)
-            val file = cache.getOrDownload(assetUrl) ?: return null
-            return withContext(Dispatchers.IO) {
-                BitmapFactory.decodeFile(file.absolutePath)
-            }
+            val fileResult = cache.getOrDownload(assetUrl)
+            return fileResult.fold(
+                onSuccess = { file ->
+                    val bitmap = withContext(Dispatchers.IO) {
+                        BitmapFactory.decodeFile(file.absolutePath)
+                    }
+                    if (bitmap == null) {
+                        LoadBitmapResult.Failure(
+                            userMessage = context.getString(R.string.error_wallpaper_decode_failed),
+                            logMessage = "Failed to decode wallpaper. id=${wall.id} url=$assetUrl file=${file.absolutePath}"
+                        )
+                    } else {
+                        LoadBitmapResult.Success(bitmap)
+                    }
+                },
+                onFailure = { error ->
+                    LoadBitmapResult.Failure(
+                        userMessage = context.getString(R.string.error_wallpaper_download_failed),
+                        logMessage = "Failed to download wallpaper. id=${wall.id} url=$assetUrl",
+                        throwable = error
+                    )
+                }
+            )
         }
 
+        val drawableName = wall.drawableName
         val resourceId = context.resources.getIdentifier(
-            wall.drawableName,
+            drawableName,
             "drawable",
             context.packageName
         )
         if (resourceId == 0) {
-            Log.e(TAG, "Drawable not found: ${wall.drawableName}")
-            return null
+            return LoadBitmapResult.Failure(
+                userMessage = context.getString(R.string.error_wallpaper_not_found),
+                logMessage = "Drawable not found for wall id=${wall.id} drawable=$drawableName"
+            )
         }
 
         val drawable = ContextCompat.getDrawable(context, resourceId)
         if (drawable == null) {
-            Log.e(TAG, "Failed to load drawable: ${wall.drawableName}")
-            return null
+            return LoadBitmapResult.Failure(
+                userMessage = context.getString(R.string.error_wallpaper_not_found),
+                logMessage = "Failed to load drawable for wall id=${wall.id} drawable=$drawableName"
+            )
         }
 
-        return drawableToBitmap(context, drawable)
+        return LoadBitmapResult.Success(drawableToBitmap(context, drawable))
     }
 
     private fun drawableToBitmap(context: Context, drawable: Drawable): Bitmap {

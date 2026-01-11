@@ -1,24 +1,34 @@
 package com.focusblack.wallos.data
 
+import android.util.Log
 import com.focusblack.wallos.model.Pack
 import com.focusblack.wallos.model.Wall
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONArray
 import org.json.JSONObject
+import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.URL
 
 class PackRepository {
 
-    suspend fun fetchRemotePacks(url: String): List<Pack> = withContext(Dispatchers.IO) {
-        runCatching {
+    suspend fun fetchRemotePacks(url: String): Result<List<Pack>> = withContext(Dispatchers.IO) {
+        try {
             val connection = URL(url).openConnection() as HttpURLConnection
             connection.connectTimeout = TIMEOUT_MS
             connection.readTimeout = TIMEOUT_MS
+            connection.instanceFollowRedirects = true
+            val responseCode = connection.responseCode
+            if (responseCode !in 200..299) {
+                throw IOException("Unexpected HTTP $responseCode while fetching packs from $url")
+            }
             val body = connection.inputStream.bufferedReader().use { it.readText() }
-            parsePacks(body)
-        }.getOrElse { emptyList() }
+            Result.success(parsePacks(body))
+        } catch (e: Exception) {
+            Log.e(TAG, "Failed to fetch remote packs. url=$url", e)
+            Result.failure(e)
+        }
     }
 
     private fun parsePacks(json: String): List<Pack> {
@@ -54,6 +64,7 @@ class PackRepository {
     }
 
     companion object {
+        private const val TAG = "PackRepository"
         private const val TIMEOUT_MS = 15_000
     }
 }

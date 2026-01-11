@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.focusblack.wallos.R
 import com.focusblack.wallos.data.cache.WallpaperAssetCache
 import com.focusblack.wallos.model.Pack
+import com.focusblack.wallos.util.ErrorNotifier
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -52,10 +53,24 @@ class PackAdapter(
         } else if (previewImage.startsWith("http")) {
             holder.ivThumb.setImageDrawable(null)
             scope.launch {
-                val bitmap = cache.loadBitmap(previewImage)
+                val bitmapResult = cache.loadBitmap(previewImage)
                 withContext(Dispatchers.Main) {
-                    if (holder.ivThumb.tag == previewImage && bitmap != null) {
-                        holder.ivThumb.setImageBitmap(bitmap)
+                    bitmapResult.onSuccess { bitmap ->
+                        if (holder.ivThumb.tag == previewImage) {
+                            holder.ivThumb.setImageBitmap(bitmap)
+                        }
+                    }.onFailure {
+                        if (holder.ivThumb.tag == previewImage) {
+                            ErrorNotifier.showRetrySnackbar(
+                                holder.itemView,
+                                context.getString(R.string.error_wallpaper_download_failed)
+                            ) {
+                                val bindingPosition = holder.bindingAdapterPosition
+                                if (bindingPosition != RecyclerView.NO_POSITION) {
+                                    notifyItemChanged(bindingPosition)
+                                }
+                            }
+                        }
                     }
                 }
             }

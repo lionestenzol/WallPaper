@@ -6,6 +6,7 @@ import androidx.preference.PreferenceManager
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.focusblack.wallos.widget.WidgetUpdater
+import com.focusblack.wallos.util.ErrorNotifier
 
 class RotationWorker(
     context: Context,
@@ -26,7 +27,9 @@ class RotationWorker(
         val wall = pack.walls[currentIndex]
 
         // Apply wallpaper
-        val applied = WallpaperEngine.applyWall(applicationContext, wall)
+        val applied = WallpaperEngine.applyWall(applicationContext, wall) { failure ->
+            ErrorNotifier.showApplyFailureNotification(applicationContext, wall, failure.userMessage)
+        }
         if (!applied) {
             return Result.retry()
         }
