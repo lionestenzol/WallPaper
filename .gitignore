@@ -7,3 +7,21 @@
 .externalNativeBuild
 /*.iml
 /.cxx
+
+# Build artifacts
+app/build/
+*.apk
+*.aab
+
+# Android Lint
+*.xml
+!app/src/main/res/**/*.xml
+!app/src/main/AndroidManifest.xml
+!build.gradle
+!settings.gradle
+
+# IDE files
+.idea/
+*.iml
+.gradle/
+local.properties
