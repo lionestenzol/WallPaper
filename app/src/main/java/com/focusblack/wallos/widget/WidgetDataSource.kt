@@ -29,12 +29,12 @@ object WidgetDataSource {
         }
         val currentIndex = prefs.getInt(KEY_CURRENT_INDEX, 0)
         val wall = pack.walls.getOrNull(currentIndex) ?: return false
-        val applied = WallpaperEngine.applyWall(context, wall)
-        if (applied) {
+        val result = WallpaperEngine.applyWall(context, wall)
+        if (result.success) {
             StreakEngine.onDailyApplied(context)
             val nextIndex = (currentIndex + 1) % pack.walls.size
             prefs.edit { putInt(KEY_CURRENT_INDEX, nextIndex) }
         }
-        return applied
+        return result.success
     }
 }
