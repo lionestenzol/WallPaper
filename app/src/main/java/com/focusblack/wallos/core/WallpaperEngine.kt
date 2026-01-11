@@ -11,8 +11,16 @@ import com.focusblack.wallos.model.Wall
 
 object WallpaperEngine {
     private const val TAG = "WallpaperEngine"
+    const val KEY_LAST_APPLY_RESULT = "wallpaper_last_apply_result"
+    const val KEY_LAST_APPLY_ERROR = "wallpaper_last_apply_error"
+    const val KEY_LAST_APPLY_TIME = "wallpaper_last_apply_time"
 
-    fun applyWall(context: Context, wall: Wall): Boolean {
+    data class ApplyResult(
+        val success: Boolean,
+        val error: String? = null
+    )
+
+    fun applyWall(context: Context, wall: Wall): ApplyResult {
         return try {
             Log.i(TAG, "Applying wall: ${wall.id} title=${wall.title}")
 
@@ -25,14 +33,14 @@ object WallpaperEngine {
 
             if (resourceId == 0) {
                 Log.e(TAG, "Drawable not found: ${wall.drawableName}")
-                return false
+                return ApplyResult(false, "drawable_not_found")
             }
 
             // Load drawable and convert to bitmap
             val drawable = ContextCompat.getDrawable(context, resourceId)
             if (drawable == null) {
                 Log.e(TAG, "Failed to load drawable: ${wall.drawableName}")
-                return false
+                return ApplyResult(false, "drawable_load_failed")
             }
 
             val bitmap = drawableToBitmap(context, drawable)
@@ -42,10 +50,10 @@ object WallpaperEngine {
             wallpaperManager.setBitmap(bitmap)
 
             Log.i(TAG, "Successfully applied wallpaper: ${wall.title}")
-            true
+            ApplyResult(true)
         } catch (e: Exception) {
             Log.e(TAG, "Failed to apply wallpaper: ${wall.title}", e)
-            false
+            ApplyResult(false, e.message ?: e.javaClass.simpleName)
         }
     }
 

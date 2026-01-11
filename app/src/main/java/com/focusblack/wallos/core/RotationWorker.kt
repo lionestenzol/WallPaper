@@ -25,8 +25,13 @@ class RotationWorker(
         val wall = pack.walls[currentIndex]
 
         // Apply wallpaper
-        val applied = WallpaperEngine.applyWall(applicationContext, wall)
-        if (!applied) {
+        val applyResult = WallpaperEngine.applyWall(applicationContext, wall)
+        prefs.edit {
+            putBoolean(WallpaperEngine.KEY_LAST_APPLY_RESULT, applyResult.success)
+            putString(WallpaperEngine.KEY_LAST_APPLY_ERROR, applyResult.error)
+            putLong(WallpaperEngine.KEY_LAST_APPLY_TIME, System.currentTimeMillis())
+        }
+        if (!applyResult.success) {
             return Result.retry()
         }
         StreakEngine.onDailyApplied(applicationContext)

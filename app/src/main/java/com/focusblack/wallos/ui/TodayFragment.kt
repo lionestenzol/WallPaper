@@ -103,8 +103,13 @@ class TodayFragment : Fragment() {
         progressApply.visibility = View.VISIBLE
 
         viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Default) {
-            val applied = WallpaperEngine.applyWall(requireContext(), wall)
-            if (applied) {
+            val applyResult = WallpaperEngine.applyWall(requireContext(), wall)
+            prefs.edit {
+                putBoolean(WallpaperEngine.KEY_LAST_APPLY_RESULT, applyResult.success)
+                putString(WallpaperEngine.KEY_LAST_APPLY_ERROR, applyResult.error)
+                putLong(WallpaperEngine.KEY_LAST_APPLY_TIME, System.currentTimeMillis())
+            }
+            if (applyResult.success) {
                 StreakEngine.onDailyApplied(requireContext())
 
                 // Advance to next wallpaper
@@ -127,7 +132,7 @@ class TodayFragment : Fragment() {
                 btnApply.isEnabled = true
 
                 view?.let {
-                    val message = if (applied) {
+                    val message = if (applyResult.success) {
                         R.string.wallpaper_applied
                     } else {
                         R.string.error_apply_failed
@@ -135,7 +140,7 @@ class TodayFragment : Fragment() {
                     Snackbar.make(it, message, Snackbar.LENGTH_SHORT).show()
                 }
 
-                if (applied) {
+                if (applyResult.success) {
                     // Update UI to show next wallpaper
                     refreshUI()
                 }

@@ -5,11 +5,15 @@ import androidx.lifecycle.lifecycleScope
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreferenceCompat
+import androidx.preference.PreferenceManager
 import com.focusblack.wallos.R
 import com.focusblack.wallos.billing.BillingRepository
 import com.focusblack.wallos.core.RotationScheduler
+import com.focusblack.wallos.core.WallpaperEngine
 import com.focusblack.wallos.data.OwnershipStore
 import com.google.android.material.snackbar.Snackbar
+import java.text.DateFormat
+import java.util.Date
 import kotlinx.coroutines.launch
 
 class SettingsFragment : PreferenceFragmentCompat() {
@@ -39,6 +43,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
     override fun onResume() {
         super.onResume()
         updateProUI()
+        updateLastApplyStatus()
     }
 
     private fun setupAutoRotate() {
@@ -80,6 +85,30 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 unlockProPref?.summary = "${getString(R.string.pro_unlock_desc)} - $price"
             }
         }
+    }
+
+    private fun updateLastApplyStatus() {
+        val lastApplyPref = findPreference<Preference>("wallpaper_last_apply_status")
+        val prefs = PreferenceManager.getDefaultSharedPreferences(requireContext())
+        val lastApplyTime = prefs.getLong(WallpaperEngine.KEY_LAST_APPLY_TIME, 0L)
+
+        if (lastApplyTime == 0L) {
+            lastApplyPref?.summary = getString(R.string.pref_last_apply_status_none)
+            return
+        }
+
+        val lastApplySuccess = prefs.getBoolean(WallpaperEngine.KEY_LAST_APPLY_RESULT, false)
+        val lastApplyError = prefs.getString(WallpaperEngine.KEY_LAST_APPLY_ERROR, null)
+        val statusLabel = if (lastApplySuccess) {
+            getString(R.string.pref_last_apply_status_success)
+        } else if (!lastApplyError.isNullOrBlank()) {
+            getString(R.string.pref_last_apply_status_failure_with_reason, lastApplyError)
+        } else {
+            getString(R.string.pref_last_apply_status_failure)
+        }
+        val timeLabel = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT)
+            .format(Date(lastApplyTime))
+        lastApplyPref?.summary = getString(R.string.pref_last_apply_status_summary_fmt, statusLabel, timeLabel)
     }
 
     private fun setupRestorePurchases() {
