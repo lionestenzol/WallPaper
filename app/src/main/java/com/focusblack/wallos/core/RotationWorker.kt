@@ -1,6 +1,7 @@
 package com.focusblack.wallos.core
 
 import android.content.Context
+import android.util.Log
 import androidx.core.content.edit
 import androidx.preference.PreferenceManager
 import androidx.work.CoroutineWorker
@@ -33,8 +34,20 @@ class RotationWorker(
 
         // Get current index and cycle to next wallpaper
         val currentIndex = prefs.getInt(KEY_CURRENT_WALL_INDEX, 0)
-        val nextIndex = (currentIndex + 1) % pack.walls.size
-        val wall = pack.walls[currentIndex]
+        val lastIndex = pack.walls.lastIndex
+        val safeIndex = if (currentIndex in 0..lastIndex) {
+            currentIndex
+        } else {
+            Log.w(TAG, "Rotation index $currentIndex out of range (0..$lastIndex). Resetting to 0.")
+            prefs.edit { putInt(KEY_CURRENT_WALL_INDEX, 0) }
+            0
+        }
+        val nextIndex = (safeIndex + 1) % pack.walls.size
+        val wall = pack.walls.getOrNull(safeIndex) ?: run {
+            Log.w(TAG, "Rotation index $safeIndex invalid after correction. Resetting to 0.")
+            prefs.edit { putInt(KEY_CURRENT_WALL_INDEX, 0) }
+            pack.walls.first()
+        }
 
         // Apply wallpaper
         val target = SettingsFragment.getApplyTarget(applicationContext)
