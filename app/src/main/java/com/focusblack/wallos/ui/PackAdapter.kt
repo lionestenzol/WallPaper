@@ -14,6 +14,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.net.URL
 
 class PackAdapter(
     private val packs: List<Pack>,
@@ -49,7 +50,7 @@ class PackAdapter(
         holder.ivThumb.tag = previewImage
         if (previewImage.isNullOrBlank()) {
             holder.ivThumb.setImageDrawable(null)
-        } else if (previewImage.startsWith("http")) {
+        } else if (isHttpsUrl(previewImage)) {
             holder.ivThumb.setImageDrawable(null)
             scope.launch {
                 val bitmap = cache.loadBitmap(previewImage)
@@ -84,4 +85,8 @@ class PackAdapter(
     }
 
     override fun getItemCount(): Int = packs.size
+
+    private fun isHttpsUrl(url: String): Boolean {
+        return runCatching { URL(url).protocol.equals("https", ignoreCase = true) }.getOrDefault(false)
+    }
 }
