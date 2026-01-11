@@ -1,0 +1,41 @@
+<problems>
+<problem>
+  <file>file://$PROJECT_DIR$/app/src/main/java/com/focusblack/wallos/billing/BillingManager.kt</file>
+  <line>12</line>
+  <module>focus-black.app.main</module>
+  <package>com.focusblack.wallos.billing</package>
+  <entry_point TYPE="method" FQNAME="com.focusblack.wallos.billing.BillingManager BillingManager(android.content.Context context)" />
+  <problem_class id="CanBeParameter" severity="WARNING" attribute_key="WARNING_ATTRIBUTES">Constructor parameter is never used as a property</problem_class>
+  <description>Constructor parameter is never used as a property</description>
+  <highlighted_element>val</highlighted_element>
+  <language>kotlin</language>
+  <offset>12</offset>
+  <length>3</length>
+</problem>
+<problem>
+  <file>file://$PROJECT_DIR$/app/src/main/java/com/focusblack/wallos/data/OwnershipStore.kt</file>
+  <line>7</line>
+  <module>focus-black.app.main</module>
+  <package>com.focusblack.wallos.data</package>
+  <entry_point TYPE="method" FQNAME="com.focusblack.wallos.data.OwnershipStore OwnershipStore(android.content.Context context)" />
+  <problem_class id="CanBeParameter" severity="WARNING" attribute_key="WARNING_ATTRIBUTES">Constructor parameter is never used as a property</problem_class>
+  <description>Constructor parameter is never used as a property</description>
+  <highlighted_element>val</highlighted_element>
+  <language>kotlin</language>
+  <offset>29</offset>
+  <length>3</length>
+</problem>
+<problem>
+  <file>file://$PROJECT_DIR$/app/src/main/java/com/focusblack/wallos/data/ReviewGate.kt</file>
+  <line>6</line>
+  <module>focus-black.app.main</module>
+  <package>com.focusblack.wallos.data</package>
+  <entry_point TYPE="method" FQNAME="com.focusblack.wallos.data.ReviewGate ReviewGate(android.content.Context context)" />
+  <problem_class id="CanBeParameter" severity="WARNING" attribute_key="WARNING_ATTRIBUTES">Constructor parameter is never used as a property</problem_class>
+  <description>Constructor parameter is never used as a property</description>
+  <highlighted_element>Co</highlighted_element>
+  <language>kotlin</language>
+  <offset>26</offset>
+  <length>3</length>
+</problem>
+</problems>

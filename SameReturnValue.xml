@@ -1,0 +1,16 @@
+<problems>
+<problem>
+  <file>file://$PROJECT_DIR$/app/src/main/java/com/focusblack/wallos/ui/MainActivity.kt</file>
+  <line>55</line>
+  <module>focus-black.app.main</module>
+  <package>com.focusblack.wallos.ui</package>
+  <entry_point TYPE="method" FQNAME="com.focusblack.wallos.ui.MainActivity boolean replaceFragment(androidx.fragment.app.Fragment fragment)" />
+  <problem_class id="SameReturnValue" severity="WARNING" attribute_key="WARNING_ATTRIBUTES">Method always returns the same value</problem_class>
+  <hints />
+  <description>Method &lt;code&gt;replaceFragment()&lt;/code&gt; always returns &lt;code&gt;true&lt;/code&gt;</description>
+  <highlighted_element>replaceFragment</highlighted_element>
+  <language>kotlin</language>
+  <offset>-47</offset>
+  <length>15</length>
+</problem>
+</problems>

@@ -1,0 +1,57 @@
+<problems>
+<problem>
+  <file>file://$PROJECT_DIR$/app/src/main/java/com/focusblack/wallos/billing/BillingManager.kt</file>
+  <line>15</line>
+  <module>focus-black.app.main</module>
+  <package>com.focusblack.wallos.billing</package>
+  <entry_point TYPE="field" FQNAME="com.focusblack.wallos.billing.BillingManager TAG" />
+  <problem_class id="PrivatePropertyName" severity="WEAK WARNING" attribute_key="INFO_ATTRIBUTES">Private property naming convention</problem_class>
+  <description>Private property name &lt;code&gt;&lt;/code&gt; should not start with an uppercase letter #loc</description>
+  <highlighted_element />
+  <language />
+</problem>
+<problem>
+  <file>file://$PROJECT_DIR$/app/src/main/java/com/focusblack/wallos/core/RotationWorker.kt</file>
+  <line>13</line>
+  <module>focus-black.app.main</module>
+  <package>com.focusblack.wallos.core</package>
+  <entry_point TYPE="field" FQNAME="com.focusblack.wallos.core.RotationWorker KEY_CURRENT_WALL_INDEX" />
+  <problem_class id="PrivatePropertyName" severity="WEAK WARNING" attribute_key="INFO_ATTRIBUTES">Private property naming convention</problem_class>
+  <description>Private property name &lt;code&gt;&lt;/code&gt; should not contain underscores in the middle or the end #loc</description>
+  <highlighted_element />
+  <language />
+</problem>
+<problem>
+  <file>file://$PROJECT_DIR$/app/src/main/java/com/focusblack/wallos/data/ReviewGate.kt</file>
+  <line>9</line>
+  <module>focus-black.app.main</module>
+  <package>com.focusblack.wallos.data</package>
+  <entry_point TYPE="field" FQNAME="com.focusblack.wallos.data.ReviewGate KEY_REVIEWED" />
+  <problem_class id="PrivatePropertyName" severity="WEAK WARNING" attribute_key="INFO_ATTRIBUTES">Private property naming convention</problem_class>
+  <description>Private property name &lt;code&gt;&lt;/code&gt; should not contain underscores in the middle or the end #loc</description>
+  <highlighted_element />
+  <language />
+</problem>
+<problem>
+  <file>file://$PROJECT_DIR$/app/src/main/java/com/focusblack/wallos/data/ReviewGate.kt</file>
+  <line>8</line>
+  <module>focus-black.app.main</module>
+  <package>com.focusblack.wallos.data</package>
+  <entry_point TYPE="field" FQNAME="com.focusblack.wallos.data.ReviewGate KEY_APPLIES" />
+  <problem_class id="PrivatePropertyName" severity="WEAK WARNING" attribute_key="INFO_ATTRIBUTES">Private property naming convention</problem_class>
+  <description>Private property name &lt;code&gt;&lt;/code&gt; should not contain underscores in the middle or the end #loc</description>
+  <highlighted_element />
+  <language />
+</problem>
+<problem>
+  <file>file://$PROJECT_DIR$/app/src/main/java/com/focusblack/wallos/ui/TodayFragment.kt</file>
+  <line>32</line>
+  <module>focus-black.app.main</module>
+  <package>com.focusblack.wallos.ui</package>
+  <entry_point TYPE="field" FQNAME="com.focusblack.wallos.ui.TodayFragment KEY_CURRENT_INDEX" />
+  <problem_class id="PrivatePropertyName" severity="WEAK WARNING" attribute_key="INFO_ATTRIBUTES">Private property naming convention</problem_class>
+  <description>Private property name &lt;code&gt;&lt;/code&gt; should not contain underscores in the middle or the end #loc</description>
+  <highlighted_element />
+  <language />
+</problem>
+</problems>

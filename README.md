@@ -2,179 +2,247 @@
 
 Daily AMOLED ritual wallpaper app with automatic rotation, streak tracking, and minimalist black designs.
 
-## 🎯 Overview
+## Overview
 
-**focus-black** is a functional Android wallpaper app that automatically rotates through a collection of AMOLED-optimized minimal wallpapers. Built with Kotlin, Material3, and WorkManager for reliable daily rotation.
+**focus-black** is an Android wallpaper app that automatically rotates through a collection of AMOLED-optimized minimal wallpapers. Built with Kotlin, Material 3, and WorkManager for reliable daily rotation.
 
 - **Package**: `com.focusblack.wallos`
 - **Min SDK**: 26 (Android 8.0+)
-- **Target SDK**: 34 (Android 14)
+- **Target SDK**: 36 (Android 15)
 
-## ✨ Features
+## Features
 
-### Currently Implemented
-- ✅ **Automatic Daily Rotation** - WorkManager cycles through wallpapers every 24 hours
-- ✅ **Manual Apply** - Tap to instantly apply the next wallpaper in rotation
-- ✅ **Streak Tracking** - Tracks consecutive days of wallpaper applies
-- ✅ **7 AMOLED Wallpapers** - Pure black backgrounds for power savings
-- ✅ **Review Gate** - In-app review prompt after 3 applies
-- ✅ **Bottom Navigation** - Today / Packs / Widgets tabs
-- ✅ **Material3 UI** - Modern design with dark theme
+### Implemented
+- **Automatic Daily Rotation** - WorkManager cycles through wallpapers every 24 hours
+- **Manual Apply** - Tap to instantly apply the current wallpaper
+- **Streak Tracking** - Tracks consecutive days of wallpaper application
+- **7 AMOLED Wallpapers** - Pure black backgrounds for power savings
+- **Review Gate** - In-app review prompt after 3 applies
+- **Bottom Navigation** - Today / Packs / Widgets tabs
+- **Material 3 Dark UI** - Modern design with pure black theme
+- **Pro Unlock** - Single IAP unlocks all content
+- **Settings Screen** - Auto-rotate toggle, restore purchases, pro status
 
-### Planned Features
-- 🔜 Serialized premium packs with Play Billing
-- 🔜 Home screen widgets (Focus Ring, Mode Sigil, Date Glyph, Battery Halo)
-- 🔜 Live wallpaper support
-- 🔜 Additional wallpaper packs
+### Planned
+- Functional home screen widgets
+- Additional wallpaper packs
+- Full-screen wallpaper preview
 
-**Play Billing SKUs**: `pro_unlock`, `pack_genesis_001`
-
-## 🎨 Genesis Pack Wallpapers
+## Genesis Pack Wallpapers
 
 All wallpapers feature **pure black (#000000)** backgrounds optimized for AMOLED displays:
 
-1. **Genesis Prime** - Minimal white dot
-2. **Genesis Seal** - White triangle symbol
-3. **Horizon** - Thin horizontal line
-4. **Circle** - Large centered white circle
-5. **Crescent** - Moon-like crescent shape
-6. **Grid** - Subtle gray grid pattern
-7. **Accent Line** - Deep red vertical accent
+| # | Name | Description |
+|---|------|-------------|
+| 1 | Genesis Prime | Minimal white dot |
+| 2 | Genesis Seal | White triangle symbol |
+| 3 | Horizon | Thin horizontal line |
+| 4 | Circle | Large centered white circle |
+| 5 | Crescent | Moon-like crescent shape |
+| 6 | Grid | Subtle gray grid pattern |
+| 7 | Accent Line | Deep red vertical accent |
 
-### Preview Gallery
-Open `wallpaper-gallery.html` in a browser to preview all 7 wallpapers with interactive full-screen views.
+## Getting Started
 
-## 🚀 Getting Started
+### Prerequisites
+- Android Studio Hedgehog or newer
+- JDK 17
+- Android device or emulator (API 26+)
 
-### Build & Install
+### Build & Run
 
-1. **Open in Android Studio**
-   ```bash
-   # Clone or open the project
-   cd focus-black
-   # Android Studio will auto-sync Gradle
-   ```
+```bash
+# Clone the repository
+git clone <repo-url>
+cd focus-black
 
-2. **Connect Device or Emulator**
-   - Physical device: Enable USB debugging
-   - Emulator: Start any Android 8.0+ virtual device
+# Build debug APK
+./gradlew assembleDebug
 
-3. **Run**
-   - Click Run button (▶️) or press `Shift + F10`
-   - App will install and launch automatically
+# Install on connected device
+./gradlew installDebug
+```
+
+Or open in Android Studio and click Run.
 
 ### Usage
 
-1. Launch **focus-black** from your app drawer
+1. Launch **focus-black** from app drawer
 2. Navigate to **Today** tab
-3. Tap **"Apply Today's Wallpaper"** button
+3. Tap **"Apply Wallpaper"** button
 4. Wallpaper changes immediately
-5. Each tap cycles to the next wallpaper (1→2→3...→7→1)
-6. Check your streak counter to track daily usage
+5. Auto-rotation continues in background
 
-### Automatic Rotation
-- WorkManager schedules daily rotation at 24-hour intervals
-- Runs in background even when app is closed
-- Continues sequence from last applied wallpaper
-
-## 📱 UI Preview
-
-Open `ui-preview.html` in a browser to see an interactive phone mockup with working navigation and buttons.
-
-## 🛠️ Technical Details
-
-### Architecture
-- **MVVM pattern** with repository layer
-- **WorkManager** for reliable background rotation
-- **SharedPreferences** for state persistence
-- **Material3** components and theming
-
-### Key Components
-
-#### Core
-- `WallpaperEngine` - Applies wallpapers via WallpaperManager API
-- `RotationScheduler` - Schedules periodic WorkManager tasks
-- `RotationWorker` - Background worker for daily rotation
-- `StreakEngine` - Tracks consecutive daily applies
-- `PackRegistry` - Centralized wallpaper catalog
-
-#### Data
-- `UserRepository` - User state management
-- `OwnershipStore` - Purchase ownership tracking
-- `ReviewGate` - In-app review triggering logic
-
-#### UI
-- `MainActivity` - Host with bottom navigation
-- `TodayFragment` - Manual apply and streak display
-- `PacksFragment` - Browse available packs
-- `WidgetsFragment` - Widget configuration (stub)
-
-### Dependencies
-```gradle
-- Kotlin 1.9.10
-- AndroidX Core, AppCompat, Fragment
-- Material Components 1.9.0
-- WorkManager 2.8.1
-- Play Billing 6.0.1
-- Preference 1.2.0
-```
-
-## 📂 Project Structure
+## Project Structure
 
 ```
 app/src/main/
-├── AndroidManifest.xml
 ├── java/com/focusblack/wallos/
-│   ├── core/              # Core wallpaper logic
-│   ├── billing/           # Play Billing (stub)
-│   ├── data/              # Repositories and storage
-│   ├── model/             # Data models
-│   ├── ui/                # Activities and fragments
-│   ├── widget/            # Widget providers (stubs)
-│   └── util/              # Helpers
+│   ├── billing/           # Play Billing integration
+│   │   ├── BillingManager.kt
+│   │   ├── BillingRepository.kt
+│   │   └── SkuCatalog.kt
+│   ├── core/              # Core business logic
+│   │   ├── PackRegistry.kt
+│   │   ├── RotationScheduler.kt
+│   │   ├── RotationWorker.kt
+│   │   ├── StreakEngine.kt
+│   │   └── WallpaperEngine.kt
+│   ├── data/              # Local persistence
+│   │   ├── OwnershipStore.kt
+│   │   └── ReviewGate.kt
+│   ├── model/             # Data classes
+│   │   ├── Pack.kt
+│   │   └── Wall.kt
+│   ├── ui/                # UI components
+│   │   ├── MainActivity.kt
+│   │   ├── TodayFragment.kt
+│   │   ├── PacksFragment.kt
+│   │   ├── PackDetailActivity.kt
+│   │   ├── PackAdapter.kt
+│   │   ├── WallpaperAdapter.kt
+│   │   ├── WidgetsFragment.kt
+│   │   ├── SettingsActivity.kt
+│   │   └── SettingsFragment.kt
+│   ├── util/
+│   │   └── ReviewHelper.kt
+│   └── widget/            # Widget stubs
+│       ├── BatteryHaloWidget.kt
+│       ├── DateGlyphWidget.kt
+│       ├── FocusRingWidget.kt
+│       └── ModeSigilWidget.kt
 └── res/
-    ├── drawable/          # Wallpaper vector graphics
+    ├── drawable/          # Wallpapers and icons
     ├── layout/            # UI layouts
-    ├── menu/              # Navigation menu
-    └── values/            # Strings, colors, themes
+    ├── menu/              # Navigation menus
+    ├── values/            # Colors, strings, themes
+    └── xml/               # Preferences
 ```
 
-## 🔐 Permissions
+## Architecture
 
-- `SET_WALLPAPER` - Required to change system wallpaper
-- `WAKE_LOCK` - Used by WorkManager for background tasks
+### Layers
 
-## 🧪 Development
+| Layer | Purpose | Components |
+|-------|---------|------------|
+| **UI** | User interface | Activities, Fragments, Adapters |
+| **Core** | Business logic | WallpaperEngine, RotationScheduler, StreakEngine |
+| **Data** | Persistence | OwnershipStore, ReviewGate (SharedPreferences) |
+| **Billing** | Purchases | BillingManager, BillingRepository |
 
-### Adding New Wallpapers
+### Key Components
 
-1. Create vector drawable in `res/drawable/`
-   - Use 1080×2340 viewport
-   - Start with pure black background
-   - Add minimal white/colored elements
+#### WallpaperEngine
+Applies wallpapers to the device by converting vector drawables to bitmaps via Canvas and setting them through WallpaperManager.
 
-2. Register in `PackRegistry.kt`
-   ```kotlin
-   Wall(id = "new_wall", title = "New Wall", drawableName = "new_wall")
-   ```
+#### RotationScheduler / RotationWorker
+Uses WorkManager to schedule daily wallpaper rotation. RotationWorker executes in the background to cycle through wallpapers.
 
-3. Rebuild and run
+#### StreakEngine
+Tracks consecutive days of wallpaper application. Resets if a day is missed, increments on daily use.
+
+#### BillingManager
+Handles Google Play Billing Library integration:
+- Product details queries
+- Purchase flow
+- Purchase acknowledgment
+- Purchase restoration
+
+#### PackRegistry
+Singleton registry of available wallpaper packs. Currently contains Genesis pack with 7 wallpapers.
+
+## Configuration
+
+### Adding Wallpapers
+
+1. Add vector drawable to `res/drawable/wall_name.xml`
+2. Register in `PackRegistry.kt`:
+
+```kotlin
+Wall(
+    id = "wall_name",
+    title = "Display Name",
+    drawableName = "wall_name"
+)
+```
+
+### Play Store Setup
+
+1. Create app in Google Play Console
+2. Create in-app product:
+   - Product ID: `pro_unlock`
+   - Type: One-time purchase
+3. Upload to internal testing track
+4. Add license testers
+
+## Permissions
+
+| Permission | Purpose |
+|------------|---------|
+| `SET_WALLPAPER` | Apply wallpapers to device |
+| `WAKE_LOCK` | WorkManager background tasks |
+| `BILLING` | Google Play purchases |
+
+## Dependencies
+
+```gradle
+// Kotlin
+kotlin-stdlib:2.0.21
+kotlinx-coroutines-android:1.8.1
+
+// AndroidX
+core-ktx:1.12.0
+appcompat:1.7.1
+fragment-ktx:1.8.9
+lifecycle-runtime-ktx:2.10.0
+preference-ktx:1.2.1
+work-runtime-ktx:2.9.0
+recyclerview:1.4.0
+constraintlayout:2.2.1
+
+// UI
+material:1.13.0
+
+// Billing
+billing-ktx:7.1.1
+```
+
+## Development
 
 ### Testing Rotation
-- Change WorkManager interval in `RotationScheduler.kt`
-- Use `PeriodicWorkRequestBuilder<RotationWorker>(15, TimeUnit.MINUTES)` for testing
-- Remember to revert to 1 day for production
 
-## 📄 License
+For faster testing, modify `RotationScheduler.kt`:
 
-MIT License - See LICENSE file for details
+```kotlin
+// Change from 1 day to 15 minutes
+PeriodicWorkRequestBuilder<RotationWorker>(15, TimeUnit.MINUTES)
+```
 
-## 🤝 Contributing
+### Debug Builds
 
-This is a personal project scaffold. Feel free to fork and customize for your own use.
+Debug builds have:
+- ProGuard disabled
+- Full logging enabled
 
----
+### Release Builds
 
-**Version**: 0.1.0
-**Status**: Functional prototype with real wallpaper rotation
-**Platform**: Android 8.0+ (API 26+)
+Release builds include:
+- ProGuard minification
+- Resource shrinking
+
+## Known Limitations
+
+1. Widgets are stub implementations (not functional)
+2. ReviewHelper is a placeholder (no actual Play review integration)
+3. Wallpaper dimensions are hardcoded (1080x2340)
+4. Single pack only (Genesis)
+
+## Version History
+
+| Version | Changes |
+|---------|---------|
+| 1.0.0 | Initial release with core features |
+
+## License
+
+All rights reserved.

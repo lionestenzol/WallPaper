@@ -1,0 +1,189 @@
+<problems>
+<problem>
+  <file>file://$PROJECT_DIR$/app/src/main/java/com/focusblack/wallos/ui/MainActivity.kt</file>
+  <line>12</line>
+  <module>focus-black.app.main</module>
+  <package>com.focusblack.wallos.ui</package>
+  <entry_point TYPE="class" FQNAME="com.focusblack.wallos.ui.MainActivity" />
+  <language>kotlin</language>
+  <offset>0</offset>
+  <length>42</length>
+  <highlighted_element>class MainActivity : AppCompatActivity() {</highlighted_element>
+  <problem_class id="" severity="WARNING" attribute_key="NOT_USED_ELEMENT_ATTRIBUTES">unused declaration</problem_class>
+  <hints>
+    <hint value="comment" />
+    <hint value="delete" />
+  </hints>
+  <description>Class is not instantiated.</description>
+</problem>
+<problem>
+  <file>file://$PROJECT_DIR$/app/src/main/java/com/focusblack/wallos/ui/PackDetailActivity.kt</file>
+  <line>16</line>
+  <module>focus-black.app.main</module>
+  <package>com.focusblack.wallos.ui</package>
+  <entry_point TYPE="class" FQNAME="com.focusblack.wallos.ui.PackDetailActivity" />
+  <language>kotlin</language>
+  <offset>0</offset>
+  <length>48</length>
+  <highlighted_element>class PackDetailActivity : AppCompatActivity() {</highlighted_element>
+  <problem_class id="" severity="WARNING" attribute_key="NOT_USED_ELEMENT_ATTRIBUTES">unused declaration</problem_class>
+  <hints>
+    <hint value="comment" />
+    <hint value="delete" />
+  </hints>
+  <description>Class is not instantiated.</description>
+</problem>
+<problem>
+  <file>file://$PROJECT_DIR$/app/src/main/java/com/focusblack/wallos/ui/PacksFragment.kt</file>
+  <line>15</line>
+  <module>focus-black.app.main</module>
+  <package>com.focusblack.wallos.ui</package>
+  <entry_point TYPE="class" FQNAME="com.focusblack.wallos.ui.PacksFragment" />
+  <language>kotlin</language>
+  <offset>0</offset>
+  <length>34</length>
+  <highlighted_element>class PacksFragment : Fragment() {</highlighted_element>
+  <problem_class id="" severity="WARNING" attribute_key="NOT_USED_ELEMENT_ATTRIBUTES">unused declaration</problem_class>
+  <hints>
+    <hint value="comment" />
+    <hint value="delete" />
+  </hints>
+  <description>Class has one instantiation, but the instantiation is not reachable from the entry points.</description>
+</problem>
+<problem>
+  <file>file://$PROJECT_DIR$/app/src/main/java/com/focusblack/wallos/ui/SettingsActivity.kt</file>
+  <line>8</line>
+  <module>focus-black.app.main</module>
+  <package>com.focusblack.wallos.ui</package>
+  <entry_point TYPE="class" FQNAME="com.focusblack.wallos.ui.SettingsActivity" />
+  <language>kotlin</language>
+  <offset>0</offset>
+  <length>46</length>
+  <highlighted_element>class SettingsActivity : AppCompatActivity() {</highlighted_element>
+  <problem_class id="" severity="WARNING" attribute_key="NOT_USED_ELEMENT_ATTRIBUTES">unused declaration</problem_class>
+  <hints>
+    <hint value="comment" />
+    <hint value="delete" />
+  </hints>
+  <description>Class is not instantiated.</description>
+</problem>
+<problem>
+  <file>file://$PROJECT_DIR$/app/src/main/java/com/focusblack/wallos/ui/SettingsFragment.kt</file>
+  <line>15</line>
+  <module>focus-black.app.main</module>
+  <package>com.focusblack.wallos.ui</package>
+  <entry_point TYPE="class" FQNAME="com.focusblack.wallos.ui.SettingsFragment" />
+  <language>kotlin</language>
+  <offset>0</offset>
+  <length>53</length>
+  <highlighted_element>class SettingsFragment : PreferenceFragmentCompat() {</highlighted_element>
+  <problem_class id="" severity="WARNING" attribute_key="NOT_USED_ELEMENT_ATTRIBUTES">unused declaration</problem_class>
+  <hints>
+    <hint value="comment" />
+    <hint value="delete" />
+  </hints>
+  <description>Class has one instantiation, but the instantiation is not reachable from the entry points.</description>
+</problem>
+<problem>
+  <file>file://$PROJECT_DIR$/app/src/main/java/com/focusblack/wallos/ui/TodayFragment.kt</file>
+  <line>24</line>
+  <module>focus-black.app.main</module>
+  <package>com.focusblack.wallos.ui</package>
+  <entry_point TYPE="class" FQNAME="com.focusblack.wallos.ui.TodayFragment" />
+  <language>kotlin</language>
+  <offset>0</offset>
+  <length>34</length>
+  <highlighted_element>class TodayFragment : Fragment() {</highlighted_element>
+  <problem_class id="" severity="WARNING" attribute_key="NOT_USED_ELEMENT_ATTRIBUTES">unused declaration</problem_class>
+  <hints>
+    <hint value="comment" />
+    <hint value="delete" />
+  </hints>
+  <description>Class has one instantiation, but the instantiation is not reachable from the entry points.</description>
+</problem>
+<problem>
+  <file>file://$PROJECT_DIR$/app/src/main/java/com/focusblack/wallos/ui/WidgetsFragment.kt</file>
+  <line>10</line>
+  <module>focus-black.app.main</module>
+  <package>com.focusblack.wallos.ui</package>
+  <entry_point TYPE="class" FQNAME="com.focusblack.wallos.ui.WidgetsFragment" />
+  <language>kotlin</language>
+  <offset>0</offset>
+  <length>36</length>
+  <highlighted_element>class WidgetsFragment : Fragment() {</highlighted_element>
+  <problem_class id="" severity="WARNING" attribute_key="NOT_USED_ELEMENT_ATTRIBUTES">unused declaration</problem_class>
+  <hints>
+    <hint value="comment" />
+    <hint value="delete" />
+  </hints>
+  <description>Class has one instantiation, but the instantiation is not reachable from the entry points.</description>
+</problem>
+<problem>
+  <file>file://$PROJECT_DIR$/app/src/main/java/com/focusblack/wallos/widget/BatteryHaloWidget.kt</file>
+  <line>8</line>
+  <module>focus-black.app.main</module>
+  <package>com.focusblack.wallos.widget</package>
+  <entry_point TYPE="class" FQNAME="com.focusblack.wallos.widget.BatteryHaloWidget" />
+  <language>kotlin</language>
+  <offset>0</offset>
+  <length>47</length>
+  <highlighted_element>class BatteryHaloWidget : AppWidgetProvider() {</highlighted_element>
+  <problem_class id="" severity="WARNING" attribute_key="NOT_USED_ELEMENT_ATTRIBUTES">unused declaration</problem_class>
+  <hints>
+    <hint value="comment" />
+    <hint value="delete" />
+  </hints>
+  <description>Class is not instantiated.</description>
+</problem>
+<problem>
+  <file>file://$PROJECT_DIR$/app/src/main/java/com/focusblack/wallos/widget/DateGlyphWidget.kt</file>
+  <line>8</line>
+  <module>focus-black.app.main</module>
+  <package>com.focusblack.wallos.widget</package>
+  <entry_point TYPE="class" FQNAME="com.focusblack.wallos.widget.DateGlyphWidget" />
+  <language>kotlin</language>
+  <offset>0</offset>
+  <length>45</length>
+  <highlighted_element>class DateGlyphWidget : AppWidgetProvider() {</highlighted_element>
+  <problem_class id="" severity="WARNING" attribute_key="NOT_USED_ELEMENT_ATTRIBUTES">unused declaration</problem_class>
+  <hints>
+    <hint value="comment" />
+    <hint value="delete" />
+  </hints>
+  <description>Class is not instantiated.</description>
+</problem>
+<problem>
+  <file>file://$PROJECT_DIR$/app/src/main/java/com/focusblack/wallos/widget/FocusRingWidget.kt</file>
+  <line>9</line>
+  <module>focus-black.app.main</module>
+  <package>com.focusblack.wallos.widget</package>
+  <entry_point TYPE="class" FQNAME="com.focusblack.wallos.widget.FocusRingWidget" />
+  <language>kotlin</language>
+  <offset>0</offset>
+  <length>45</length>
+  <highlighted_element>class FocusRingWidget : AppWidgetProvider() {</highlighted_element>
+  <problem_class id="" severity="WARNING" attribute_key="NOT_USED_ELEMENT_ATTRIBUTES">unused declaration</problem_class>
+  <hints>
+    <hint value="comment" />
+    <hint value="delete" />
+  </hints>
+  <description>Class is not instantiated.</description>
+</problem>
+<problem>
+  <file>file://$PROJECT_DIR$/app/src/main/java/com/focusblack/wallos/widget/ModeSigilWidget.kt</file>
+  <line>8</line>
+  <module>focus-black.app.main</module>
+  <package>com.focusblack.wallos.widget</package>
+  <entry_point TYPE="class" FQNAME="com.focusblack.wallos.widget.ModeSigilWidget" />
+  <language>kotlin</language>
+  <offset>0</offset>
+  <length>45</length>
+  <highlighted_element>class ModeSigilWidget : AppWidgetProvider() {</highlighted_element>
+  <problem_class id="" severity="WARNING" attribute_key="NOT_USED_ELEMENT_ATTRIBUTES">unused declaration</problem_class>
+  <hints>
+    <hint value="comment" />
+    <hint value="delete" />
+  </hints>
+  <description>Class is not instantiated.</description>
+</problem>
+</problems>

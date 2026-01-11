@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardBackgroundColor="#121212"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="4dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackground">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- Pack Thumbnail (first wallpaper) -->
+            <ImageView
+                android:id="@+id/iv_pack_thumb"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:scaleType="centerCrop"
+                android:contentDescription="@string/wallpaper_preview_desc"/>
+
+            <!-- Pack Info -->
+            <LinearLayout
+                android:orientation="vertical"
+                android:padding="12dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_pack_title"
+                    tools:text="Genesis Pack"
+                    android:textSize="18sp"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:id="@+id/tv_pack_count"
+                    tools:text="7 wallpapers"
+                    android:textSize="14sp"
+                    android:textColor="#B0B0B0"
+                    android:layout_marginTop="4dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- Pro Badge (shows when locked) -->
+        <TextView
+            android:id="@+id/tv_pro_badge"
+            android:text="@string/pack_locked"
+            android:textSize="11sp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:background="@color/white"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="4dp"
+            android:layout_gravity="top|end"
+            android:layout_margin="12dp"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </FrameLayout>
+
+</com.google.android.material.card.MaterialCardView>

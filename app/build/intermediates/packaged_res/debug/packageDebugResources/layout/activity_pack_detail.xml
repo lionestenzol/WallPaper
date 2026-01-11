@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Toolbar -->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/black"
+        app:navigationIcon="@drawable/ic_back"
+        app:navigationIconTint="@color/white"
+        app:titleTextColor="@color/white"/>
+
+    <!-- Pack Info Header -->
+    <LinearLayout
+        android:orientation="vertical"
+        android:paddingHorizontal="16dp"
+        android:paddingBottom="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_pack_title"
+            tools:text="Genesis Pack"
+            android:textSize="24sp"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/tv_pack_count"
+            tools:text="7 wallpapers"
+            android:textSize="14sp"
+            android:textColor="#B0B0B0"
+            android:layout_marginTop="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <!-- Wallpapers Grid -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_wallpapers"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:padding="8dp"/>
+
+</LinearLayout>

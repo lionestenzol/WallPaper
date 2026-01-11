@@ -1,0 +1,142 @@
+<problems>
+<problem>
+  <file>file://$PROJECT_DIR$/app/src/main/res/layout/activity_pack_detail.xml</file>
+  <line>29</line>
+  <module>focus-black.app.main</module>
+  <entry_point TYPE="file" FQNAME="file://$PROJECT_DIR$/app/src/main/res/layout/activity_pack_detail.xml" />
+  <problem_class id="AndroidLintHardcodedText" severity="WARNING" attribute_key="WARNING_ATTRIBUTES">Hardcoded text</problem_class>
+  <hints />
+  <description>&lt;html&gt;Hardcoded string &quot;Genesis Pack&quot;, should use &lt;code&gt;@string&lt;/code&gt; resource&lt;/html&gt;</description>
+  <highlighted_element />
+  <language />
+</problem>
+<problem>
+  <file>file://$PROJECT_DIR$/app/src/main/res/layout/activity_pack_detail.xml</file>
+  <line>38</line>
+  <module>focus-black.app.main</module>
+  <entry_point TYPE="file" FQNAME="file://$PROJECT_DIR$/app/src/main/res/layout/activity_pack_detail.xml" />
+  <problem_class id="AndroidLintHardcodedText" severity="WARNING" attribute_key="WARNING_ATTRIBUTES">Hardcoded text</problem_class>
+  <hints />
+  <description>&lt;html&gt;Hardcoded string &quot;7 wallpapers&quot;, should use &lt;code&gt;@string&lt;/code&gt; resource&lt;/html&gt;</description>
+  <highlighted_element />
+  <language />
+</problem>
+<problem>
+  <file>file://$PROJECT_DIR$/app/src/main/res/layout/fragment_today.xml</file>
+  <line>65</line>
+  <module>focus-black.app.main</module>
+  <entry_point TYPE="file" FQNAME="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_today.xml" />
+  <problem_class id="AndroidLintHardcodedText" severity="WARNING" attribute_key="WARNING_ATTRIBUTES">Hardcoded text</problem_class>
+  <hints />
+  <description>&lt;html&gt;Hardcoded string &quot;Genesis Prime&quot;, should use &lt;code&gt;@string&lt;/code&gt; resource&lt;/html&gt;</description>
+  <highlighted_element>tools:text=&quot;Genesis Prime&quot;</highlighted_element>
+  <language>XML</language>
+  <offset>56</offset>
+  <length>26</length>
+</problem>
+<problem>
+  <file>file://$PROJECT_DIR$/app/src/main/res/layout/fragment_today.xml</file>
+  <line>75</line>
+  <module>focus-black.app.main</module>
+  <entry_point TYPE="file" FQNAME="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_today.xml" />
+  <problem_class id="AndroidLintHardcodedText" severity="WARNING" attribute_key="WARNING_ATTRIBUTES">Hardcoded text</problem_class>
+  <hints />
+  <description>&lt;html&gt;Hardcoded string &quot;Genesis Pack - 1/7&quot;, should use &lt;code&gt;@string&lt;/code&gt; resource&lt;/html&gt;</description>
+  <highlighted_element />
+  <language />
+</problem>
+<problem>
+  <file>file://$PROJECT_DIR$/app/src/main/res/layout/fragment_today.xml</file>
+  <line>108</line>
+  <module>focus-black.app.main</module>
+  <entry_point TYPE="file" FQNAME="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_today.xml" />
+  <problem_class id="AndroidLintHardcodedText" severity="WARNING" attribute_key="WARNING_ATTRIBUTES">Hardcoded text</problem_class>
+  <hints />
+  <description>&lt;html&gt;Hardcoded string &quot;0&quot;, should use &lt;code&gt;@string&lt;/code&gt; resource&lt;/html&gt;</description>
+  <highlighted_element />
+  <language />
+</problem>
+<problem>
+  <file>file://$PROJECT_DIR$/app/src/main/res/layout/fragment_widgets.xml</file>
+  <line>7</line>
+  <module>focus-black.app.main</module>
+  <entry_point TYPE="file" FQNAME="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_widgets.xml" />
+  <problem_class id="AndroidLintHardcodedText" severity="WARNING" attribute_key="WARNING_ATTRIBUTES">Hardcoded text</problem_class>
+  <hints />
+  <description>&lt;html&gt;Hardcoded string &quot;Widgets (stubs)&quot;, should use &lt;code&gt;@string&lt;/code&gt; resource&lt;/html&gt;</description>
+  <highlighted_element />
+  <language />
+</problem>
+<problem>
+  <file>file://$PROJECT_DIR$/app/src/main/res/layout/item_pack_card.xml</file>
+  <line>41</line>
+  <module>focus-black.app.main</module>
+  <entry_point TYPE="file" FQNAME="file://$PROJECT_DIR$/app/src/main/res/layout/item_pack_card.xml" />
+  <problem_class id="AndroidLintHardcodedText" severity="WARNING" attribute_key="WARNING_ATTRIBUTES">Hardcoded text</problem_class>
+  <hints />
+  <description>&lt;html&gt;Hardcoded string &quot;Genesis Pack&quot;, should use &lt;code&gt;@string&lt;/code&gt; resource&lt;/html&gt;</description>
+  <highlighted_element />
+  <language />
+</problem>
+<problem>
+  <file>file://$PROJECT_DIR$/app/src/main/res/layout/item_pack_card.xml</file>
+  <line>50</line>
+  <module>focus-black.app.main</module>
+  <entry_point TYPE="file" FQNAME="file://$PROJECT_DIR$/app/src/main/res/layout/item_pack_card.xml" />
+  <problem_class id="AndroidLintHardcodedText" severity="WARNING" attribute_key="WARNING_ATTRIBUTES">Hardcoded text</problem_class>
+  <hints />
+  <description>&lt;html&gt;Hardcoded string &quot;7 wallpapers&quot;, should use &lt;code&gt;@string&lt;/code&gt; resource&lt;/html&gt;</description>
+  <highlighted_element />
+  <language />
+</problem>
+<problem>
+  <file>file://$PROJECT_DIR$/app/src/main/res/layout/item_wallpaper_thumb.xml</file>
+  <line>38</line>
+  <module>focus-black.app.main</module>
+  <entry_point TYPE="file" FQNAME="file://$PROJECT_DIR$/app/src/main/res/layout/item_wallpaper_thumb.xml" />
+  <problem_class id="AndroidLintHardcodedText" severity="WARNING" attribute_key="WARNING_ATTRIBUTES">Hardcoded text</problem_class>
+  <hints />
+  <description>&lt;html&gt;Hardcoded string &quot;Genesis Prime&quot;, should use &lt;code&gt;@string&lt;/code&gt; resource&lt;/html&gt;</description>
+  <highlighted_element />
+  <language />
+</problem>
+<problem>
+  <file>file://$PROJECT_DIR$/app/src/main/res/menu/nav_menu.xml</file>
+  <line>3</line>
+  <module>focus-black.app.main</module>
+  <entry_point TYPE="file" FQNAME="file://$PROJECT_DIR$/app/src/main/res/menu/nav_menu.xml" />
+  <problem_class id="AndroidLintHardcodedText" severity="WARNING" attribute_key="WARNING_ATTRIBUTES">Hardcoded text</problem_class>
+  <hints />
+  <description>&lt;html&gt;Hardcoded string &quot;Today&quot;, should use &lt;code&gt;@string&lt;/code&gt; resource&lt;/html&gt;</description>
+  <highlighted_element>android:title=&quot;@string/nav_today&quot;</highlighted_element>
+  <language>XML</language>
+  <offset>38</offset>
+  <length>33</length>
+</problem>
+<problem>
+  <file>file://$PROJECT_DIR$/app/src/main/res/menu/nav_menu.xml</file>
+  <line>4</line>
+  <module>focus-black.app.main</module>
+  <entry_point TYPE="file" FQNAME="file://$PROJECT_DIR$/app/src/main/res/menu/nav_menu.xml" />
+  <problem_class id="AndroidLintHardcodedText" severity="WARNING" attribute_key="WARNING_ATTRIBUTES">Hardcoded text</problem_class>
+  <hints />
+  <description>&lt;html&gt;Hardcoded string &quot;Packs&quot;, should use &lt;code&gt;@string&lt;/code&gt; resource&lt;/html&gt;</description>
+  <highlighted_element>android:title=&quot;@string/nav_packs&quot;</highlighted_element>
+  <language>XML</language>
+  <offset>38</offset>
+  <length>33</length>
+</problem>
+<problem>
+  <file>file://$PROJECT_DIR$/app/src/main/res/menu/nav_menu.xml</file>
+  <line>5</line>
+  <module>focus-black.app.main</module>
+  <entry_point TYPE="file" FQNAME="file://$PROJECT_DIR$/app/src/main/res/menu/nav_menu.xml" />
+  <problem_class id="AndroidLintHardcodedText" severity="WARNING" attribute_key="WARNING_ATTRIBUTES">Hardcoded text</problem_class>
+  <hints />
+  <description>&lt;html&gt;Hardcoded string &quot;Widgets&quot;, should use &lt;code&gt;@string&lt;/code&gt; resource&lt;/html&gt;</description>
+  <highlighted_element>android:title=&quot;@string/nav_widgets&quot;</highlighted_element>
+  <language>XML</language>
+  <offset>40</offset>
+  <length>35</length>
+</problem>
+</problems>

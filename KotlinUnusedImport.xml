@@ -1,0 +1,57 @@
+<problems>
+<problem>
+  <file>file://$PROJECT_DIR$/app/src/main/java/com/focusblack/wallos/core/StreakEngine.kt</file>
+  <line>4</line>
+  <module>focus-black.app.main</module>
+  <package>com.focusblack.wallos.core</package>
+  <entry_point TYPE="file" FQNAME="file://$PROJECT_DIR$/app/src/main/java/com/focusblack/wallos/core/StreakEngine.kt" />
+  <problem_class id="KotlinUnusedImport" severity="WARNING" attribute_key="WARNING_ATTRIBUTES">Unused import directive</problem_class>
+  <description>Unused import directive</description>
+  <highlighted_element />
+  <language />
+</problem>
+<problem>
+  <file>file://$PROJECT_DIR$/app/src/main/java/com/focusblack/wallos/core/StreakEngine.kt</file>
+  <line>6</line>
+  <module>focus-black.app.main</module>
+  <package>com.focusblack.wallos.core</package>
+  <entry_point TYPE="file" FQNAME="file://$PROJECT_DIR$/app/src/main/java/com/focusblack/wallos/core/StreakEngine.kt" />
+  <problem_class id="KotlinUnusedImport" severity="WARNING" attribute_key="WARNING_ATTRIBUTES">Unused import directive</problem_class>
+  <description>Unused import directive</description>
+  <highlighted_element />
+  <language />
+</problem>
+<problem>
+  <file>file://$PROJECT_DIR$/app/src/main/java/com/focusblack/wallos/data/OwnershipStore.kt</file>
+  <line>5</line>
+  <module>focus-black.app.main</module>
+  <package>com.focusblack.wallos.data</package>
+  <entry_point TYPE="file" FQNAME="file://$PROJECT_DIR$/app/src/main/java/com/focusblack/wallos/data/OwnershipStore.kt" />
+  <problem_class id="KotlinUnusedImport" severity="WARNING" attribute_key="WARNING_ATTRIBUTES">Unused import directive</problem_class>
+  <description>Unused import directive</description>
+  <highlighted_element />
+  <language />
+</problem>
+<problem>
+  <file>file://$PROJECT_DIR$/app/src/main/java/com/focusblack/wallos/ui/MainActivity.kt</file>
+  <line>5</line>
+  <module>focus-black.app.main</module>
+  <package>com.focusblack.wallos.ui</package>
+  <entry_point TYPE="file" FQNAME="file://$PROJECT_DIR$/app/src/main/java/com/focusblack/wallos/ui/MainActivity.kt" />
+  <problem_class id="KotlinUnusedImport" severity="WARNING" attribute_key="WARNING_ATTRIBUTES">Unused import directive</problem_class>
+  <description>Unused import directive</description>
+  <highlighted_element />
+  <language />
+</problem>
+<problem>
+  <file>file://$PROJECT_DIR$/app/src/main/java/com/focusblack/wallos/util/ReviewHelper.kt</file>
+  <line>5</line>
+  <module>focus-black.app.main</module>
+  <package>com.focusblack.wallos.util</package>
+  <entry_point TYPE="file" FQNAME="file://$PROJECT_DIR$/app/src/main/java/com/focusblack/wallos/util/ReviewHelper.kt" />
+  <problem_class id="KotlinUnusedImport" severity="WARNING" attribute_key="WARNING_ATTRIBUTES">Unused import directive</problem_class>
+  <description>Unused import directive</description>
+  <highlighted_element />
+  <language />
+</problem>
+</problems>

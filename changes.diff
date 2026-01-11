@@ -1,0 +1,88 @@
+diff --git a/app/build.gradle b/app/build.gradle
+index 36ff252..a554d22 100644
+--- a/app/build.gradle
++++ b/app/build.gradle
+@@ -5,12 +5,12 @@ plugins {
+ 
+ android {
+     namespace 'com.focusblack.wallos'
+-    compileSdk 34
++    compileSdk 35
+ 
+     defaultConfig {
+         applicationId "com.focusblack.wallos"
+         minSdk 26
+-        targetSdk 34
++        targetSdk 35
+         versionCode 1
+         versionName "0.1.0"
+     }
+@@ -41,5 +41,5 @@ dependencies {
+     implementation 'androidx.work:work-runtime-ktx:2.8.1'
+     implementation 'com.android.billingclient:billing-ktx:6.0.1'
+     implementation 'androidx.preference:preference-ktx:1.2.0'
+-    implementation 'androidx.recyclerview:recyclerview:1.4.1'
++    implementation 'androidx.recyclerview:recyclerview:1.4.0'
+ }
+diff --git a/app/src/main/AndroidManifest.xml b/app/src/main/AndroidManifest.xml
+index de6e5a7..b305b65 100644
+--- a/app/src/main/AndroidManifest.xml
++++ b/app/src/main/AndroidManifest.xml
+@@ -6,11 +6,9 @@
+     <application
+         android:allowBackup="true"
+         android:label="focus-black"
+-        android:icon="@mipmap/ic_launcher"
+-        android:roundIcon="@mipmap/ic_launcher_round"
+         android:theme="@style/Theme.FocusBlack">
+         <activity android:name="com.focusblack.wallos.ui.SettingsActivity" />
+-        <activity android:name="com.focusblack.wallos.ui.MainActivity">
++        <activity android:name="com.focusblack.wallos.ui.MainActivity" android:exported="true">
+             <intent-filter>
+                 <action android:name="android.intent.action.MAIN" />
+                 <category android:name="android.intent.category.LAUNCHER" />
+diff --git a/build.gradle b/build.gradle
+index d9c0944..759c2eb 100644
+--- a/build.gradle
++++ b/build.gradle
+@@ -1,7 +1,7 @@
+ buildscript {
+     ext {
+         kotlin_version = '1.9.10'
+-        agp_version = '8.2.0'
++        agp_version = '8.13.2'
+     }
+     repositories {
+         google()
+@@ -12,10 +12,3 @@ buildscript {
+         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+     }
+ }
+-
+-allprojects {
+-    repositories {
+-        google()
+-        mavenCentral()
+-    }
+-}
+diff --git a/settings.gradle b/settings.gradle
+index 2f6da3b..fd6897b 100644
+--- a/settings.gradle
++++ b/settings.gradle
+@@ -1,2 +1,16 @@
++pluginManagement {
++    repositories {
++        google()
++        mavenCentral()
++        gradlePluginPortal()
++    }
++}
++dependencyResolutionManagement {
++    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
++    repositories {
++        google()
++        mavenCentral()
++    }
++}
+ rootProject.name = "focus-black"
+ include(":app")

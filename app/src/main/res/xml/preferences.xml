@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        android:title="@string/pref_rotation_category"
+        app:iconSpaceReserved="false">
+
+        <SwitchPreferenceCompat
+            android:key="auto_rotate"
+            android:title="@string/pref_auto_rotate"
+            android:summary="@string/pref_auto_rotate_summary"
+            android:defaultValue="true"
+            app:iconSpaceReserved="false"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/pref_account_category"
+        app:iconSpaceReserved="false">
+
+        <Preference
+            android:key="pro_status"
+            android:title="@string/pref_pro_status"
+            android:summary="@string/pref_pro_status_free"
+            app:iconSpaceReserved="false"/>
+
+        <Preference
+            android:key="restore_purchases"
+            android:title="@string/pref_restore_purchases"
+            android:summary="@string/pref_restore_purchases_summary"
+            app:iconSpaceReserved="false"/>
+
+        <Preference
+            android:key="unlock_pro"
+            android:title="@string/unlock_pro"
+            android:summary="@string/pro_unlock_desc"
+            app:iconSpaceReserved="false"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/pref_about_category"
+        app:iconSpaceReserved="false">
+
+        <Preference
+            android:key="version"
+            android:title="@string/pref_version"
+            android:summary="1.0.0"
+            android:selectable="false"
+            app:iconSpaceReserved="false"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

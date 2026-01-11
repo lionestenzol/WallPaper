@@ -1,0 +1,190 @@
+[
+    {
+        "merged": "com.focusblack.wallos.app-debug-53:/layout_activity_main.xml.flat",
+        "source": "com.focusblack.wallos.app-main-55:/layout/activity_main.xml"
+    },
+    {
+        "merged": "com.focusblack.wallos.app-debug-53:/mipmap-mdpi_ic_launcher_adaptive_fore.png.flat",
+        "source": "com.focusblack.wallos.app-main-55:/mipmap-mdpi/ic_launcher_adaptive_fore.png"
+    },
+    {
+        "merged": "com.focusblack.wallos.app-debug-53:/drawable_genesis_prime.xml.flat",
+        "source": "com.focusblack.wallos.app-main-55:/drawable/genesis_prime.xml"
+    },
+    {
+        "merged": "com.focusblack.wallos.app-debug-53:/mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "com.focusblack.wallos.app-main-55:/mipmap-anydpi-v26/ic_launcher.xml"
+    },
+    {
+        "merged": "com.focusblack.wallos.app-debug-53:/mipmap-xxhdpi_ic_launcher_round.webp.flat",
+        "source": "com.focusblack.wallos.app-main-55:/mipmap-xxhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.focusblack.wallos.app-debug-53:/mipmap-xhdpi_ic_launcher_adaptive_back.png.flat",
+        "source": "com.focusblack.wallos.app-main-55:/mipmap-xhdpi/ic_launcher_adaptive_back.png"
+    },
+    {
+        "merged": "com.focusblack.wallos.app-debug-53:/mipmap-xxxhdpi_ic_launcher_adaptive_fore.png.flat",
+        "source": "com.focusblack.wallos.app-main-55:/mipmap-xxxhdpi/ic_launcher_adaptive_fore.png"
+    },
+    {
+        "merged": "com.focusblack.wallos.app-debug-53:/drawable_wall_crescent.xml.flat",
+        "source": "com.focusblack.wallos.app-main-55:/drawable/wall_crescent.xml"
+    },
+    {
+        "merged": "com.focusblack.wallos.app-debug-53:/layout_activity_settings.xml.flat",
+        "source": "com.focusblack.wallos.app-main-55:/layout/activity_settings.xml"
+    },
+    {
+        "merged": "com.focusblack.wallos.app-debug-53:/mipmap-hdpi_ic_launcher_round.webp.flat",
+        "source": "com.focusblack.wallos.app-main-55:/mipmap-hdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.focusblack.wallos.app-debug-53:/mipmap-hdpi_ic_launcher.webp.flat",
+        "source": "com.focusblack.wallos.app-main-55:/mipmap-hdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.focusblack.wallos.app-debug-53:/drawable_wall_accent_line.xml.flat",
+        "source": "com.focusblack.wallos.app-main-55:/drawable/wall_accent_line.xml"
+    },
+    {
+        "merged": "com.focusblack.wallos.app-debug-53:/mipmap-xxhdpi_ic_launcher.webp.flat",
+        "source": "com.focusblack.wallos.app-main-55:/mipmap-xxhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.focusblack.wallos.app-debug-53:/drawable_ic_settings.xml.flat",
+        "source": "com.focusblack.wallos.app-main-55:/drawable/ic_settings.xml"
+    },
+    {
+        "merged": "com.focusblack.wallos.app-debug-53:/drawable_wall_circle.xml.flat",
+        "source": "com.focusblack.wallos.app-main-55:/drawable/wall_circle.xml"
+    },
+    {
+        "merged": "com.focusblack.wallos.app-debug-53:/drawable_genesis_seal.xml.flat",
+        "source": "com.focusblack.wallos.app-main-55:/drawable/genesis_seal.xml"
+    },
+    {
+        "merged": "com.focusblack.wallos.app-debug-53:/mipmap-xhdpi_ic_launcher.webp.flat",
+        "source": "com.focusblack.wallos.app-main-55:/mipmap-xhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.focusblack.wallos.app-debug-53:/drawable_wall_horizon.xml.flat",
+        "source": "com.focusblack.wallos.app-main-55:/drawable/wall_horizon.xml"
+    },
+    {
+        "merged": "com.focusblack.wallos.app-debug-53:/drawable_ic_launcher_background.xml.flat",
+        "source": "com.focusblack.wallos.app-main-55:/drawable/ic_launcher_background.xml"
+    },
+    {
+        "merged": "com.focusblack.wallos.app-debug-53:/xml_preferences.xml.flat",
+        "source": "com.focusblack.wallos.app-main-55:/xml/preferences.xml"
+    },
+    {
+        "merged": "com.focusblack.wallos.app-debug-53:/layout_item_wallpaper_thumb.xml.flat",
+        "source": "com.focusblack.wallos.app-main-55:/layout/item_wallpaper_thumb.xml"
+    },
+    {
+        "merged": "com.focusblack.wallos.app-debug-53:/mipmap-xxxhdpi_ic_launcher_adaptive_back.png.flat",
+        "source": "com.focusblack.wallos.app-main-55:/mipmap-xxxhdpi/ic_launcher_adaptive_back.png"
+    },
+    {
+        "merged": "com.focusblack.wallos.app-debug-53:/mipmap-mdpi_ic_launcher_round.webp.flat",
+        "source": "com.focusblack.wallos.app-main-55:/mipmap-mdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.focusblack.wallos.app-debug-53:/layout_fragment_packs.xml.flat",
+        "source": "com.focusblack.wallos.app-main-55:/layout/fragment_packs.xml"
+    },
+    {
+        "merged": "com.focusblack.wallos.app-debug-53:/layout_fragment_today.xml.flat",
+        "source": "com.focusblack.wallos.app-main-55:/layout/fragment_today.xml"
+    },
+    {
+        "merged": "com.focusblack.wallos.app-debug-53:/mipmap-mdpi_ic_launcher_adaptive_back.png.flat",
+        "source": "com.focusblack.wallos.app-main-55:/mipmap-mdpi/ic_launcher_adaptive_back.png"
+    },
+    {
+        "merged": "com.focusblack.wallos.app-debug-53:/mipmap-xxxhdpi_ic_launcher.webp.flat",
+        "source": "com.focusblack.wallos.app-main-55:/mipmap-xxxhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.focusblack.wallos.app-debug-53:/drawable_ic_back.xml.flat",
+        "source": "com.focusblack.wallos.app-main-55:/drawable/ic_back.xml"
+    },
+    {
+        "merged": "com.focusblack.wallos.app-debug-53:/menu_nav_menu.xml.flat",
+        "source": "com.focusblack.wallos.app-main-55:/menu/nav_menu.xml"
+    },
+    {
+        "merged": "com.focusblack.wallos.app-debug-53:/layout_item_pack_card.xml.flat",
+        "source": "com.focusblack.wallos.app-main-55:/layout/item_pack_card.xml"
+    },
+    {
+        "merged": "com.focusblack.wallos.app-debug-53:/layout_item_pack.xml.flat",
+        "source": "com.focusblack.wallos.app-main-55:/layout/item_pack.xml"
+    },
+    {
+        "merged": "com.focusblack.wallos.app-debug-53:/mipmap-xxxhdpi_ic_launcher_round.webp.flat",
+        "source": "com.focusblack.wallos.app-main-55:/mipmap-xxxhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.focusblack.wallos.app-debug-53:/mipmap-mdpi_ic_launcher.webp.flat",
+        "source": "com.focusblack.wallos.app-main-55:/mipmap-mdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.focusblack.wallos.app-debug-53:/mipmap-xhdpi_ic_launcher_adaptive_fore.png.flat",
+        "source": "com.focusblack.wallos.app-main-55:/mipmap-xhdpi/ic_launcher_adaptive_fore.png"
+    },
+    {
+        "merged": "com.focusblack.wallos.app-debug-53:/color_bottom_nav_color.xml.flat",
+        "source": "com.focusblack.wallos.app-main-55:/color/bottom_nav_color.xml"
+    },
+    {
+        "merged": "com.focusblack.wallos.app-debug-53:/menu_main_menu.xml.flat",
+        "source": "com.focusblack.wallos.app-main-55:/menu/main_menu.xml"
+    },
+    {
+        "merged": "com.focusblack.wallos.app-debug-53:/mipmap-xxhdpi_ic_launcher_adaptive_fore.png.flat",
+        "source": "com.focusblack.wallos.app-main-55:/mipmap-xxhdpi/ic_launcher_adaptive_fore.png"
+    },
+    {
+        "merged": "com.focusblack.wallos.app-debug-53:/mipmap-hdpi_ic_launcher_adaptive_back.png.flat",
+        "source": "com.focusblack.wallos.app-main-55:/mipmap-hdpi/ic_launcher_adaptive_back.png"
+    },
+    {
+        "merged": "com.focusblack.wallos.app-debug-53:/layout_fragment_widgets.xml.flat",
+        "source": "com.focusblack.wallos.app-main-55:/layout/fragment_widgets.xml"
+    },
+    {
+        "merged": "com.focusblack.wallos.app-debug-53:/drawable_wall_grid.xml.flat",
+        "source": "com.focusblack.wallos.app-main-55:/drawable/wall_grid.xml"
+    },
+    {
+        "merged": "com.focusblack.wallos.app-debug-53:/drawable_ic_launcher_foreground.xml.flat",
+        "source": "com.focusblack.wallos.app-main-55:/drawable/ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "com.focusblack.wallos.app-debug-53:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "com.focusblack.wallos.app-main-55:/mipmap-anydpi-v26/ic_launcher_round.xml"
+    },
+    {
+        "merged": "com.focusblack.wallos.app-debug-53:/mipmap-xhdpi_ic_launcher_round.webp.flat",
+        "source": "com.focusblack.wallos.app-main-55:/mipmap-xhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.focusblack.wallos.app-debug-53:/layout_activity_pack_detail.xml.flat",
+        "source": "com.focusblack.wallos.app-main-55:/layout/activity_pack_detail.xml"
+    },
+    {
+        "merged": "com.focusblack.wallos.app-debug-53:/mipmap-hdpi_ic_launcher_adaptive_fore.png.flat",
+        "source": "com.focusblack.wallos.app-main-55:/mipmap-hdpi/ic_launcher_adaptive_fore.png"
+    },
+    {
+        "merged": "com.focusblack.wallos.app-debug-53:/drawable_ic_launcher_monochrome.xml.flat",
+        "source": "com.focusblack.wallos.app-main-55:/drawable/ic_launcher_monochrome.xml"
+    },
+    {
+        "merged": "com.focusblack.wallos.app-debug-53:/mipmap-xxhdpi_ic_launcher_adaptive_back.png.flat",
+        "source": "com.focusblack.wallos.app-main-55:/mipmap-xxhdpi/ic_launcher_adaptive_back.png"
+    }
+]

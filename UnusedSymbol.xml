@@ -1,0 +1,15 @@
+<problems>
+<problem>
+  <file>file://$PROJECT_DIR$/app/src/main/java/com/focusblack/wallos/ui/PackAdapter.kt</file>
+  <line>15</line>
+  <module>focus-black.app.main</module>
+  <package>com.focusblack.wallos.ui</package>
+  <entry_point TYPE="method" FQNAME="com.focusblack.wallos.ui.PackAdapter PackAdapter(java.util.List&lt;com.focusblack.wallos.model.Pack&gt; packs, boolean isPro, kotlin.jvm.functions.Function1&lt;? super com.focusblack.wallos.model.Pack,kotlin.Unit&gt; onPackClick)" />
+  <problem_class id="UnusedSymbol" severity="WARNING" attribute_key="WARNING_ATTRIBUTES">Unused symbol</problem_class>
+  <description>Property &quot;isPro&quot; is never used</description>
+  <highlighted_element>isPro</highlighted_element>
+  <language>kotlin</language>
+  <offset>16</offset>
+  <length>5</length>
+</problem>
+</problems>

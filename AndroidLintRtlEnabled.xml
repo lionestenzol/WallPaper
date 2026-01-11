@@ -1,0 +1,15 @@
+<problems>
+<problem>
+  <file>file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml</file>
+  <line>1</line>
+  <module>focus-black.app.main</module>
+  <entry_point TYPE="file" FQNAME="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
+  <problem_class id="AndroidLintRtlEnabled" severity="WARNING" attribute_key="WARNING_ATTRIBUTES">Using RTL attributes without enabling RTL support</problem_class>
+  <hints />
+  <description>&lt;html&gt;The project references RTL attributes, but does not explicitly enable or disable RTL support with &lt;code&gt;android:supportsRtl&lt;/code&gt; in the manifest&lt;/html&gt;</description>
+  <highlighted_element>&lt;manifest package=&quot;com.focusblack.wallos&quot; xmlns:android=&quot;http://schemas.android.com/apk/res/andr...</highlighted_element>
+  <language>XML</language>
+  <offset>0</offset>
+  <length>1173</length>
+</problem>
+</problems>

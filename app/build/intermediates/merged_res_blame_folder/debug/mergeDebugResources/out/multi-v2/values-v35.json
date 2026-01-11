@@ -1,0 +1,19 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.focusblack.wallos.app-mergeDebugResources-51:/values-v35/values-v35.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\bruke\\.gradle\\caches\\9.2.1\\transforms\\0de5ff73f8f08d68260c0750c9d1cc4b\\workspace\\transformed\\material-1.13.0\\res\\values-v35\\values-v35.xml",
+                    "from": {
+                        "startLines": "2,3,4,5",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,149,247,349",
+                        "endColumns": "93,97,101,99",
+                        "endOffsets": "144,242,344,444"
+                    }
+                }
+            ]
+        }
+    ]
+}

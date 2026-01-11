@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Header -->
+    <TextView
+        android:text="@string/packs_title"
+        android:textSize="28sp"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:paddingHorizontal="16dp"
+        android:paddingTop="24dp"
+        android:paddingBottom="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <!-- Packs Grid -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_packs"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:padding="8dp"/>
+
+</LinearLayout>

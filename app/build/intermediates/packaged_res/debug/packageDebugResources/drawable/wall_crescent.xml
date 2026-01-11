@@ -1,0 +1,21 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="1080dp"
+    android:height="2340dp"
+    android:viewportWidth="1080"
+    android:viewportHeight="2340">
+
+    <!-- Pure black background -->
+    <path
+        android:fillColor="#000000"
+        android:pathData="M0,0 L1080,0 L1080,2340 L0,2340 Z"/>
+
+    <!-- Crescent moon shape (white) -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M640,1170 m-180,0 a180,180 0 1,0 360,0 a180,180 0 1,0 -360,0"/>
+
+    <!-- Subtract circle to create crescent -->
+    <path
+        android:fillColor="#000000"
+        android:pathData="M680,1170 m-160,0 a160,160 0 1,0 320,0 a160,160 0 1,0 -320,0"/>
+</vector>
