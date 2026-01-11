@@ -9,6 +9,7 @@ import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.util.Log
 import androidx.core.content.ContextCompat
+import com.focusblack.wallos.R
 import com.focusblack.wallos.data.cache.WallpaperAssetCache
 import com.focusblack.wallos.model.Wall
 import kotlinx.coroutines.Dispatchers
@@ -16,32 +17,75 @@ import kotlinx.coroutines.withContext
 
 object WallpaperEngine {
     private const val TAG = "WallpaperEngine"
+    private const val MAX_IMAGE_DIMENSION = 10_000
+    private const val MAX_IMAGE_PIXELS = 100_000_000L
 
-    suspend fun applyWall(context: Context, wall: Wall): Boolean {
+    data class ApplyResult(
+        val success: Boolean,
+        val messageResId: Int? = null
+    )
+
+    private sealed class LoadResult {
+        data class Success(val bitmap: Bitmap) : LoadResult()
+        data class Failure(val messageResId: Int) : LoadResult()
+    }
+
+    suspend fun applyWall(context: Context, wall: Wall): ApplyResult {
         return try {
             Log.i(TAG, "Applying wall: ${wall.id} title=${wall.title}")
 
-            val bitmap = loadBitmap(context, wall) ?: return false
+            val loadResult = loadBitmap(context, wall)
+            if (loadResult is LoadResult.Failure) {
+                return ApplyResult(success = false, messageResId = loadResult.messageResId)
+            }
+            val bitmap = (loadResult as? LoadResult.Success)?.bitmap
+                ?: return ApplyResult(success = false, messageResId = R.string.error_apply_failed)
 
             // Set as wallpaper
             val wallpaperManager = WallpaperManager.getInstance(context)
             wallpaperManager.setBitmap(bitmap)
 
             Log.i(TAG, "Successfully applied wallpaper: ${wall.title}")
-            true
+            ApplyResult(success = true)
         } catch (e: Exception) {
             Log.e(TAG, "Failed to apply wallpaper: ${wall.title}", e)
-            false
+            ApplyResult(success = false, messageResId = R.string.error_apply_failed)
         }
     }
 
-    private suspend fun loadBitmap(context: Context, wall: Wall): Bitmap? {
+    private suspend fun loadBitmap(context: Context, wall: Wall): LoadResult {
         val assetUrl = wall.assetUrl
         if (!assetUrl.isNullOrBlank()) {
             val cache = WallpaperAssetCache(context.applicationContext)
-            val file = cache.getOrDownload(assetUrl) ?: return null
+            val file = cache.getOrDownload(assetUrl)
+                ?: return LoadResult.Failure(R.string.error_apply_failed)
             return withContext(Dispatchers.IO) {
-                BitmapFactory.decodeFile(file.absolutePath)
+                val targetSize = getTargetSize(context)
+                val boundsOptions = BitmapFactory.Options().apply {
+                    inJustDecodeBounds = true
+                }
+                BitmapFactory.decodeFile(file.absolutePath, boundsOptions)
+                val outWidth = boundsOptions.outWidth
+                val outHeight = boundsOptions.outHeight
+                if (outWidth <= 0 || outHeight <= 0) {
+                    Log.e(TAG, "Invalid image bounds for ${wall.title}")
+                    return@withContext LoadResult.Failure(R.string.error_apply_failed)
+                }
+                if (isUnexpectedlyLarge(outWidth, outHeight)) {
+                    Log.w(TAG, "Image too large: ${outWidth}x${outHeight} for ${wall.title}")
+                    return@withContext LoadResult.Failure(R.string.error_wallpaper_too_large)
+                }
+                val decodeOptions = BitmapFactory.Options().apply {
+                    inSampleSize = calculateInSampleSize(
+                        width = outWidth,
+                        height = outHeight,
+                        reqWidth = targetSize.first,
+                        reqHeight = targetSize.second
+                    )
+                }
+                val decoded = BitmapFactory.decodeFile(file.absolutePath, decodeOptions)
+                decoded?.let { LoadResult.Success(it) }
+                    ?: LoadResult.Failure(R.string.error_apply_failed)
             }
         }
 
@@ -52,16 +96,16 @@ object WallpaperEngine {
         )
         if (resourceId == 0) {
             Log.e(TAG, "Drawable not found: ${wall.drawableName}")
-            return null
+            return LoadResult.Failure(R.string.error_wallpaper_not_found)
         }
 
         val drawable = ContextCompat.getDrawable(context, resourceId)
         if (drawable == null) {
             Log.e(TAG, "Failed to load drawable: ${wall.drawableName}")
-            return null
+            return LoadResult.Failure(R.string.error_apply_failed)
         }
 
-        return drawableToBitmap(context, drawable)
+        return LoadResult.Success(drawableToBitmap(context, drawable))
     }
 
     private fun drawableToBitmap(context: Context, drawable: Drawable): Bitmap {
@@ -115,5 +159,40 @@ object WallpaperEngine {
                 Rect(left, top, left + scaledWidth, top + scaledHeight)
             }
         }
+    }
+
+    private fun getTargetSize(context: Context): Pair<Int, Int> {
+        val wallpaperManager = WallpaperManager.getInstance(context)
+        val metrics = context.resources.displayMetrics
+        val width = (wallpaperManager.desiredMinimumWidth.takeIf { it > 0 } ?: metrics.widthPixels)
+            .coerceAtLeast(1)
+        val height = (wallpaperManager.desiredMinimumHeight.takeIf { it > 0 } ?: metrics.heightPixels)
+            .coerceAtLeast(1)
+        return width to height
+    }
+
+    private fun calculateInSampleSize(
+        width: Int,
+        height: Int,
+        reqWidth: Int,
+        reqHeight: Int
+    ): Int {
+        var inSampleSize = 1
+        if (height > reqHeight || width > reqWidth) {
+            var halfHeight = height / 2
+            var halfWidth = width / 2
+            while (halfHeight / inSampleSize >= reqHeight && halfWidth / inSampleSize >= reqWidth) {
+                inSampleSize *= 2
+            }
+        }
+        return inSampleSize.coerceAtLeast(1)
+    }
+
+    private fun isUnexpectedlyLarge(width: Int, height: Int): Boolean {
+        if (width > MAX_IMAGE_DIMENSION || height > MAX_IMAGE_DIMENSION) {
+            return true
+        }
+        val pixels = width.toLong() * height.toLong()
+        return pixels > MAX_IMAGE_PIXELS
     }
 }

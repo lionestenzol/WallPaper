@@ -77,11 +77,11 @@ class PackDetailActivity : AppCompatActivity() {
 
     private fun applyWallpaper(wall: Wall) {
         lifecycleScope.launch {
-            val applied = WallpaperEngine.applyWall(this@PackDetailActivity, wall)
-            val message = if (applied) {
+            val result = WallpaperEngine.applyWall(this@PackDetailActivity, wall)
+            val message = if (result.success) {
                 R.string.wallpaper_applied
             } else {
-                R.string.error_apply_failed
+                result.messageResId ?: R.string.error_apply_failed
             }
             Snackbar.make(rvWallpapers, message, Snackbar.LENGTH_SHORT).show()
         }

@@ -69,5 +69,6 @@
     <!-- Errors -->
     <string name="error_wallpaper_not_found">Wallpaper not found</string>
     <string name="error_apply_failed">Failed to apply wallpaper</string>
+    <string name="error_wallpaper_too_large">Wallpaper image is too large to apply</string>
     <string name="error_billing_unavailable">Billing unavailable</string>
 </resources>
