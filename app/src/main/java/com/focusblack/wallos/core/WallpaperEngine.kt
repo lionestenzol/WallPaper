@@ -3,39 +3,24 @@ package com.focusblack.wallos.core
 import android.app.WallpaperManager
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.drawable.Drawable
 import android.util.Log
 import androidx.core.content.ContextCompat
+import com.focusblack.wallos.data.cache.WallpaperAssetCache
 import com.focusblack.wallos.model.Wall
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 object WallpaperEngine {
     private const val TAG = "WallpaperEngine"
 
-    fun applyWall(context: Context, wall: Wall): Boolean {
+    suspend fun applyWall(context: Context, wall: Wall): Boolean {
         return try {
             Log.i(TAG, "Applying wall: ${wall.id} title=${wall.title}")
 
-            // Get drawable resource ID from name
-            val resourceId = context.resources.getIdentifier(
-                wall.drawableName,
-                "drawable",
-                context.packageName
-            )
-
-            if (resourceId == 0) {
-                Log.e(TAG, "Drawable not found: ${wall.drawableName}")
-                return false
-            }
-
-            // Load drawable and convert to bitmap
-            val drawable = ContextCompat.getDrawable(context, resourceId)
-            if (drawable == null) {
-                Log.e(TAG, "Failed to load drawable: ${wall.drawableName}")
-                return false
-            }
-
-            val bitmap = drawableToBitmap(context, drawable)
+            val bitmap = loadBitmap(context, wall) ?: return false
 
             // Set as wallpaper
             val wallpaperManager = WallpaperManager.getInstance(context)
@@ -47,6 +32,35 @@ object WallpaperEngine {
             Log.e(TAG, "Failed to apply wallpaper: ${wall.title}", e)
             false
         }
+    }
+
+    private suspend fun loadBitmap(context: Context, wall: Wall): Bitmap? {
+        val assetUrl = wall.assetUrl
+        if (!assetUrl.isNullOrBlank()) {
+            val cache = WallpaperAssetCache(context.applicationContext)
+            val file = cache.getOrDownload(assetUrl) ?: return null
+            return withContext(Dispatchers.IO) {
+                BitmapFactory.decodeFile(file.absolutePath)
+            }
+        }
+
+        val resourceId = context.resources.getIdentifier(
+            wall.drawableName,
+            "drawable",
+            context.packageName
+        )
+        if (resourceId == 0) {
+            Log.e(TAG, "Drawable not found: ${wall.drawableName}")
+            return null
+        }
+
+        val drawable = ContextCompat.getDrawable(context, resourceId)
+        if (drawable == null) {
+            Log.e(TAG, "Failed to load drawable: ${wall.drawableName}")
+            return null
+        }
+
+        return drawableToBitmap(context, drawable)
     }
 
     private fun drawableToBitmap(context: Context, drawable: Drawable): Bitmap {

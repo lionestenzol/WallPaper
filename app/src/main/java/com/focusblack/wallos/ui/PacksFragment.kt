@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.focusblack.wallos.R
@@ -38,7 +39,7 @@ class PacksFragment : Fragment() {
 
         val packs = PackRegistry.listPacks()
 
-        val adapter = PackAdapter(packs, isPro) { pack ->
+        val adapter = PackAdapter(packs, isPro, viewLifecycleOwner.lifecycleScope) { pack ->
             // Open pack detail
             val intent = Intent(requireContext(), PackDetailActivity::class.java)
             intent.putExtra(PackDetailActivity.EXTRA_PACK_ID, pack.id)
