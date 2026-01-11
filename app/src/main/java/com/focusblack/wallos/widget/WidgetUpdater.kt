@@ -25,7 +25,7 @@ object WidgetUpdater {
         for (widget in widgets) {
             val ids = manager.getAppWidgetIds(ComponentName(context, widget.provider))
             if (ids.isNotEmpty()) {
-                val views = WidgetViews.build(context, widget.layoutId, widget.provider)
+                val views = WidgetViews.build(context, widget.layoutId)
                 manager.updateAppWidget(ids, views)
             }
         }
