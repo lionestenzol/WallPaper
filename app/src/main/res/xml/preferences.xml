@@ -13,6 +13,12 @@
             android:defaultValue="true"
             app:iconSpaceReserved="false"/>
 
+        <Preference
+            android:key="rotate_now"
+            android:title="@string/pref_rotate_now"
+            android:summary="@string/pref_rotate_now_summary"
+            app:iconSpaceReserved="false"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory
