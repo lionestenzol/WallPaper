@@ -22,6 +22,7 @@ import com.focusblack.wallos.util.ReviewHelper
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -103,8 +104,11 @@ class TodayFragment : Fragment() {
         progressApply.visibility = View.VISIBLE
 
         viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Default) {
-            val applied = WallpaperEngine.applyWall(requireContext(), wall)
-            if (applied) {
+            val applied = withContext(Dispatchers.IO) {
+                WallpaperEngine.applyWall(requireContext(), wall)
+            }
+            ensureActive()
+            if (applied && isAdded && isActive) {
                 StreakEngine.onDailyApplied(requireContext())
 
                 // Advance to next wallpaper
@@ -115,13 +119,18 @@ class TodayFragment : Fragment() {
                 reviewGate.recordApply()
                 if (reviewGate.shouldShowReview()) {
                     withContext(Dispatchers.Main) {
-                        ReviewHelper.showReviewIfAppropriate(requireActivity())
-                        reviewGate.setShown()
+                        if (isAdded && isActive) {
+                            ReviewHelper.showReviewIfAppropriate(requireActivity())
+                            reviewGate.setShown()
+                        }
                     }
                 }
             }
 
             withContext(Dispatchers.Main) {
+                if (!isAdded || !isActive) {
+                    return@withContext
+                }
                 // Hide loading and show result
                 progressApply.visibility = View.GONE
                 btnApply.isEnabled = true
