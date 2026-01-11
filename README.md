@@ -16,11 +16,16 @@ Daily AMOLED ritual wallpaper app with automatic rotation, streak tracking, and 
 - **Automatic Daily Rotation** - WorkManager cycles through wallpapers every 24 hours
 - **Manual Apply** - Tap to instantly apply the current wallpaper
 - **Manual Rotation Trigger** - Settings button to trigger immediate rotation
+- **Apply Status Tracking** - Track last wallpaper apply result with timestamp and error details
+- **Wallpaper Apply Target** - Choose to apply wallpaper to home screen, lock screen, or both
+- **Battery Optimization** - Delay rotation when battery is low (optional)
 - **Streak Tracking** - Tracks consecutive days of wallpaper application
 - **7 AMOLED Wallpapers** - Pure black backgrounds for power savings
 - **Functional Home Widgets** - 4 working widgets (FocusRing, ModeSigil, DateGlyph, BatteryHalo)
 - **Remote Pack Loading** - Download wallpaper packs from server
 - **Device-Adaptive Scaling** - Smart center-crop for any screen size
+- **Structured Logging** - Analytics-ready event logging with WallosLogger
+- **Apply Status UI** - Visual feedback showing "Applying...", "Applied", or "Failed" with retry action
 - **Review Gate** - In-app review prompt after 3 applies
 - **Bottom Navigation** - Today / Packs / Widgets tabs
 - **Material 3 Dark UI** - Modern design with pure black theme
@@ -90,7 +95,9 @@ app/src/main/
 │   │   ├── RotationScheduler.kt
 │   │   ├── RotationWorker.kt
 │   │   ├── StreakEngine.kt
-│   │   └── WallpaperEngine.kt
+│   │   ├── WallpaperEngine.kt
+│   │   ├── WallosLogger.kt
+│   │   └── WallosAnalytics.kt
 │   ├── data/              # Data layer
 │   │   ├── cache/
 │   │   │   ├── WallpaperAssetCache.kt
@@ -145,7 +152,7 @@ app/src/main/
 ### Key Components
 
 #### WallpaperEngine
-Applies wallpapers to the device. Supports both local drawables and remote URLs. Uses device-adaptive scaling with center-crop strategy to fit any screen size. Converts vector drawables to bitmaps via Canvas and sets them through WallpaperManager.
+Applies wallpapers to the device. Supports both local drawables and remote URLs. Uses device-adaptive scaling with center-crop strategy to fit any screen size. Returns `ApplyResult` with success status and error details. Supports applying to home screen, lock screen, or both (Android N+). Converts vector drawables to bitmaps via Canvas and sets them through WallpaperManager.
 
 #### RotationScheduler / RotationWorker
 Uses WorkManager to schedule daily wallpaper rotation. RotationWorker executes in the background to cycle through wallpapers.
@@ -171,6 +178,12 @@ Fetches remote wallpaper pack metadata from server. Enables dynamic pack loading
 
 #### WallpaperAssetCache
 Downloads and caches remote wallpaper images using DiskLruCache. Provides fast access to previously downloaded wallpapers.
+
+#### WallosLogger
+Structured logging system for consistent event tracking. Formats logs as key-value pairs (e.g., `event=wallpaper_apply_started wall_id=genesis_prime`). Provides foundation for analytics integration with Firebase, Mixpanel, or similar services.
+
+#### WallosAnalytics
+Analytics hooks that track user actions and app events. Currently outputs to logcat, ready for integration with analytics platforms.
 
 ## Configuration
 
