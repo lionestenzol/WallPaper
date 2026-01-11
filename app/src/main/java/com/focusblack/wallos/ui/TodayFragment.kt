@@ -124,8 +124,9 @@ class TodayFragment : Fragment() {
         tvApplyStatus.setText(R.string.apply_status_applying)
 
         viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Default) {
+            val target = SettingsFragment.getApplyTarget(requireContext())
             val applyResult = withContext(Dispatchers.IO) {
-                WallpaperEngine.applyWall(requireContext(), wall)
+                WallpaperEngine.applyWall(requireContext(), wall, target)
             }
             prefs.edit {
                 putBoolean(WallpaperEngine.KEY_LAST_APPLY_RESULT, applyResult.success)

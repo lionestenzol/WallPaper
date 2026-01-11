@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
+import android.os.Build
 import androidx.core.content.ContextCompat
 import com.focusblack.wallos.data.cache.WallpaperAssetCache
 import com.focusblack.wallos.model.Wall
@@ -19,12 +20,24 @@ object WallpaperEngine {
     const val KEY_LAST_APPLY_ERROR = "wallpaper_last_apply_error"
     const val KEY_LAST_APPLY_TIME = "wallpaper_last_apply_time"
 
+    enum class ApplyTarget(val prefValue: String) {
+        SYSTEM("system"),
+        LOCK("lock"),
+        BOTH("both");
+
+        companion object {
+            fun fromPreference(value: String?): ApplyTarget {
+                return values().firstOrNull { it.prefValue == value } ?: BOTH
+            }
+        }
+    }
+
     data class ApplyResult(
         val success: Boolean,
         val error: String? = null
     )
 
-    suspend fun applyWall(context: Context, wall: Wall): ApplyResult {
+    suspend fun applyWall(context: Context, wall: Wall, target: ApplyTarget = ApplyTarget.BOTH): ApplyResult {
         return try {
             WallosLogger.info(
                 TAG,
@@ -64,7 +77,16 @@ object WallpaperEngine {
 
             // Set as wallpaper
             val wallpaperManager = WallpaperManager.getInstance(context)
-            wallpaperManager.setBitmap(bitmap)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                val which = when (target) {
+                    ApplyTarget.SYSTEM -> WallpaperManager.FLAG_SYSTEM
+                    ApplyTarget.LOCK -> WallpaperManager.FLAG_LOCK
+                    ApplyTarget.BOTH -> WallpaperManager.FLAG_SYSTEM or WallpaperManager.FLAG_LOCK
+                }
+                wallpaperManager.setBitmap(bitmap, null, true, which)
+            } else {
+                wallpaperManager.setBitmap(bitmap)
+            }
 
             WallosLogger.info(
                 TAG,

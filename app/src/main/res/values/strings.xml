@@ -60,6 +60,10 @@
     <string name="pref_rotate_now">Rotate now</string>
     <string name="pref_rotate_now_summary">Apply the next wallpaper immediately</string>
     <string name="pref_rotate_now_queued">Rotation queued</string>
+    <string name="pref_apply_target_title">Apply wallpaper to</string>
+    <string name="apply_target_system">Home screen</string>
+    <string name="apply_target_lock">Lock screen</string>
+    <string name="apply_target_both">Home &amp; lock screens</string>
     <string name="pref_account_category">Account</string>
     <string name="pref_restore_purchases">Restore Purchases</string>
     <string name="pref_restore_purchases_summary">Restore previous Pro purchase</string>

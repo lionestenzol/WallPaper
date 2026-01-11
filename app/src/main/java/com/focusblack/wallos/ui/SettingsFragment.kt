@@ -1,11 +1,13 @@
 package com.focusblack.wallos.ui
 
+import android.content.Context
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
+import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
-import androidx.preference.SwitchPreferenceCompat
 import androidx.preference.PreferenceManager
+import androidx.preference.SwitchPreferenceCompat
 import com.focusblack.wallos.R
 import com.focusblack.wallos.billing.BillingRepository
 import com.focusblack.wallos.core.RotationScheduler
@@ -29,6 +31,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         setupAutoRotate()
         setupRotateNow()
+        setupApplyTarget()
         setupProStatus()
         setupRestorePurchases()
         setupUnlockPro()
@@ -67,6 +70,11 @@ class SettingsFragment : PreferenceFragmentCompat() {
             showSnackbar(getString(R.string.pref_rotate_now_queued))
             true
         }
+    }
+
+    private fun setupApplyTarget() {
+        val applyTargetPref = findPreference<ListPreference>(PREF_APPLY_TARGET)
+        applyTargetPref?.summaryProvider = ListPreference.SimpleSummaryProvider.getInstance()
     }
 
     private fun setupProStatus() {
@@ -161,6 +169,16 @@ class SettingsFragment : PreferenceFragmentCompat() {
     private fun showSnackbar(message: String) {
         view?.let {
             Snackbar.make(it, message, Snackbar.LENGTH_SHORT).show()
+        }
+    }
+
+    companion object {
+        private const val PREF_APPLY_TARGET = "apply_target"
+
+        fun getApplyTarget(context: Context): WallpaperEngine.ApplyTarget {
+            val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+            val value = prefs.getString(PREF_APPLY_TARGET, WallpaperEngine.ApplyTarget.BOTH.prefValue)
+            return WallpaperEngine.ApplyTarget.fromPreference(value)
         }
     }
 }

@@ -79,7 +79,8 @@ class PackDetailActivity : AppCompatActivity() {
 
     private fun applyWallpaper(wall: Wall) {
         lifecycleScope.launch {
-            val applyResult = WallpaperEngine.applyWall(this@PackDetailActivity, wall)
+            val target = SettingsFragment.getApplyTarget(this@PackDetailActivity)
+            val applyResult = WallpaperEngine.applyWall(this@PackDetailActivity, wall, target)
             val prefs = PreferenceManager.getDefaultSharedPreferences(this@PackDetailActivity)
             prefs.edit {
                 putBoolean(WallpaperEngine.KEY_LAST_APPLY_RESULT, applyResult.success)

@@ -19,6 +19,15 @@
             android:summary="@string/pref_rotate_now_summary"
             app:iconSpaceReserved="false"/>
 
+        <ListPreference
+            android:key="apply_target"
+            android:title="@string/pref_apply_target_title"
+            android:defaultValue="both"
+            android:entries="@array/apply_target_entries"
+            android:entryValues="@array/apply_target_values"
+            app:useSimpleSummaryProvider="true"
+            app:iconSpaceReserved="false"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory
