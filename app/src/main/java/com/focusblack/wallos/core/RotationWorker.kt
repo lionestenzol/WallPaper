@@ -25,7 +25,10 @@ class RotationWorker(
         val wall = pack.walls[currentIndex]
 
         // Apply wallpaper
-        WallpaperEngine.applyWall(applicationContext, wall)
+        val applied = WallpaperEngine.applyWall(applicationContext, wall)
+        if (!applied) {
+            return Result.retry()
+        }
         StreakEngine.onDailyApplied(applicationContext)
 
         // Save next index for next rotation

@@ -12,8 +12,8 @@ import com.focusblack.wallos.model.Wall
 object WallpaperEngine {
     private const val TAG = "WallpaperEngine"
 
-    fun applyWall(context: Context, wall: Wall) {
-        try {
+    fun applyWall(context: Context, wall: Wall): Boolean {
+        return try {
             Log.i(TAG, "Applying wall: ${wall.id} title=${wall.title}")
 
             // Get drawable resource ID from name
@@ -25,32 +25,37 @@ object WallpaperEngine {
 
             if (resourceId == 0) {
                 Log.e(TAG, "Drawable not found: ${wall.drawableName}")
-                return
+                return false
             }
 
             // Load drawable and convert to bitmap
             val drawable = ContextCompat.getDrawable(context, resourceId)
             if (drawable == null) {
                 Log.e(TAG, "Failed to load drawable: ${wall.drawableName}")
-                return
+                return false
             }
 
-            val bitmap = drawableToBitmap(drawable)
+            val bitmap = drawableToBitmap(context, drawable)
 
             // Set as wallpaper
             val wallpaperManager = WallpaperManager.getInstance(context)
             wallpaperManager.setBitmap(bitmap)
 
             Log.i(TAG, "Successfully applied wallpaper: ${wall.title}")
+            true
         } catch (e: Exception) {
             Log.e(TAG, "Failed to apply wallpaper: ${wall.title}", e)
+            false
         }
     }
 
-    private fun drawableToBitmap(drawable: Drawable): Bitmap {
-        // Use reasonable wallpaper dimensions
-        val width = 1080
-        val height = 2340
+    private fun drawableToBitmap(context: Context, drawable: Drawable): Bitmap {
+        val wallpaperManager = WallpaperManager.getInstance(context)
+        val metrics = context.resources.displayMetrics
+        val width = (wallpaperManager.desiredMinimumWidth.takeIf { it > 0 } ?: metrics.widthPixels)
+            .coerceAtLeast(1)
+        val height = (wallpaperManager.desiredMinimumHeight.takeIf { it > 0 } ?: metrics.heightPixels)
+            .coerceAtLeast(1)
 
         val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
