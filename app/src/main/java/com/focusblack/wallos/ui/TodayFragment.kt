@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
 import com.focusblack.wallos.R
 import com.focusblack.wallos.core.PackRegistry
@@ -20,6 +21,9 @@ import com.focusblack.wallos.model.Wall
 import com.focusblack.wallos.util.ReviewHelper
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class TodayFragment : Fragment() {
 
@@ -98,31 +102,45 @@ class TodayFragment : Fragment() {
         btnApply.isEnabled = false
         progressApply.visibility = View.VISIBLE
 
-        // Apply wallpaper
-        WallpaperEngine.applyWall(requireContext(), wall)
-        StreakEngine.onDailyApplied(requireContext())
+        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Default) {
+            val applied = WallpaperEngine.applyWall(requireContext(), wall)
+            if (applied) {
+                StreakEngine.onDailyApplied(requireContext())
 
-        // Advance to next wallpaper
-        val nextIndex = (currentIndex + 1) % pack.walls.size
-        prefs.edit { putInt(KEY_CURRENT_INDEX, nextIndex) }
+                // Advance to next wallpaper
+                val nextIndex = (currentIndex + 1) % pack.walls.size
+                prefs.edit { putInt(KEY_CURRENT_INDEX, nextIndex) }
 
-        // Review gate
-        reviewGate.recordApply()
-        if (reviewGate.shouldShowReview()) {
-            ReviewHelper.showReviewIfAppropriate(requireActivity())
-            reviewGate.setShown()
+                // Review gate
+                reviewGate.recordApply()
+                if (reviewGate.shouldShowReview()) {
+                    withContext(Dispatchers.Main) {
+                        ReviewHelper.showReviewIfAppropriate(requireActivity())
+                        reviewGate.setShown()
+                    }
+                }
+            }
+
+            withContext(Dispatchers.Main) {
+                // Hide loading and show result
+                progressApply.visibility = View.GONE
+                btnApply.isEnabled = true
+
+                view?.let {
+                    val message = if (applied) {
+                        R.string.wallpaper_applied
+                    } else {
+                        R.string.error_apply_failed
+                    }
+                    Snackbar.make(it, message, Snackbar.LENGTH_SHORT).show()
+                }
+
+                if (applied) {
+                    // Update UI to show next wallpaper
+                    refreshUI()
+                }
+            }
         }
-
-        // Hide loading and show success
-        progressApply.visibility = View.GONE
-        btnApply.isEnabled = true
-
-        view?.let {
-            Snackbar.make(it, R.string.wallpaper_applied, Snackbar.LENGTH_SHORT).show()
-        }
-
-        // Update UI to show next wallpaper
-        refreshUI()
     }
 
     companion object {
