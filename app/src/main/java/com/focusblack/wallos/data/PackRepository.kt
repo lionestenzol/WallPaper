@@ -13,11 +13,21 @@ class PackRepository {
 
     suspend fun fetchRemotePacks(url: String): List<Pack> = withContext(Dispatchers.IO) {
         runCatching {
-            val connection = URL(url).openConnection() as HttpURLConnection
-            connection.connectTimeout = TIMEOUT_MS
-            connection.readTimeout = TIMEOUT_MS
-            val body = connection.inputStream.bufferedReader().use { it.readText() }
-            parsePacks(body)
+            val connection = openHttpsConnection(url) ?: return@withContext emptyList()
+            try {
+                val responseCode = connection.responseCode
+                if (responseCode !in 200..299) {
+                    return@withContext emptyList()
+                }
+                val contentLength = connection.contentLengthLong
+                if (contentLength <= 0 || contentLength > MAX_RESPONSE_SIZE_BYTES) {
+                    return@withContext emptyList()
+                }
+                val body = connection.inputStream.bufferedReader().use { it.readText() }
+                parsePacks(body)
+            } finally {
+                connection.disconnect()
+            }
         }.getOrElse { emptyList() }
     }
 
@@ -54,6 +64,19 @@ class PackRepository {
     }
 
     companion object {
+        private const val MAX_RESPONSE_SIZE_BYTES = 5L * 1024L * 1024L
         private const val TIMEOUT_MS = 15_000
+    }
+
+    private fun openHttpsConnection(url: String): HttpURLConnection? {
+        val parsedUrl = runCatching { URL(url) }.getOrNull() ?: return null
+        if (!parsedUrl.protocol.equals("https", ignoreCase = true)) {
+            return null
+        }
+        val connection = parsedUrl.openConnection() as? HttpURLConnection ?: return null
+        connection.connectTimeout = TIMEOUT_MS
+        connection.readTimeout = TIMEOUT_MS
+        connection.instanceFollowRedirects = false
+        return connection
     }
 }
