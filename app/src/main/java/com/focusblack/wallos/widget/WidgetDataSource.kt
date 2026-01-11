@@ -7,6 +7,7 @@ import com.focusblack.wallos.R
 import com.focusblack.wallos.core.PackRegistry
 import com.focusblack.wallos.core.StreakEngine
 import com.focusblack.wallos.core.WallpaperEngine
+import com.focusblack.wallos.util.ErrorNotifier
 
 object WidgetDataSource {
     private const val KEY_CURRENT_INDEX = "rotation_current_index"
@@ -29,7 +30,9 @@ object WidgetDataSource {
         }
         val currentIndex = prefs.getInt(KEY_CURRENT_INDEX, 0)
         val wall = pack.walls.getOrNull(currentIndex) ?: return false
-        val applied = WallpaperEngine.applyWall(context, wall)
+        val applied = WallpaperEngine.applyWall(context, wall) { failure ->
+            ErrorNotifier.showApplyFailureNotification(context, wall, failure.userMessage)
+        }
         if (applied) {
             StreakEngine.onDailyApplied(context)
             val nextIndex = (currentIndex + 1) % pack.walls.size

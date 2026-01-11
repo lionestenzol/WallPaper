@@ -76,5 +76,13 @@
                 android:resource="@xml/widget_battery_halo_info" />
         </receiver>
 
+        <receiver
+            android:name=".core.RetryApplyWallpaperReceiver"
+            android:exported="false" />
+
+        <receiver
+            android:name=".core.PackFetchRetryReceiver"
+            android:exported="false" />
+
     </application>
 </manifest>

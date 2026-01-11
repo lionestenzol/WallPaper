@@ -1,10 +1,14 @@
 package com.focusblack.wallos.core
 
+import android.content.Context
+import android.util.Log
+import com.focusblack.wallos.data.PackRepository
 import com.focusblack.wallos.model.Pack
 import com.focusblack.wallos.model.Wall
-import com.focusblack.wallos.data.PackRepository
+import com.focusblack.wallos.util.ErrorNotifier
 
 object PackRegistry {
+    private const val TAG = "PackRegistry"
     private val packs = mutableMapOf<String, Pack>()
 
     init {
@@ -37,9 +41,28 @@ object PackRegistry {
         }
     }
 
-    suspend fun loadRemotePacks(url: String, repository: PackRepository = PackRepository()): List<Pack> {
-        val remotePacks = repository.fetchRemotePacks(url)
-        upsertPacks(remotePacks)
-        return remotePacks
+    fun findWallById(id: String): Wall? {
+        return packs.values.asSequence()
+            .mapNotNull { pack -> pack.walls.firstOrNull { it.id == id } }
+            .firstOrNull()
+    }
+
+    suspend fun loadRemotePacks(
+        context: Context,
+        url: String,
+        repository: PackRepository = PackRepository()
+    ): List<Pack> {
+        val result = repository.fetchRemotePacks(url)
+        return result.fold(
+            onSuccess = { remotePacks ->
+                upsertPacks(remotePacks)
+                remotePacks
+            },
+            onFailure = { error ->
+                Log.e(TAG, "Remote pack load failed. url=$url", error)
+                ErrorNotifier.showPackFetchFailureNotification(context, url)
+                emptyList()
+            }
+        )
     }
 }

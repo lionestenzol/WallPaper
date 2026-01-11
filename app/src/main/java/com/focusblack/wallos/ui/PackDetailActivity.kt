@@ -11,6 +11,7 @@ import com.focusblack.wallos.core.PackRegistry
 import com.focusblack.wallos.core.WallpaperEngine
 import com.focusblack.wallos.model.Pack
 import com.focusblack.wallos.model.Wall
+import com.focusblack.wallos.util.ErrorNotifier
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
@@ -77,13 +78,18 @@ class PackDetailActivity : AppCompatActivity() {
 
     private fun applyWallpaper(wall: Wall) {
         lifecycleScope.launch {
-            val applied = WallpaperEngine.applyWall(this@PackDetailActivity, wall)
-            val message = if (applied) {
-                R.string.wallpaper_applied
-            } else {
-                R.string.error_apply_failed
+            var failure: WallpaperEngine.ApplyFailure? = null
+            val applied = WallpaperEngine.applyWall(this@PackDetailActivity, wall) { error ->
+                failure = error
             }
-            Snackbar.make(rvWallpapers, message, Snackbar.LENGTH_SHORT).show()
+            if (applied) {
+                Snackbar.make(rvWallpapers, R.string.wallpaper_applied, Snackbar.LENGTH_SHORT).show()
+            } else {
+                val message = failure?.userMessage ?: getString(R.string.error_apply_failed)
+                ErrorNotifier.showRetrySnackbar(rvWallpapers, message) {
+                    applyWallpaper(wall)
+                }
+            }
         }
     }
 }

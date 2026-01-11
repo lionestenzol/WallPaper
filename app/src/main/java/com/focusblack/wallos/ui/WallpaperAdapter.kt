@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.focusblack.wallos.R
 import com.focusblack.wallos.data.cache.WallpaperAssetCache
 import com.focusblack.wallos.model.Wall
+import com.focusblack.wallos.util.ErrorNotifier
 import com.google.android.material.button.MaterialButton
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -49,10 +50,24 @@ class WallpaperAdapter(
         if (!assetUrl.isNullOrBlank()) {
             holder.ivThumb.setImageDrawable(null)
             scope.launch {
-                val bitmap = cache.loadBitmap(assetUrl)
+                val bitmapResult = cache.loadBitmap(assetUrl)
                 withContext(Dispatchers.Main) {
-                    if (holder.ivThumb.tag == assetUrl && bitmap != null) {
-                        holder.ivThumb.setImageBitmap(bitmap)
+                    bitmapResult.onSuccess { bitmap ->
+                        if (holder.ivThumb.tag == assetUrl) {
+                            holder.ivThumb.setImageBitmap(bitmap)
+                        }
+                    }.onFailure {
+                        if (holder.ivThumb.tag == assetUrl) {
+                            ErrorNotifier.showRetrySnackbar(
+                                holder.itemView,
+                                context.getString(R.string.error_wallpaper_download_failed)
+                            ) {
+                                val position = holder.bindingAdapterPosition
+                                if (position != RecyclerView.NO_POSITION) {
+                                    notifyItemChanged(position)
+                                }
+                            }
+                        }
                     }
                 }
             }
