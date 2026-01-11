@@ -2,6 +2,7 @@ package com.focusblack.wallos.ui
 
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
+import androidx.preference.PreferenceManager
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreferenceCompat
@@ -24,6 +25,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         ownershipStore = OwnershipStore(requireContext())
 
         setupAutoRotate()
+        setupRotationConstraints()
         setupProStatus()
         setupRestorePurchases()
         setupUnlockPro()
@@ -49,6 +51,18 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 RotationScheduler.scheduleDailyRotation(requireContext())
             } else {
                 RotationScheduler.cancel(requireContext())
+            }
+            true
+        }
+    }
+
+    private fun setupRotationConstraints() {
+        val constraintsPref = findPreference<SwitchPreferenceCompat>("rotation_constraints")
+        constraintsPref?.setOnPreferenceChangeListener { _, _ ->
+            val prefs = PreferenceManager.getDefaultSharedPreferences(requireContext())
+            val autoRotateEnabled = prefs.getBoolean("auto_rotate", true)
+            if (autoRotateEnabled) {
+                RotationScheduler.scheduleDailyRotation(requireContext())
             }
             true
         }

@@ -46,6 +46,8 @@
     <string name="pref_rotation_category">Rotation</string>
     <string name="pref_auto_rotate">Auto-rotate daily</string>
     <string name="pref_auto_rotate_summary">Automatically change wallpaper every 24 hours</string>
+    <string name="pref_rotation_constraints">Save battery during rotation</string>
+    <string name="pref_rotation_constraints_summary">Delay rotation when battery is low</string>
     <string name="pref_account_category">Account</string>
     <string name="pref_restore_purchases">Restore Purchases</string>
     <string name="pref_restore_purchases_summary">Restore previous Pro purchase</string>
