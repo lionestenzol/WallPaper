@@ -24,6 +24,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         ownershipStore = OwnershipStore(requireContext())
 
         setupAutoRotate()
+        setupRotateNow()
         setupProStatus()
         setupRestorePurchases()
         setupUnlockPro()
@@ -50,6 +51,15 @@ class SettingsFragment : PreferenceFragmentCompat() {
             } else {
                 RotationScheduler.cancel(requireContext())
             }
+            true
+        }
+    }
+
+    private fun setupRotateNow() {
+        val rotateNowPref = findPreference<Preference>("rotate_now")
+        rotateNowPref?.setOnPreferenceClickListener {
+            RotationScheduler.enqueueOneTimeRotation(requireContext())
+            showSnackbar(getString(R.string.pref_rotate_now_queued))
             true
         }
     }
