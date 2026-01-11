@@ -133,10 +133,18 @@
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:layout_marginTop="24dp"
-            android:layout_marginBottom="16dp"
             app:cornerRadius="12dp"
             app:backgroundTint="@color/white"
             android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/tv_apply_status"
+            android:textColor="#B0B0B0"
+            android:textSize="14sp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
     </LinearLayout>
 

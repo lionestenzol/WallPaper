@@ -31,8 +31,10 @@ class TodayFragment : Fragment() {
     private lateinit var tvWallTitle: TextView
     private lateinit var tvPackInfo: TextView
     private lateinit var tvStreak: TextView
+    private lateinit var tvApplyStatus: TextView
     private lateinit var btnApply: MaterialButton
     private lateinit var progressApply: ProgressBar
+    private lateinit var reviewGate: ReviewGate
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val view = inflater.inflate(R.layout.fragment_today, container, false)
@@ -41,13 +43,14 @@ class TodayFragment : Fragment() {
         tvWallTitle = view.findViewById(R.id.tv_wall_title)
         tvPackInfo = view.findViewById(R.id.tv_pack_info)
         tvStreak = view.findViewById(R.id.tv_streak)
+        tvApplyStatus = view.findViewById(R.id.tv_apply_status)
         btnApply = view.findViewById(R.id.btn_apply)
         progressApply = view.findViewById(R.id.progress_apply)
 
-        val reviewGate = ReviewGate(requireContext())
+        reviewGate = ReviewGate(requireContext())
 
         btnApply.setOnClickListener {
-            applyCurrentWallpaper(reviewGate)
+            applyCurrentWallpaper()
         }
 
         refreshUI()
@@ -91,7 +94,7 @@ class TodayFragment : Fragment() {
         }
     }
 
-    private fun applyCurrentWallpaper(reviewGate: ReviewGate) {
+    private fun applyCurrentWallpaper() {
         val prefs = PreferenceManager.getDefaultSharedPreferences(requireContext())
         val pack = PackRegistry.getPack("GENESIS_001") ?: return
 
@@ -101,6 +104,7 @@ class TodayFragment : Fragment() {
         // Show loading
         btnApply.isEnabled = false
         progressApply.visibility = View.VISIBLE
+        tvApplyStatus.setText(R.string.apply_status_applying)
 
         viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Default) {
             val applied = WallpaperEngine.applyWall(requireContext(), wall)
@@ -125,6 +129,9 @@ class TodayFragment : Fragment() {
                 // Hide loading and show result
                 progressApply.visibility = View.GONE
                 btnApply.isEnabled = true
+                tvApplyStatus.setText(
+                    if (applied) R.string.apply_status_applied else R.string.apply_status_failed
+                )
 
                 view?.let {
                     val message = if (applied) {
@@ -132,7 +139,13 @@ class TodayFragment : Fragment() {
                     } else {
                         R.string.error_apply_failed
                     }
-                    Snackbar.make(it, message, Snackbar.LENGTH_SHORT).show()
+                    val snackbar = Snackbar.make(it, message, Snackbar.LENGTH_SHORT)
+                    if (!applied) {
+                        snackbar.setAction(R.string.retry) {
+                            applyCurrentWallpaper()
+                        }
+                    }
+                    snackbar.show()
                 }
 
                 if (applied) {

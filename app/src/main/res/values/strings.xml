@@ -15,6 +15,10 @@
     <string name="days">days</string>
     <string name="apply_wallpaper">Apply Wallpaper</string>
     <string name="wallpaper_applied">Wallpaper applied!</string>
+    <string name="apply_status_applying">Applying…</string>
+    <string name="apply_status_applied">Applied</string>
+    <string name="apply_status_failed">Failed</string>
+    <string name="retry">Retry</string>
     <string name="pack_info_fmt">%1$s - %2$d/%3$d</string>
 
     <!-- Packs Fragment -->
