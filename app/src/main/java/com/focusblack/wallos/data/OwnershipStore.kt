@@ -11,7 +11,8 @@ class OwnershipStore(private val context: Context) {
         private const val KEY_PRO = "own_pro_unlock"
     }
 
-    fun isPro(): Boolean = prefs.getBoolean(KEY_PRO, false)
+    // Free version - all features unlocked
+    fun isPro(): Boolean = true
 
     fun setPro(owned: Boolean) {
         prefs.edit { putBoolean(KEY_PRO, owned) }

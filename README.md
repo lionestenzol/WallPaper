@@ -29,8 +29,7 @@ Daily AMOLED ritual wallpaper app with automatic rotation, streak tracking, and 
 - **Review Gate** - In-app review prompt after 3 applies
 - **Bottom Navigation** - Today / Packs / Widgets tabs
 - **Material 3 Dark UI** - Modern design with pure black theme
-- **Pro Unlock** - Single IAP unlocks all content
-- **Settings Screen** - Auto-rotate toggle, restore purchases, pro status
+- **Settings Screen** - Auto-rotate toggle, apply target, battery optimization
 
 ### Planned
 - Additional wallpaper packs
@@ -86,10 +85,6 @@ Or open in Android Studio and click Run.
 ```
 app/src/main/
 ├── java/com/focusblack/wallos/
-│   ├── billing/           # Play Billing integration
-│   │   ├── BillingManager.kt
-│   │   ├── BillingRepository.kt
-│   │   └── SkuCatalog.kt
 │   ├── core/              # Core business logic
 │   │   ├── PackRegistry.kt
 │   │   ├── RotationScheduler.kt
@@ -145,9 +140,8 @@ app/src/main/
 | Layer | Purpose | Components |
 |-------|---------|------------|
 | **UI** | User interface | Activities, Fragments, Adapters |
-| **Core** | Business logic | WallpaperEngine, RotationScheduler, StreakEngine |
+| **Core** | Business logic | WallpaperEngine, RotationScheduler, StreakEngine, WallosLogger |
 | **Data** | Persistence | OwnershipStore, ReviewGate (SharedPreferences) |
-| **Billing** | Purchases | BillingManager, BillingRepository |
 
 ### Key Components
 
@@ -159,13 +153,6 @@ Uses WorkManager to schedule daily wallpaper rotation. RotationWorker executes i
 
 #### StreakEngine
 Tracks consecutive days of wallpaper application. Resets if a day is missed, increments on daily use.
-
-#### BillingManager
-Handles Google Play Billing Library integration:
-- Product details queries
-- Purchase flow
-- Purchase acknowledgment
-- Purchase restoration
 
 #### PackRegistry
 Singleton registry of available wallpaper packs. Currently contains Genesis pack with 7 wallpapers. Supports loading remote packs via `loadRemotePacks()`.
@@ -200,22 +187,12 @@ Wall(
 )
 ```
 
-### Play Store Setup
-
-1. Create app in Google Play Console
-2. Create in-app product:
-   - Product ID: `pro_unlock`
-   - Type: One-time purchase
-3. Upload to internal testing track
-4. Add license testers
-
 ## Permissions
 
 | Permission | Purpose |
 |------------|---------|
 | `SET_WALLPAPER` | Apply wallpapers to device |
 | `WAKE_LOCK` | WorkManager background tasks |
-| `BILLING` | Google Play purchases |
 
 ## Dependencies
 
@@ -236,9 +213,6 @@ constraintlayout:2.2.1
 
 // UI
 material:1.13.0
-
-// Billing
-billing-ktx:7.1.1
 ```
 
 ## Development
@@ -266,8 +240,8 @@ Release builds include:
 
 ## Known Limitations
 
-1. ReviewHelper is a placeholder (no actual Play review integration)
-2. Single pack included by default (Genesis) - remote packs require server URL
+1. Single pack included by default (Genesis) - remote packs require server URL
+2. No crash reporting or analytics (logs to logcat only)
 
 ## Version History
 
