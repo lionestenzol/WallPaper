@@ -21,7 +21,7 @@ object WidgetDataSource {
         return WidgetState(title, streak)
     }
 
-    fun applyNow(context: Context): Boolean {
+    suspend fun applyNow(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         val pack = PackRegistry.getPack("GENESIS_001") ?: return false
         if (pack.walls.isEmpty()) {
