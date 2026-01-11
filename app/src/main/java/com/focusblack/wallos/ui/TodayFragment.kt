@@ -19,6 +19,7 @@ import com.focusblack.wallos.core.WallpaperEngine
 import com.focusblack.wallos.data.ReviewGate
 import com.focusblack.wallos.model.Wall
 import com.focusblack.wallos.util.ReviewHelper
+import com.focusblack.wallos.widget.WidgetUpdater
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Dispatchers
@@ -138,6 +139,7 @@ class TodayFragment : Fragment() {
                 if (applied) {
                     // Update UI to show next wallpaper
                     refreshUI()
+                    WidgetUpdater.updateAll(requireContext())
                 }
             }
         }

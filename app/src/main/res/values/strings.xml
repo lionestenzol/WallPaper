@@ -16,6 +16,13 @@
     <string name="apply_wallpaper">Apply Wallpaper</string>
     <string name="wallpaper_applied">Wallpaper applied!</string>
     <string name="pack_info_fmt">%1$s - %2$d/%3$d</string>
+    <string name="widget_apply_now">Apply now</string>
+    <string name="widget_wall_title_fmt">Current: %1$s</string>
+    <string name="widget_wallpaper_unknown">Unknown wallpaper</string>
+    <string name="widget_focus_ring">Focus Ring</string>
+    <string name="widget_date_glyph">Date Glyph</string>
+    <string name="widget_mode_sigil">Mode Sigil</string>
+    <string name="widget_battery_halo">Battery Halo</string>
 
     <!-- Packs Fragment -->
     <string name="packs_title">Packs</string>

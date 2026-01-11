@@ -28,5 +28,53 @@
             android:name=".ui.SettingsActivity"
             android:parentActivityName=".ui.MainActivity"/>
 
+        <receiver
+            android:name=".widget.FocusRingWidget"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.focusblack.wallos.widget.ACTION_APPLY_NOW" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_focus_ring_info" />
+        </receiver>
+
+        <receiver
+            android:name=".widget.DateGlyphWidget"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.focusblack.wallos.widget.ACTION_APPLY_NOW" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_date_glyph_info" />
+        </receiver>
+
+        <receiver
+            android:name=".widget.ModeSigilWidget"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.focusblack.wallos.widget.ACTION_APPLY_NOW" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_mode_sigil_info" />
+        </receiver>
+
+        <receiver
+            android:name=".widget.BatteryHaloWidget"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.focusblack.wallos.widget.ACTION_APPLY_NOW" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_battery_halo_info" />
+        </receiver>
+
     </application>
 </manifest>

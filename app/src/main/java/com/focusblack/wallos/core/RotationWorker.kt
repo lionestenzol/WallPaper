@@ -5,6 +5,7 @@ import androidx.core.content.edit
 import androidx.preference.PreferenceManager
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import com.focusblack.wallos.widget.WidgetUpdater
 
 class RotationWorker(
     context: Context,
@@ -33,6 +34,7 @@ class RotationWorker(
 
         // Save next index for next rotation
         prefs.edit { putInt(KEY_CURRENT_WALL_INDEX, nextIndex) }
+        WidgetUpdater.updateAll(applicationContext)
 
         return Result.success()
     }
