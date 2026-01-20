@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace 'com.focusblack.wallos'
+    namespace 'com.focus.wallos'
     compileSdk 36
 
     defaultConfig {
-        applicationId "com.focusblack.wallos"
+        applicationId "com.focus.wallos"
         minSdk 26
         targetSdk 36
         versionCode 1
