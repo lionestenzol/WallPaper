@@ -1,14 +1,16 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'com.google.gms.google-services'  // Firebase plugin
 }
 
 android {
-    namespace 'com.focusblack.wallos'
+    namespace 'com.focus.wallos'
     compileSdk 36
 
     defaultConfig {
-        applicationId "com.focusblack.wallos"
+        applicationId "com.focus.wallos"
         minSdk 26
         targetSdk 36
         versionCode 1
@@ -62,6 +64,17 @@ dependencies {
 
     // Play In-App Review
     implementation 'com.google.android.play:review-ktx:2.0.1'
+
+    // Firebase (Phase 1: Data Layer)
+    implementation platform('com.google.firebase:firebase-bom:33.7.0')
+    implementation 'com.google.firebase:firebase-firestore-ktx'
+    implementation 'com.google.firebase:firebase-storage-ktx'
+    implementation 'com.google.firebase:firebase-auth-ktx'
+
+    // Room (Local Persistence)
+    implementation 'androidx.room:room-runtime:2.6.1'
+    implementation 'androidx.room:room-ktx:2.6.1'
+    kapt 'androidx.room:room-compiler:2.6.1'
 
     // Play Billing (removed for free version)
     // implementation 'com.android.billingclient:billing-ktx:7.1.1'
